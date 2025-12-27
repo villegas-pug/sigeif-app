@@ -1,0 +1,20 @@
+package microservice.shared_data.dtos.responses;
+
+import org.springframework.http.HttpStatus;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class ApiResponse<T> {
+
+   private @Builder.Default int code = HttpStatus.OK.value();
+   private String message;
+   private @Builder.Default T data = null;
+
+}

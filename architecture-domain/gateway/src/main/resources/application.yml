@@ -1,0 +1,40 @@
+spring:
+   application:
+      name: gateway
+   profiles:
+      active: ${PROFILE:prod}
+      
+   cloud:
+      gateway:
+         routes:
+            -  id: ms-punche
+               # uri: lb://microservice-punche
+               uri: http://${PUCHE_HOST:127.0.0.1}:${PUCHE_PORT:4001}
+               predicates:
+                  - Path=/api/ms-punche/**
+            -  id: ms-cedif
+               # uri: lb://microservice-cedif
+               uri: http://${CEDIF_HOST:127.0.0.1}:${CEDIF_PORT:4002}
+               predicates:
+                  - Path=/api/ms-cedif/**
+            -  id: ms-acercandonos
+               # uri: lb://microservice-acercandonos
+               uri: http://${ACERCANDONOS_HOST:127.0.0.1}:${ACERCANDONOS_PORT:4003}
+               predicates:
+                  - Path=/api/ms-acercandonos/**
+
+         # Configuración global de timeouts
+         httpclient:
+            connect-timeout: 5000  # Tiempo de espera para establecer la conexión (ms)
+            response-timeout: 20s  # Tiempo de espera para recibir la respuesta (ms)
+
+server:
+   port: ${PORT:4000}
+
+app:
+   security:
+      enabled: ${SECURITY_ENABLED:true}
+      allowed-origins: ${ALLOWED_ORIGINS:https://srvapp03.inabif.gob.pe}
+
+jwt:
+   secret: a-string-secret-at-least-256-bits-long

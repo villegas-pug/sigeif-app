@@ -1,0 +1,303 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="Cherry" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e115bc59-fd0f-446b-a585-04725e27d7f0">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" fontName="Arial" fontSize="26.0" bold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18.0"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12.0" bold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12.0"/>
+	<parameter name="nombresIntegrante" class="java.lang.String"/>
+	<parameter name="edad" class="java.lang.Integer"/>
+	<parameter name="sexo" class="java.lang.String"/>
+	<parameter name="fechaIngreso" class="java.lang.String"/>
+	<parameter name="numeroDocumento" class="java.lang.String"/>
+	<parameter name="domicilio" class="java.lang.String"/>
+	<parameter name="tiempoPermanencia" class="java.lang.String"/>
+	<parameter name="motivoIngreso" class="java.lang.String"/>
+	<parameter name="principalesLogros" class="java.lang.String"/>
+	<parameter name="analisisIntegrado" class="java.lang.String"/>
+	<parameter name="nombresConQuienEgresaNNA" class="java.lang.String"/>
+	<parameter name="recomendaciones" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background height="4" splitType="Stretch"/>
+	<title height="73" splitType="Stretch">
+		<element kind="staticText" uuid="1dcadd54-7d50-4470-85ed-189e4d910b25" x="15" y="15" width="524" height="34" fontSize="24.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Title">
+			<text><![CDATA[ANEXO 17]]></text>
+		</element>
+		<element kind="staticText" uuid="862cb50c-5a5e-4906-a495-226e25115fb6" x="15" y="45" width="524" height="27" fontName="Arial" fontSize="17.0" hTextAlign="Center" vTextAlign="Middle" style="SubTitle">
+			<text><![CDATA[Ficha de egreso del CEDIF]]></text>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader splitType="Stretch"/>
+	<detail>
+		<band height="666" splitType="Stretch">
+			<element kind="staticText" uuid="edf5f172-77ea-4f0c-a2af-83d36515990b" mode="Opaque" x="15" y="5" width="523" height="25" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<text><![CDATA[I. DATOS GENERALES DE LA NIÑA, NIÑO O ADOLESCENTE QUE EGRESA DEL SERVICIO DE CUIDADO DIURNO]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="rectangle" uuid="c281feb4-4aba-4226-98d9-aaba03053c2b" x="20" y="641" width="240" height="1" backcolor="#030303">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="staticText" uuid="645b6442-9b0d-4c7e-ad07-09d150d87531" x="20" y="643" width="240" height="20" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Firma del padre, madre o referente familiar]]></text>
+			</element>
+			<element kind="staticText" uuid="a99e9542-b38b-412c-bcb1-ebcdf1c25db9" stretchType="NoStretch" mode="Transparent" x="15" y="31" width="262" height="30" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Top">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[APELLIDOS Y NOMBRES:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="d3112f32-f01f-46a2-a687-d5f8b250fbe9" stretchType="NoStretch" mode="Transparent" x="277" y="31" width="130" height="30" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Middle">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[EDAD:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="74e6fc56-6d42-4eaf-b2b5-46aa77258dc0" mode="Opaque" x="15" y="163" width="523" height="25" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<text><![CDATA[II. MOTIVO DE INGRESO:]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="33a38c53-20a2-429c-84d0-cd7aa278b465" x="15" y="189" width="523" height="30" fontName="Arial" fontSize="9.0" hTextAlign="Justified">
+				<text><![CDATA[]]></text>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="4b51075a-247b-40ac-8b9a-b4ac7ff499f2" mode="Opaque" x="15" y="464" width="523" height="25" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="11.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<text><![CDATA[RECOMENDACIONES]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="2722b7bf-fc28-48ea-89b4-3713888b8eca" stretchType="NoStretch" mode="Transparent" x="408" y="31" width="130" height="30" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Middle">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[SEXO:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="ffd076b8-00f7-483f-9416-1b66cd2fdd8e" stretchType="NoStretch" mode="Transparent" x="15" y="62" width="325" height="38" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Top">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[FECHA DE INGRESO AL SERVICIO DE CUIDADO DIURNO:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="e5162f5e-39fe-49ea-82f3-992965b6c0b2" stretchType="NoStretch" mode="Transparent" x="340" y="62" width="198" height="38" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Top">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[N° DE DOCUMENTO DE IDENTIDAD:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="a9090583-11e4-4de4-8305-5d9c82ea07c0" stretchType="NoStretch" mode="Transparent" x="15" y="101" width="523" height="30" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Middle">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[DOMICILIO:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="37317935-caa4-4f2d-86e9-2b6d009fb567" stretchType="NoStretch" mode="Transparent" x="15" y="132" width="523" height="30" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Justified" vTextAlign="Middle">
+				<paragraph lineSpacingSize="0.0"/>
+				<text><![CDATA[TIEMPO DE PERMANENCIA EN EL CEDIF:]]></text>
+				<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="66d20207-de4a-46f8-9ab4-82562a6443dc" mode="Opaque" x="15" y="220" width="523" height="25" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<text><![CDATA[III. PRINCIPALES LOGROS ALCANZADOS POR EL NNA DURANTE SU PERMANENCIA EN EL CEDIF]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="cb35c4b3-0fc5-4eac-81b6-9103b550b859" x="15" y="246" width="523" height="91" fontName="Arial" fontSize="9.0" hTextAlign="Justified">
+				<text><![CDATA[]]></text>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="7f76720a-d508-42b7-9f0f-b1a92ed87595" mode="Opaque" x="15" y="337" width="523" height="25" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<text><![CDATA[IV. ANÁLISIS INTEGRADO QUE SUSTENTA EL MOTIVO DE EGRESO]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="23028ae8-7cb4-442a-8e5d-aa4929b12af1" x="15" y="363" width="523" height="44" fontName="Arial" fontSize="9.0" hTextAlign="Justified">
+				<text><![CDATA[]]></text>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="596c146c-0ff8-41f3-b7e0-088cad367fad" mode="Opaque" x="15" y="408" width="523" height="30" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="9.0" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<text><![CDATA[V. SEÑALAR EL NOMBRE Y APELLIDO CON QUIEN EGRESA LA NIÑA, NIÑO Y/O ADOLESCENTE (PADRE, MADRE O RESPONSABLE DEL NNA)]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="0" leftPadding="10" bottomPadding="0" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="46d473b7-f045-4304-9203-2c2068839786" x="15" y="439" width="523" height="24" fontName="Arial" fontSize="9.0" hTextAlign="Justified">
+				<text><![CDATA[]]></text>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="51742993-ad90-43a4-94d3-6c5599e91e9e" x="15" y="490" width="523" height="70" fontName="Arial" fontSize="9.0" hTextAlign="Justified">
+				<text><![CDATA[]]></text>
+				<box topPadding="5" leftPadding="10" bottomPadding="5" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="rectangle" uuid="3b2dd6a8-bdde-4320-9579-cd59464d6f15" x="293" y="641" width="240" height="1" backcolor="#030303">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="staticText" uuid="546f80c9-5b4f-4c60-843b-9863a1c870b1" x="293" y="643" width="240" height="20" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Nombre y Firma del Profesional del CEDIF]]></text>
+			</element>
+			<element kind="textField" uuid="034e9704-ce7e-4902-ae6a-1f48e3e499a2" x="20" y="42" width="250" height="20" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresIntegrante}]]></expression>
+			</element>
+			<element kind="textField" uuid="8e6f2b20-1835-49e0-a592-27e0f3a2c527" x="316" y="37" width="67" height="18" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{edad}]]></expression>
+			</element>
+			<element kind="textField" uuid="8ca28cc7-21a8-4082-be1c-e8e376a3832c" x="446" y="37" width="88" height="18" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{sexo}]]></expression>
+			</element>
+			<element kind="textField" uuid="8b484fae-f580-4c5b-af0d-204f9c9da7ae" x="23" y="78" width="310" height="20" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{fechaIngreso}]]></expression>
+			</element>
+			<element kind="textField" uuid="d70dd5a0-7e8c-4073-b436-f1cdd0b0465d" x="360" y="78" width="160" height="20" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{numeroDocumento}]]></expression>
+			</element>
+			<element kind="textField" uuid="52f94f3f-b788-4e74-9d6f-e5a82365a770" x="81" y="105" width="450" height="22" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{domicilio}]]></expression>
+			</element>
+			<element kind="textField" uuid="e05be9da-0585-4769-96cc-4437a0d975b6" x="220" y="135" width="188" height="22" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{tiempoPermanencia}]]></expression>
+			</element>
+			<element kind="textField" uuid="19910a00-6ddb-4c96-a5ad-e8cf268e30b8" x="23" y="190" width="508" height="29" fontName="Arial" fontSize="9.0" vTextAlign="Top">
+				<expression><![CDATA[$P{motivoIngreso}]]></expression>
+			</element>
+			<element kind="textField" uuid="80a6199f-0db9-4fa1-b49a-d25590acf03c" x="20" y="250" width="513" height="80" fontName="Arial" fontSize="9.0" vTextAlign="Top">
+				<expression><![CDATA[$P{principalesLogros}]]></expression>
+			</element>
+			<element kind="textField" uuid="a0a059ba-f5f4-46e8-9468-e81d7626a1f1" x="20" y="366" width="514" height="37" fontName="Arial" fontSize="9.0" vTextAlign="Top">
+				<expression><![CDATA[$P{analisisIntegrado}]]></expression>
+			</element>
+			<element kind="textField" uuid="b69ae454-1d19-406f-a2d6-547cb09a6c5d" x="40" y="439" width="470" height="24" fontName="Arial" fontSize="9.0" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresConQuienEgresaNNA}]]></expression>
+			</element>
+			<element kind="textField" uuid="d96150ad-28af-4199-819b-a1187e2d56aa" x="20" y="495" width="513" height="59" fontName="Arial" fontSize="9.0" vTextAlign="Top">
+				<expression><![CDATA[$P{recomendaciones}]]></expression>
+			</element>
+			<property name="com.jaspersoft.studio.layout"/>
+		</band>
+	</detail>
+	<columnFooter splitType="Stretch"/>
+	<pageFooter height="2" splitType="Stretch"/>
+	<summary splitType="Stretch"/>
+</jasperReport>

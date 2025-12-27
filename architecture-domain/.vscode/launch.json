@@ -1,0 +1,36 @@
+{
+   "configurations": [
+      {
+         "type": "java",
+         "name": "Spring Boot-ConfigApplication<config>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "server.config.ConfigApplication",
+         "projectName": "config",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env",
+         "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=53557 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=config"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-EurekaApplication<eureka>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "server.eureka.EurekaApplication",
+         "projectName": "eureka",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env",
+         "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=58167 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=eureka"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-GatewayApplication<gateway>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "api.gateway.GatewayApplication",
+         "projectName": "gateway",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env"
+      }
+   ]
+}

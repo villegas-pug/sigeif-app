@@ -1,0 +1,169 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="Cherry" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e115bc59-fd0f-446b-a585-04725e27d7f0">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Title" fontName="Arial" fontSize="26.0" bold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18.0"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="Arial" fontSize="12.0" bold="true"/>
+	<style name="Detail" fontName="Arial" fontSize="12.0"/>
+	<parameter name="nombresCuidador" class="java.lang.String"/>
+	<parameter name="nombresAcompañante" class="java.lang.String"/>
+	<parameter name="fechaCompromiso" class="java.lang.String"/>
+	<parameter name="nombresNNA" class="java.lang.String"/>
+	<parameter name="edadNNA" class="java.lang.Integer"/>
+	<parameter name="domicilioNNA" class="java.lang.String"/>
+	<parameter name="documentoNNA" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background height="20" splitType="Stretch"/>
+	<title height="113" splitType="Stretch">
+		<element kind="staticText" uuid="1dcadd54-7d50-4470-85ed-189e4d910b25" x="20" y="25" width="511" height="37" fontSize="24.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Title">
+			<text><![CDATA[ANEXO 9:]]></text>
+		</element>
+		<element kind="staticText" uuid="862cb50c-5a5e-4906-a495-226e25115fb6" x="7" y="63" width="534" height="48" fontName="Arial" fontSize="18.0" hTextAlign="Center" style="SubTitle">
+			<text><![CDATA[Ficha de Compromiso del Padre, Madre o responsable de la Niña, Niño y/o Adolescente]]></text>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader splitType="Stretch"/>
+	<detail>
+		<band height="634" splitType="Stretch">
+			<element kind="staticText" uuid="a6a6ff38-1f32-47de-90c1-7b2ae227eaf5" x="7" y="420" width="535" height="35" fontName="Arial" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[Lugar y fecha:]]></text>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="c2f2ae0f-4ae5-4843-a037-b1459f4b8aa5" mode="Transparent" x="7" y="506" width="535" height="122" fontName="Arial" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[]]></text>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="503146bf-db92-4ef4-9dd9-c1d98321f63a" x="7" y="151" width="535" height="269" fontName="Arial" fontSize="9.0" hTextAlign="Justified">
+				<text><![CDATA[- Cumplir puntualmente con el horario establecido, para dejar y recoger a mi niño, niña o adolescente.
+- Enviar a mi niño, niña o adolescente aseado y con sus materiales educativos básicos. En caso de pertenecer a las aulas de cuna y jardín enviar sus útiles de limpieza y mudas de ropa necesaria para su higiene durante su permanencia en el CEDIF.
+- Justificar las inasistencias de mi niño, niña o adolescente, en caso de enfermedad y dar aviso con anticipación en caso de retiro, para que se disponga de la vacante.
+- Participar en las actividades de implementación, ambientación y mantenimiento (faenas comunales) establecidas por el CEDIF.
+- Participar mensualmente de las actividades y/o reuniones de padres de familia, Talleres socio formativos, Charlas, etc., que se programan en el CEDIF.
+- Solicitar permiso personalmente o por escrito, en caso de que el niño, niña o adolescente pueda salir en un horario no establecido por el CEDIF.
+- Autorizar personalmente con carácter excepcional y por motivos de fuerza mayor el recojo del niño, niña o adolescente por otra persona.
+- Informar a la oficina de Servicio Social sobre los antecedentes de alguna enfermedad del niño, niña o adolescente.
+-Llevar al niño, niña o adolescente al tratamiento, en el servicio o institución especializada, si es que presentara algún problema de salud y/o psicológico.
+- Leer el Reglamento Interno del CEDIF y cumplir con lo estipulado en el mismo.
+- Tanto la madre, el padre o la persona responsable del niño, niña o adolescente, se comprometen a cumplir con las obligaciones estipuladas en el presente compromiso.
+- Firmar el compromiso de tiempo de permanencia en el CEDIF.
+- Al haber cumplido mi niño, niña o adolescente, el tiempo de permanencia señalada en la normatividad del INABIF (de 1 a 3 años), me comprometo a cumplir y egresar definitivamente a mi hijo/hija en la fecha señalada.
+- Compartir los compromisos asumidos en el presente documento, a mi niño, niña o adolescente.]]></text>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="edf5f172-77ea-4f0c-a2af-83d36515990b" mode="Opaque" x="7" y="5" width="535" height="48" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="Arial" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[COMPROMISOS DE LA ESTRATEGIA EXTRAMUROS ESPECIALIZADA EN PREVENCIÓN PRIMARIA Y FORTALECIMIENTO DE LAS FAMILIAS]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="textField" uuid="a659b615-6a38-4231-9efa-593ebac68e6d" x="87" y="427" width="120" height="19" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{fechaCompromiso}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="staticText" uuid="31ac7b3f-96a0-4379-aa92-df28097c41a0" x="7" y="53" width="535" height="97" fontName="Arial" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[Yo………….....................................................................………………………padre, madre, responsable de……………………………………………………..…………….de…………..…..años de edad, identificado con DNI N° ........................... , domiciliado/a en ............................................................ me comprometo a cumplir las disposiciones generales del Servicio de Cuidado Diurno del Centro de Desarrollo Integral de la Familia ...................................................................................... del
+INABIF:]]></text>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="ecd0b957-300d-4bfd-9da3-057f1bfa8d08" mode="Transparent" x="7" y="456" width="535" height="49" fontName="Arial" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[Nombres y apellidos del profesional que acompaña en el proceso:]]></text>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="rectangle" uuid="bf3bf001-1c6d-426e-9607-21b8d728be43" x="33" y="563" width="240" height="1" backcolor="#030303">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="staticText" uuid="b0ace0cd-3beb-4e6d-985f-9f0acf201df8" x="33" y="565" width="240" height="20" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Firma del Cuidador]]></text>
+			</element>
+			<element kind="staticText" uuid="f4bc503b-421d-483e-9ae1-702dc0ad2b01" x="33" y="585" width="240" height="18" fontName="Arial" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[Nombres y Apellidos:]]></text>
+			</element>
+			<element kind="rectangle" uuid="c281feb4-4aba-4226-98d9-aaba03053c2b" x="283" y="563" width="240" height="1" backcolor="#030303">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="staticText" uuid="645b6442-9b0d-4c7e-ad07-09d150d87531" x="283" y="564" width="240" height="20" fontName="Arial" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Firma y sello del Acompañante Familiar]]></text>
+			</element>
+			<element kind="staticText" uuid="2bdbb340-6fe2-4ff1-890c-a4a890290934" x="283" y="584" width="240" height="18" fontName="Arial" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[Nombres y Apellidos:]]></text>
+			</element>
+			<element kind="textField" uuid="1bfab2e6-3b16-472f-a5f9-89565106bb5f" x="33" y="602" width="240" height="20" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresCuidador}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="667af4c4-123b-4593-9181-4cb9c0adef51" x="283" y="602" width="236" height="20" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresAcompañante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="c223526f-91e3-4a66-be86-1f912b50fa4b" x="17" y="481" width="510" height="20" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresCuidador}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="4c872be0-a050-47ec-9076-559fdff2bae7" x="35" y="59" width="350" height="20" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresCuidador}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="74fd24b1-ceff-45e4-bc76-c20bb159efbf" x="35" y="71" width="275" height="19" fontName="Arial" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresNNA}]]></expression>
+			</element>
+			<element kind="textField" uuid="fb9c80eb-336d-4ee9-b9c5-02c12c9cdadd" x="324" y="71" width="70" height="19" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{edadNNA}]]></expression>
+			</element>
+			<element kind="textField" uuid="2fc40630-44d6-40c7-b7fa-b7df29c52275" x="71" y="84" width="100" height="20" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{documentoNNA}]]></expression>
+			</element>
+			<element kind="textField" uuid="4d511135-7860-4890-85ff-6be681305922" x="251" y="86" width="189" height="14" fontName="Arial" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{domicilioNNA}]]></expression>
+			</element>
+			<property name="com.jaspersoft.studio.layout"/>
+		</band>
+	</detail>
+	<columnFooter splitType="Stretch"/>
+	<pageFooter height="39" splitType="Stretch"/>
+	<summary splitType="Stretch"/>
+</jasperReport>

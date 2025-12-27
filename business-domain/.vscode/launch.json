@@ -1,0 +1,36 @@
+{
+   "configurations": [
+      {
+         "type": "java",
+         "name": "Spring Boot-PuncheApplication<punche>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "microservice.punche.PuncheApplication",
+         "projectName": "punche",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env",
+         "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=63305 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=punche"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-CedifApplication<cedif>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "microservice.cedif.CedifApplication",
+         "projectName": "cedif",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-SchedulingApplication<scheduling>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "microservice.scheduling.SchedulingApplication",
+         "projectName": "scheduling",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env",
+         "vmArgs": "-Xms4g -Xmx4g"
+      }
+   ]
+}

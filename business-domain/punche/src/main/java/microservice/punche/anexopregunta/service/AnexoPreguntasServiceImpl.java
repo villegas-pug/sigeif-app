@@ -1,0 +1,30 @@
+package microservice.punche.anexopregunta.service;
+
+import java.util.List;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import lombok.AllArgsConstructor;
+import microservice.punche.anexopregunta.dtos.AnexoPregutasDto;
+import microservice.punche.anexopregunta.repository.AnexoPreguntasRepository;
+import microservice.shared_data.exceptions.NotFoundException;
+
+@Service
+@AllArgsConstructor
+public class AnexoPreguntasServiceImpl implements AnexoPreguntasService {
+
+   private final AnexoPreguntasRepository repository;
+
+   @Override
+   @Transactional(readOnly = true)
+   public List<AnexoPregutasDto> findAllAnexoPregustasByParams(Integer idServicio, Integer anexo, Integer grupo) {
+
+      List<AnexoPregutasDto> preguntas = repository.findAllAnexoPregustasByParams(idServicio, anexo, grupo);
+      if (preguntas.size() == 0) {
+         throw new NotFoundException();
+      }
+
+      return preguntas;
+   }
+
+}

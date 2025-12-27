@@ -1,0 +1,43 @@
+package microservice.punche.equipotrabajo.dtos;
+
+import java.time.LocalDate;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import microservice.shared_data.entities.Cargo;
+import microservice.shared_data.entities.PersonalEntity;
+import microservice.shared_data.entities.ZonaIntervencionEntity;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(of = { "idEquipo" })
+public class EquipoTrabajoUpdateDto {
+
+   @NotNull
+   private Long idEquipo;
+
+   @NotNull
+   PersonalEntity personal;
+
+   @NotNull
+   private Cargo cargo;
+
+   @NotNull
+   @Positive
+   @Min(1)
+   private Long usuActualiza;
+
+   private Integer estado;
+   private Long usuRegistra;
+   ZonaIntervencionEntity zonaIntervencion;
+   private LocalDate fecRegistra;
+   private LocalDate fecActualiza;
+   private Integer eliminado;
+
+}
