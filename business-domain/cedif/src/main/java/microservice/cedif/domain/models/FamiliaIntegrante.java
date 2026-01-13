@@ -87,9 +87,6 @@ public class FamiliaIntegrante {
    private String observaciones;
    private String diagnosticoMedico;
    private String establecimientoSalud;
-
-   // * Nuevo:
-   // --------------------------------------------
    private String porCostumbresSeConsidera;
    private String situacionLaboral;
    private String tieneCertMedico;
@@ -102,6 +99,14 @@ public class FamiliaIntegrante {
    private String inscripcionConadis;
    private String gradoInstruccion;
    private String tipoDiscapacidad;
+   private String centroPoblado;
+
+   // * Nuevo:
+   // --------------------------------------------
+   private Integer algunIntegranteTieneProblemaSalud;
+   private String viaIngresoNnaCedif;
+   private String medioIngresoNnaCedif;
+   private String descripcionOcupacion;
    // --------------------------------------------
 
    // ? Transient

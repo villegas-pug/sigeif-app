@@ -97,6 +97,7 @@ public class PotencialFamiliaRepositoryImpl implements PotencialFamiliaRepositor
                      integrante.getDireccion(),
                      integrante.getReferenciaDomiciliaria(),
                      integrante.getGradoSeccionNNA(),
+                     integrante.getCentroPoblado(),
                      integrante.getCuidador(),
                      integrante.getUsuRegistra()
 

@@ -47,6 +47,12 @@ public class FamiliaIntegranteResponse {
    private String referenciaDomiciliaria;
    private String gradoSeccionNNA;
    private Integer cuidador;
+
+   // * Nuevo:
+   // --------------------------------------------
+   private String centroPoblado;
+   // --------------------------------------------
+
    private Integer usuRegistra;
    private LocalDate fecRegistra;
    private Integer usuActualiza;

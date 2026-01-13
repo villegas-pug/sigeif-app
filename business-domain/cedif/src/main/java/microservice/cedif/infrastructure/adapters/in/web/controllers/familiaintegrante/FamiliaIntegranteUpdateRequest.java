@@ -64,8 +64,6 @@ public class FamiliaIntegranteUpdateRequest {
    private String diagnosticoMedico;
    private String establecimientoSalud;
 
-   // * Nuevo:
-   // --------------------------------------------
    private String porCostumbresSeConsidera;
    private String situacionLaboral;
    private String tieneCertMedico;
@@ -78,6 +76,13 @@ public class FamiliaIntegranteUpdateRequest {
    private String inscripcionConadis;
    private String gradoInstruccion;
    private String tipoDiscapacidad;
+
+   // * Nuevo:
+   // --------------------------------------------
+   private Integer algunIntegranteTieneProblemaSalud;
+   private String viaIngresoNnaCedif;
+   private String medioIngresoNnaCedif;
+   private String descripcionOcupacion;
    // --------------------------------------------
 
    private Integer estado;

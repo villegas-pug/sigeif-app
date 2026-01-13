@@ -1,14 +1,9 @@
-
-server:
-  port: ${PORT:4002}
-  servlet:
-    context-path: /api/ms-cedif/
   
 spring:
    application:
       name: microservice-cedif
    profiles:
-      active: dev
+      active: test
 
    datasource:
       hikari:
@@ -43,3 +38,8 @@ logging:
       org.hibernate.SQL: DEBUG
       org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
+
+server:
+  port: ${PORT:4002}
+  servlet:
+    context-path: /api/ms-cedif/

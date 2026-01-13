@@ -1,7 +1,9 @@
 package api.gateway.security.services;
 
 import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Claims;
@@ -26,7 +28,7 @@ public class JwtService {
          log.error("Token expirado: {}", e.getMessage());
          return false;
       } catch (JwtException e) {
-         log.error("!Token invalido¡");
+         log.error("Token invalido, error: {}", e.getMessage());
          return false;
       }
    }
@@ -38,15 +40,49 @@ public class JwtService {
 
    public Claims extractClaims(String token) {
       return Jwts.parser()
-            .verifyWith(this.getSigningKey())
-            .build()
-            .parseSignedClaims(token)
-            .getPayload();
+            // .setSigningKey(this.getSigningKey())
+            .setSigningKey(this.secret)
+            .parseClaimsJws(token)
+            .getBody();
+
    }
 
    private SecretKey getSigningKey() {
+
+      // * 1.
       byte[] keyBytes = this.secret.getBytes(StandardCharsets.UTF_8);
       return Keys.hmacShaKeyFor(keyBytes);
+
+      // * 2.
+      /*
+       * byte[] keyBytes = this.secret.getBytes(StandardCharsets.UTF_8);
+       * return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName());
+       */
+
+      // * 3.
+
+      /*
+       * try {
+       * MessageDigest digest = MessageDigest.getInstance("SHA-512");
+       * byte[] hashedKey =
+       * digest.digest(this.secret.getBytes(StandardCharsets.UTF_8));
+       * return new SecretKeySpec(hashedKey, SignatureAlgorithm.HS512.getJcaName());
+       * } catch (Exception e) {
+       * throw new RuntimeException("Error generando clave", e);
+       * }
+       */
+
+      /*
+       * try {
+       * MessageDigest digest = MessageDigest.getInstance("SHA-512");
+       * byte[] keyBytes =
+       * digest.digest(this.secret.getBytes(StandardCharsets.UTF_8));
+       * return new SecretKeySpec(keyBytes, "HmacSHA512");
+       * } catch (Exception e) {
+       * throw new RuntimeException("Error al generar la clave", e);
+       * }
+       */
+
    }
 
 }

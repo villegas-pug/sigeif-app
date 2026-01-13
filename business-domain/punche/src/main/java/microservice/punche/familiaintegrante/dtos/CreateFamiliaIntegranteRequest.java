@@ -59,6 +59,11 @@ public class CreateFamiliaIntegranteRequest {
    private Double ingresosSoles;
    private Double gastosSoles;
 
+   // * Nuevo:
+   // --------------------------------------------
+   private String centroPoblado;
+   // --------------------------------------------
+
    @NotNull
    private Integer cuidador; // Cuidador: 1; NNA: 2, Otros: 0
 

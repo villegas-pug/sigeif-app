@@ -8,7 +8,7 @@ spring:
    application:
       name: ms-scheduling
    profiles:
-      active: ${SPRING_PROFILE:dev}
+      active: ${SPRING_PROFILE:test}
 
    datasource:
       url: jdbc:oracle:thin:@172.19.0.42:1521:INABIF02
@@ -24,12 +24,21 @@ schedulers:
    punche: # ? » Familias Igualitarias
       enabled: true
       output-path: reports/familias-igualitarias/
+      matriz:
+         enabled: true
+         report:
+            output-path: ${schedulers.punche.output-path}/matriz
+            excel:
+               enabled: true
+               output-path: ${schedulers.punche.output-path}/excel/
+               file-name: rpt_matriz
+               cron: '0 0 8 * * *' # ? 08:00 AM
       intervenciones-estrategicas:
          enabled: true
          report:
             output-path: ${schedulers.punche.output-path}/intervenciones-estrategicas
             excel:
-               enabled: true
+               enabled: false
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_intervenciones_estrategicas
                cron: '0 0 8 * * *' # ? 08:00 AM
@@ -38,7 +47,7 @@ schedulers:
          report:
             output-path: ${schedulers.punche.output-path}/diagnostico-familiar/reportes
             excel:
-               enabled: true
+               enabled: false
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_ficha_diagnostico_familiar
                cron: '0 3 8 * * *' # ? 08:00 AM
@@ -47,7 +56,7 @@ schedulers:
          report:
             output-path: ${schedulers.punche.output-path}/ffsil/reportes
             excel:
-               enabled: true
+               enabled: false
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_ficha_ffsil
                cron: '0 6 8 * * *' # ? 08:00 AM
@@ -56,7 +65,7 @@ schedulers:
          report:
             output-path: ${schedulers.punche.output-path}/tsv/reportes
             excel:
-               enabled: true
+               enabled: false
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_ficha_tsv
                cron: '0 9 8 * * *' # ? 08:00 AM
@@ -65,7 +74,7 @@ schedulers:
          report:
             output-path: ${schedulers.punche.output-path}/encuesta-satisfaccion/reportes
             excel:
-               enabled: true
+               enabled: false
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_ficha_encuesta_satisfaccion
                cron: '0 11 8 * * *' # ? 08:00 AM

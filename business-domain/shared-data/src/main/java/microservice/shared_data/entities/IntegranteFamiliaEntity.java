@@ -224,8 +224,6 @@ public class IntegranteFamiliaEntity {
    @Column(name = "FI_ESTABLECIMIENTO_SALUD")
    private String establecimientoSalud;
 
-   // * Nuevo:
-   // --------------------------------------------
    @Column(name = "FI_POR_COSTUMBRES_SE_CONSIDERA")
    private String porCostumbresSeConsidera;
 
@@ -261,6 +259,24 @@ public class IntegranteFamiliaEntity {
 
    @Column(name = "FI_TIPO_DISCAPACIDAD")
    private String tipoDiscapacidad;
+
+   @Column(name = "FI_CENTRO_POBLADO")
+   private String centroPoblado;
+
+   // * Nuevo:
+   // --------------------------------------------
+
+   @Column(name = "FI_ALGUN_INTEGRANTE_TIENE_PROBLEMA_SALUD")
+   private @Builder.Default Integer algunIntegranteTieneProblemaSalud = 0;
+
+   @Column(name = "FI_VIA_INGRESO_NNA_CEDIF")
+   private String viaIngresoNnaCedif;
+
+   @Column(name = "FI_MEDIO_INGRESO_NNA_CEDIF")
+   private String medioIngresoNnaCedif;
+
+   @Column(name = "FI_OCUPACION")
+   private String descripcionOcupacion;
    // --------------------------------------------
 
    @Column(name = "FI_CUIDADOR")

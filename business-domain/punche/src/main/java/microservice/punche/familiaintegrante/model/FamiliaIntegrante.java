@@ -100,6 +100,11 @@ public class FamiliaIntegrante {
    private Integer estado;
    private Integer eliminado;
 
+   // * Nuevo:
+   // --------------------------------------------
+   private String centroPoblado;
+   // --------------------------------------------
+
    // ? Transient
    List<EstadoAnexoProjectionResponse> estadoFichas;
 

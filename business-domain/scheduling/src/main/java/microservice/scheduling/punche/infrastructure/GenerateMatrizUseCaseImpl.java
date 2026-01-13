@@ -3,28 +3,28 @@ package microservice.scheduling.punche.infrastructure;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+
 import org.springframework.stereotype.Service;
+
 import lombok.AllArgsConstructor;
-import microservice.scheduling.punche.domain.GenerateIntervencionEstrategicaUseCase;
+import microservice.scheduling.punche.domain.GenerateMatrizUseCase;
 import microservice.scheduling.punche.exceptions.IntervencionEstrategicaNotFoundException;
-import microservice.scheduling.punche.properties.IntervencionEstrategicaProperties;
+import microservice.scheduling.punche.properties.MatrizProperties;
 import microservice.scheduling.shared.repository.BaseRepository;
 import microservice.scheduling.shared.service.BaseReportingService;
 
 @Service
 @AllArgsConstructor
-public class GenerateIntervencionEstrategicaUseCaseImpl extends BaseReportingService
-      implements GenerateIntervencionEstrategicaUseCase {
+public class GenerateMatrizUseCaseImpl extends BaseReportingService implements GenerateMatrizUseCase {
 
-   private final IntervencionEstrategicaProperties properties;
+   private final MatrizProperties properties;
    private final BaseRepository repository;
 
    @Override
-   public void generateIntervencionEstrategicaReport() throws IOException {
-
+   public void generateMatrizReport() throws IOException {
       // * 1. Ejecutar procedimiento almacenado
       List<Map<String, Object>> dataset = this.repository.executeProcedureAndFetchResult(
-            "USP_GENERAR_REPORTE_INTERVENCIONES_ESTRATEGICA_FAMILIAS_IGUALITARIAS", null, "p_resultado");
+            "USP_GENERAR_REPORTE_MATRIZ_FAMILIAS_IGUALITARIAS", null, "p_resultado");
 
       if (dataset.isEmpty()) {
          throw new IntervencionEstrategicaNotFoundException();

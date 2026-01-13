@@ -57,14 +57,17 @@ public class UpdateFamiliaIntegranteRequest {
    private Long idDiscapacidad;
    private Long idDerivadoPor;
    private Long idServicioCuidador;
-
-   // * Nuevo
    private Integer anioAnteriorPromovido;
    private String nombreInstitucionEducativa;
    private String peso;
    private String talla;
    private Double ingresosSoles;
    private Double gastosSoles;
+
+   // * Nuevo:
+   // --------------------------------------------
+   private String centroPoblado;
+   // --------------------------------------------
 
    // Crea y actualiza
    private Integer usuActualiza;

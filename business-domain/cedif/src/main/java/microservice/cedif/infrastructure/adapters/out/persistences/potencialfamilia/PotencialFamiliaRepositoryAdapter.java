@@ -106,7 +106,6 @@ public class PotencialFamiliaRepositoryAdapter implements PotencialFamiliaReposi
                      integrante.getObservaciones(),
                      integrante.getDiagnosticoMedico(),
                      integrante.getEstablecimientoSalud(),
-                     // * Nuevo
                      integrante.getPorCostumbresSeConsidera(),
                      integrante.getSituacionLaboral(),
                      integrante.getTieneCertMedico(),
@@ -119,8 +118,13 @@ public class PotencialFamiliaRepositoryAdapter implements PotencialFamiliaReposi
                      integrante.getInscripcionConadis(),
                      integrante.getGradoInstruccion(),
                      integrante.getTipoDiscapacidad(),
-
                      integrante.getTieneDiscapacidad(),
+
+                     // * Nuevo
+                     Optional.ofNullable(integrante.getAlgunIntegranteTieneProblemaSalud()).orElse(0),
+                     integrante.getViaIngresoNnaCedif(),
+                     integrante.getMedioIngresoNnaCedif(),
+                     integrante.getDescripcionOcupacion(),
 
                      integrante.getCuidador(),
                      integrante.getUsuRegistra()

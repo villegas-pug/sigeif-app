@@ -11,6 +11,7 @@ import microservice.punche.aliado.model.Aliado;
 import microservice.punche.anexorespuesta.model.AnexoRespuesta;
 import microservice.punche.familiaintegrante.model.FamiliaIntegrante;
 import microservice.punche.motivoreferecia.model.MotivoReferecia;
+import microservice.punche.personal.model.Personal;
 import microservice.punche.potencialfamilia.dtos.PotencialFamiliaResponse;
 import microservice.punche.potencialfamilia.model.PotencialFamilia;
 import microservice.punche.unidadorganica.model.UnidadOrganica;
@@ -19,6 +20,7 @@ import microservice.shared_data.entities.AliadoEntity;
 import microservice.shared_data.entities.AnexoRespuestaEntity;
 import microservice.shared_data.entities.FamiliaMotivoReferenciaEntity;
 import microservice.shared_data.entities.IntegranteFamiliaEntity;
+import microservice.shared_data.entities.PersonalEntity;
 import microservice.shared_data.entities.PotencialFamiliaEntity;
 import microservice.shared_data.entities.UnidadOrganicaEntity;
 import microservice.shared_data.entities.ZonaIntervencionEntity;
@@ -59,10 +61,14 @@ public interface PotencialFamiliaEntityMapper {
       @Mappings({
                   @Mapping(target = "unidadOrganica", ignore = true),
                   @Mapping(target = "integrantesFamilia", ignore = true),
-                  @Mapping(target = "anexosRespuestas", ignore = true) // ! Deprecated
+                  @Mapping(target = "anexosRespuestas", ignore = true), // ! Deprecated
+                  @Mapping(source = "acompañante", target = "acompañante", qualifiedByName = "mapPersonalToEntity")
       })
       PotencialFamiliaEntity toEntity(PotencialFamilia model);
 
+      @Mappings({
+                  @Mapping(source = "acompañante", target = "acompañante", qualifiedByName = "mapPersonalToEntity")
+      })
       void fromModelToEntity(PotencialFamilia source, @MappingTarget PotencialFamiliaEntity target);
 
       // * Entity-To-Model
@@ -99,6 +105,15 @@ public interface PotencialFamiliaEntityMapper {
                         .unidadOrg(this.toUnidadOrganicaModel(entity.getUnidadOrganica()))
                         .build()
                         : null;
+      }
+
+      @Named("mapPersonalToEntity")
+      default PersonalEntity mapIdPersonalToEntity(Personal personal) {
+            return personal != null ? PersonalEntity
+                        .builder()
+                        .idPersonal(personal.getIdPersonal())
+                        .build() : null;
+
       }
 
 }

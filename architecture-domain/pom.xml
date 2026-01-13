@@ -24,7 +24,9 @@
       <maven.compiler.source>${java.version}</maven.compiler.source>
       <maven.compiler.target>${java.version}</maven.compiler.target>
       <maven.compiler.release>${java.version}</maven.compiler.release>
-      <io.jsonwebtoken.version>0.13.0</io.jsonwebtoken.version>
+      <!-- <io.jsonwebtoken.version>0.13.0</io.jsonwebtoken.version> -->
+      <!-- <io.jsonwebtoken.version>0.11.5</io.jsonwebtoken.version> -->
+      <io.jsonwebtoken.version>0.10.0</io.jsonwebtoken.version>
       <lombok.version>1.18.30</lombok.version>
       <output.dir>../dist</output.dir>
    </properties>
