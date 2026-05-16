@@ -46,6 +46,7 @@ public class UpdateEjecucionSesionRequest {
    private LocalDateTime fecHoraSiguienteSesion;
    private String compromiso;
    private String observaciones;
+   private Integer idPersonal;
 
    @NotNull
    private Integer realizoSesion;

@@ -62,6 +62,8 @@ public class CreateFamiliaIntegranteRequest {
    // * Nuevo:
    // --------------------------------------------
    private String centroPoblado;
+   private String conadis;
+   private String gradoDiscapacidad;
    // --------------------------------------------
 
    @NotNull

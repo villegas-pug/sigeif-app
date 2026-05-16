@@ -9,4 +9,6 @@ public interface TallerRepository {
 
    List<Taller> findAllTallerByIdSesion(Integer idSesion);
 
+   List<Taller> findAllTallers();
+
 }

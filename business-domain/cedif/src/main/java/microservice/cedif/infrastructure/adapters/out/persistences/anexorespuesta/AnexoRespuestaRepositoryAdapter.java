@@ -117,7 +117,7 @@ public class AnexoRespuestaRepositoryAdapter extends BaseOracleRepository implem
       inParams.put("p_num_anexo", numAnexo);
       inParams.put("p_fase", fase);
       inParams.put("p_id_familia", idFamilia);
-      inParams.put("p_id_integrante", null);
+      inParams.put("p_id_integrante", idIntegrante);
       super.executeProcedureWithInParams("USP_ELIMINAR_ANEXO_RESPUESTAS_PARAMETRIZADO", inParams);
 
    }

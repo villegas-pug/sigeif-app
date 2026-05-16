@@ -51,4 +51,11 @@ public class TallerController {
             ApiResponse.<List<Taller>>builder().message(ApiResponseStatus.SUCCESS.getMessage()).data(talleres).build());
    }
 
+   @GetMapping(path = { "/findAllTallers" })
+   public ResponseEntity<ApiResponse<List<Taller>>> findAllTallers() {
+      List<Taller> talleres = this.service.findAllTallers();
+      return ResponseEntity.ok(
+            ApiResponse.<List<Taller>>builder().message(ApiResponseStatus.SUCCESS.getMessage()).data(talleres).build());
+   }
+
 }

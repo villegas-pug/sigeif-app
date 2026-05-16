@@ -8,13 +8,21 @@ spring:
    application:
       name: ms-scheduling
    profiles:
-      active: ${SPRING_PROFILE:test}
+      active: ${PROFILE:test}
 
    datasource:
-      url: jdbc:oracle:thin:@172.19.0.42:1521:INABIF02
-      username: devuser
-      password: D3vUs3r$2025
-      driver-class-name: oracle.jdbc.OracleDriver
+      hikari:
+         # Configuración clave para reintentos
+         initialization-fail-timeout: -1  # No fallar al inicio
+         connection-timeout: 60000
+         validation-timeout: 5000
+         
+         # Pool de conexiones
+         maximum-pool-size: 20
+         minimum-idle: 5
+         idle-timeout: 300000
+         max-lifetime: 1200000
+         leak-detection-threshold: 60000
 
 # ======================================================================================================
 # 2. CONTROL DE SCHEDULERS

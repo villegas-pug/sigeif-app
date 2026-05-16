@@ -4,7 +4,8 @@ public enum InabifServices {
 
    CEDIF(1L, "CEDIF"),
    PUNCHE(2L, "PUNCHE"),
-   ACERCANDONOS(3L, "ACERCANDONOS");
+   ACERCANDONOS(3L, "ACERCANDONOS"),
+   SIGESU(4L,"SIGESU");
 
    private final Long id;
    private final String nombre;

@@ -9,5 +9,6 @@ import microservice.shared_data.entities.UnidadEntity;
 public interface UnidadSesionJpaRepository extends JpaRepository<UnidadSesionEntity, Integer> {
 
    Set<UnidadSesionEntity> findByUnidad(UnidadEntity unidad);
+   
 
 }

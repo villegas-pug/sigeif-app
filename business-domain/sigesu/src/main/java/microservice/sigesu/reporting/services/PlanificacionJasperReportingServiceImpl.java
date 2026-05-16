@@ -1,0 +1,145 @@
+package microservice.sigesu.reporting.services;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import lombok.AllArgsConstructor;
+import microservice.sigesu.anexorespuesta.dtos.GetAnexoRespuestaByParamsQuery;
+import microservice.sigesu.anexorespuesta.model.AnexoRespuesta;
+import microservice.sigesu.anexorespuesta.service.AnexoRespuestaService;
+import microservice.sigesu.familiaintegrante.model.FamiliaIntegrante;
+import microservice.sigesu.persona.model.Persona;
+import microservice.sigesu.personal.model.Personal;
+import microservice.sigesu.potencialfamilia.dtos.PotencialFamiliaResponse;
+import microservice.sigesu.potencialfamilia.service.PotencialFamiliaService;
+import microservice.sigesu.zona.dtos.ZonaIntervencionParamsDto;
+import microservice.sigesu.zona.model.ZonaIntervencion;
+import microservice.sigesu.zona.service.ZonaIntervencionService;
+import microservice.shared_data.dtos.querys.AnexoRespuestaQuery;
+import microservice.shared_data.services.BaseReportingService;
+import net.sf.jasperreports.engine.JRException;
+
+@Service
+@Transactional(readOnly = true)
+@AllArgsConstructor
+public class PlanificacionJasperReportingServiceImpl extends BaseReportingService
+            implements PlanificacionReportingService {
+
+      private final PotencialFamiliaService potencialFamiliaService;
+      private final ZonaIntervencionService zonaIntervencionService;
+      private final AnexoRespuestaService anexoRespuestaService;
+
+      @Override
+      @Transactional(readOnly = true)
+      public byte[] generateCompromisoFamiliarAsPdf(Long idFamilia) throws JRException {
+
+            // * 1. Deps
+            PotencialFamiliaResponse potencialFamilia = this.potencialFamiliaService
+                        .findPotencialFamiliaById(idFamilia);
+
+            Map<Integer, Object> mapRespuestasCompromisoFamiliar = this.anexoRespuestaService
+                        .findAnexosRespuestasByQuerys(
+                                    GetAnexoRespuestaByParamsQuery.builder()
+                                                .idFamilia(idFamilia.intValue())
+                                                .anexo(14) // * Compromiso Familiar
+                                                .grupo(1)
+                                                .build())
+                        .stream()
+                        .map(anexoRespuesta -> (AnexoRespuestaQuery) anexoRespuesta)
+                        .collect(Collectors.toMap(AnexoRespuestaQuery::getIdPregunta,
+                                    AnexoRespuestaQuery::getRespuesta));
+
+            LocalDate fechaCompromiso = Optional.ofNullable(mapRespuestasCompromisoFamiliar.get(1719))
+                        .map(val -> LocalDate.parse(val.toString()))
+                        .orElse(LocalDate.now());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            // * 2. Acompañante
+            Persona acompañante = Optional.ofNullable(potencialFamilia.getAcompañante())
+                        .map(Personal::getPersona)
+                        .map(persona -> {
+                              String nombres = persona.getNombres()
+                                          .concat(" ")
+                                          .concat(persona.getApePaterno())
+                                          .concat(" ")
+                                          .concat(persona.getApeMaterno())
+                                          .trim();
+                              persona.setNombres(nombres.toUpperCase());
+                              return persona;
+                        })
+                        .orElse(Persona.builder().nombres("-").numeroDoc("-").build());
+
+            // * 3. Cuidador
+            FamiliaIntegrante cuidador = potencialFamilia.getIntegrantesFamilia().stream()
+                        .filter(integrante -> integrante.getCuidador().equals(1))
+                        .findFirst()
+                        .map(integrante -> {
+                              String nombres = integrante.getNombres()
+                                          .concat(" ")
+                                          .concat(integrante.getPrimerApe())
+                                          .concat(" ")
+                                          .concat(integrante.getSegundoApe())
+                                          .trim();
+                              integrante.setNombres(nombres.toUpperCase());
+                              return integrante;
+                        })
+                        .orElse(FamiliaIntegrante.builder().nombres("-").numeroDoc("-").build());
+
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("nombresCuidador", cuidador.getNombres());
+            parameters.put("numDocCuidador", cuidador.getNumeroDoc());
+            parameters.put("nombresAcompañante", acompañante.getNombres());
+            parameters.put("numDocAcompañante", acompañante.getNumeroDoc());
+            parameters.put("fechaCompromiso", fechaCompromiso.format(formatter));
+            parameters.put("fechaCompromiso", fechaCompromiso.format(formatter)); // FECHA COMPROMISO
+
+            // * Exportar a PDF
+            return this.jasperReportingService.generatePdfReport("compromiso_familiar.jrxml", parameters);
+
+      }
+
+      @Override
+      @Transactional(readOnly = true)
+      public byte[] generateZonaIntervencionExcelReportByParams(ZonaIntervencionParamsDto params) {
+
+            List<ZonaIntervencion> zonaIntervencion = this.zonaIntervencionService
+                        .findZonasIntervencionByParams(params.getDescripcionZona(), params.getAnioRegistroZona(),
+                                    params.getMesRegistroZona());
+
+            // * 1. ...
+            List<Map<String, Object>> zonaIntervencionAdapter = zonaIntervencion
+                        .stream()
+                        .map(zona -> {
+
+                              Map<String, Object> record = new HashMap<>();
+
+                              record.put("CÓDIGO", zona.getIdUbigeo());
+                              record.put("AÑO", zona.getFecRegistra().getYear());
+                              record.put("ZONA INTERVENCION", zona.getDescripcion());
+                              record.put("CUIDADOR PRINCIPAL", zona.getIdUbigeo());
+                              record.put("FECHA REGISTRO", zona.getFecRegistra());
+
+                              return record;
+
+                        }).toList();
+
+            // * 2 ...
+            return super.apachePOIReportingService.generateDynamicExcelFile("░", zonaIntervencionAdapter);
+
+      }
+
+      @Override
+      protected String getBaseTemplatePath() {
+            return "/templates/1.planificacion/";
+      }
+
+}

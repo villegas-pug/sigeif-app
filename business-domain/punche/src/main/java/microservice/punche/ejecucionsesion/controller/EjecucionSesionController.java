@@ -2,7 +2,6 @@ package microservice.punche.ejecucionsesion.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import microservice.punche.ejecucionsesion.dtos.CreateEjecucionSesionRequest;
@@ -11,12 +10,9 @@ import microservice.punche.ejecucionsesion.mappers.EjecucionSesionCreateMapper;
 import microservice.punche.ejecucionsesion.mappers.EjecucionSesionUpdateMapper;
 import microservice.punche.ejecucionsesion.model.EjecucionSesion;
 import microservice.punche.ejecucionsesion.service.EjecucionSesionService;
-import microservice.punche.programaciontaller.dtos.ProgramacionTallerResponse;
 import microservice.shared_data.dtos.responses.ApiResponse;
 import microservice.shared_data.enums.ApiResponseStatus;
-
 import java.io.IOException;
-
 import org.springframework.http.ContentDisposition;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;

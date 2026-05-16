@@ -1,4 +1,3 @@
-
 spring:
    cloud:
       gateway:
@@ -9,4 +8,3 @@ spring:
                   allowedMethods: "*"
                   allowedHeaders: "*"
                   allowCredentials: true
-         

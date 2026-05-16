@@ -1,0 +1,9 @@
+package microservice.sigesu.codigofamilia.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import microservice.shared_data.entities.CodigoFamiliaEntity;
+
+public interface CodigoFamiliaJpaRepository extends JpaRepository<CodigoFamiliaEntity, Long> {
+
+}

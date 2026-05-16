@@ -51,6 +51,7 @@ public class FamiliaIntegrante {
    private Catalogo ocupacion;
    private Catalogo centroPobla;
    private UbigeoNombre ubigeo;
+   
 
    private Set<AnexoRespuesta> anexosRespuestas;
 
@@ -62,6 +63,8 @@ public class FamiliaIntegrante {
 
    // * Nuevo
    private Integer tieneDiscapacidad;
+   private String conadis;
+   private String gradoDiscapacidad;
 
    private Catalogo etnia;
    private Catalogo tipoFamilia;

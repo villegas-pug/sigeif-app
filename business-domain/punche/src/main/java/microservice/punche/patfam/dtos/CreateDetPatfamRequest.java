@@ -23,11 +23,14 @@ public class CreateDetPatfamRequest {
 
    private Integer idTema;
 
-   // ? Si sesion no existe, debe enviar el nombres de la sesión
+   // ? Si sesion no existe, debe enviar el nombre de la sesión
    private Integer idSesion;
    private String nombreSesion;
 
+   // ! Nuevo
+   // ? Si taller no existe, debe enviar el nombre del taller
    private Integer idTaller;
+   private String nombreTaller;
 
    private Integer usuRegistra;
 

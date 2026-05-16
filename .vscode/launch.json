@@ -1,0 +1,65 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-SigesuApplication<sigesu>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "microservice.sigesu.SigesuApplication",
+            "projectName": "sigesu",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env",
+            "vmArgs": " -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.port=65088 -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dspring.jmx.enabled=true -Djava.rmi.server.hostname=localhost -Dspring.application.admin.enabled=true -Dspring.boot.project.name=sigesu"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-CedifApplication<cedif>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "microservice.cedif.CedifApplication",
+            "projectName": "cedif",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PuncheApplication<punche>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "microservice.punche.PuncheApplication",
+            "projectName": "punche",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-GatewayApplication<gateway>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "api.gateway.GatewayApplication",
+            "projectName": "gateway",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ConfigApplication<config>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "server.config.ConfigApplication",
+            "projectName": "config",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-AcercandonosApplication<acercandonos>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "microservice.acercandonos.AcercandonosApplication",
+            "projectName": "acercandonos",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

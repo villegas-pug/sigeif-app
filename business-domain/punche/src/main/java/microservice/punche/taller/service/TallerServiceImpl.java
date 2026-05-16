@@ -37,4 +37,16 @@ public class TallerServiceImpl implements TallerService {
       return talleres;
    }
 
+   @Override
+   @Transactional(readOnly = true)
+   public List<Taller> findAllTallers() {
+      List<Taller> talleres = this.repository.findAllTallers();
+      if (talleres.isEmpty()) {
+         throw new NotFoundException();
+      }
+
+      return talleres;
+
+   }
+
 }

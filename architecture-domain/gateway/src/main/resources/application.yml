@@ -2,26 +2,32 @@ spring:
    application:
       name: gateway
    profiles:
-      active: ${PROFILE:prod}
+      active: ${PROFILE:dev}
       
    cloud:
       gateway:
+      
          routes:
             -  id: ms-punche
                # uri: lb://microservice-punche
-               uri: http://${PUCHE_HOST:127.0.0.1}:${PUCHE_PORT:4001}
+               uri: http://${PUCHE_SERVICE:127.0.0.1}:${PUCHE_PORT:4001}
                predicates:
                   - Path=/api/ms-punche/**
             -  id: ms-cedif
                # uri: lb://microservice-cedif
-               uri: http://${CEDIF_HOST:127.0.0.1}:${CEDIF_PORT:4002}
+               uri: http://${CEDIF_SERVICE:127.0.0.1}:${CEDIF_PORT:4002}
                predicates:
                   - Path=/api/ms-cedif/**
             -  id: ms-acercandonos
                # uri: lb://microservice-acercandonos
-               uri: http://${ACERCANDONOS_HOST:127.0.0.1}:${ACERCANDONOS_PORT:4003}
+               uri: http://${ACERCANDONOS_SERVICE:127.0.0.1}:${ACERCANDONOS_PORT:4003}
                predicates:
                   - Path=/api/ms-acercandonos/**
+            - id: ms-sigesu
+               # uri: lb://microservice-sigesu
+              uri: http://${SIGESU_SERVICE:127.0.0.1}:${SIGESU_PORT:4004}
+              predicates:
+                 - Path=/api/ms-sigesu/**
 
          # Configuración global de timeouts
          httpclient:

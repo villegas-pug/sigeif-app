@@ -1,14 +1,20 @@
 package microservice.punche.reporting.services;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
+import microservice.punche.anexorespuesta.dtos.GetAnexoRespuestaByParamsQuery;
+import microservice.punche.anexorespuesta.model.AnexoRespuesta;
+import microservice.punche.anexorespuesta.service.AnexoRespuestaService;
 import microservice.punche.familiaintegrante.model.FamiliaIntegrante;
 import microservice.punche.persona.model.Persona;
 import microservice.punche.personal.model.Personal;
@@ -17,6 +23,7 @@ import microservice.punche.potencialfamilia.service.PotencialFamiliaService;
 import microservice.punche.zona.dtos.ZonaIntervencionParamsDto;
 import microservice.punche.zona.model.ZonaIntervencion;
 import microservice.punche.zona.service.ZonaIntervencionService;
+import microservice.shared_data.dtos.querys.AnexoRespuestaQuery;
 import microservice.shared_data.services.BaseReportingService;
 import net.sf.jasperreports.engine.JRException;
 
@@ -28,6 +35,7 @@ public class PlanificacionJasperReportingServiceImpl extends BaseReportingServic
 
       private final PotencialFamiliaService potencialFamiliaService;
       private final ZonaIntervencionService zonaIntervencionService;
+      private final AnexoRespuestaService anexoRespuestaService;
 
       @Override
       @Transactional(readOnly = true)
@@ -37,46 +45,62 @@ public class PlanificacionJasperReportingServiceImpl extends BaseReportingServic
             PotencialFamiliaResponse potencialFamilia = this.potencialFamiliaService
                         .findPotencialFamiliaById(idFamilia);
 
-            // CodigoFamilia codigoFamilia = potencialFamilia.getCodigoFamilia();
+            Map<Integer, Object> mapRespuestasCompromisoFamiliar = this.anexoRespuestaService
+                        .findAnexosRespuestasByQuerys(
+                                    GetAnexoRespuestaByParamsQuery.builder()
+                                                .idFamilia(idFamilia.intValue())
+                                                .anexo(14) // * Compromiso Familiar
+                                                .grupo(1)
+                                                .build())
+                        .stream()
+                        .map(anexoRespuesta -> (AnexoRespuestaQuery) anexoRespuesta)
+                        .collect(Collectors.toMap(AnexoRespuestaQuery::getIdPregunta,
+                                    AnexoRespuestaQuery::getRespuesta));
 
-            LocalDateTime fechaCompromiso = LocalDateTime.now();
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
+            LocalDate fechaCompromiso = Optional.ofNullable(mapRespuestasCompromisoFamiliar.get(1719))
+                        .map(val -> LocalDate.parse(val.toString()))
+                        .orElse(LocalDate.now());
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
             // * 2. Acompañante
             Persona acompañante = Optional.ofNullable(potencialFamilia.getAcompañante())
                         .map(Personal::getPersona)
-                        .orElse(null);
-
-            String nombresCompletosAcompañante = Optional.ofNullable(acompañante)
-                        .map(personal -> personal.getNombres()
-                                    .concat(" ")
-                                    .concat(personal.getApePaterno())
-                                    .concat(" ")
-                                    .concat(personal.getApeMaterno())
-                                    .trim())
-                        .orElse("");
+                        .map(persona -> {
+                              String nombres = persona.getNombres()
+                                          .concat(" ")
+                                          .concat(persona.getApePaterno())
+                                          .concat(" ")
+                                          .concat(persona.getApeMaterno())
+                                          .trim();
+                              persona.setNombres(nombres.toUpperCase());
+                              return persona;
+                        })
+                        .orElse(Persona.builder().nombres("-").numeroDoc("-").build());
 
             // * 3. Cuidador
             FamiliaIntegrante cuidador = potencialFamilia.getIntegrantesFamilia().stream()
                         .filter(integrante -> integrante.getCuidador().equals(1))
                         .findFirst()
-                        .orElse(FamiliaIntegrante.builder().build());
-
-            String nombresCompletosCuidador = Optional.ofNullable(cuidador)
-                        .map(integrante -> integrante.getNombres()
-                                    .concat(" ")
-                                    .concat(integrante.getPrimerApe())
-                                    .concat(" ")
-                                    .concat(integrante.getSegundoApe())
-                                    .trim())
-                        .orElse("");
+                        .map(integrante -> {
+                              String nombres = integrante.getNombres()
+                                          .concat(" ")
+                                          .concat(integrante.getPrimerApe())
+                                          .concat(" ")
+                                          .concat(integrante.getSegundoApe())
+                                          .trim();
+                              integrante.setNombres(nombres.toUpperCase());
+                              return integrante;
+                        })
+                        .orElse(FamiliaIntegrante.builder().nombres("-").numeroDoc("-").build());
 
             Map<String, Object> parameters = new HashMap<>();
-            parameters.put("nombresCuidador", nombresCompletosCuidador);
+            parameters.put("nombresCuidador", cuidador.getNombres());
             parameters.put("numDocCuidador", cuidador.getNumeroDoc());
-            parameters.put("nombresAcompañante", nombresCompletosAcompañante);
+            parameters.put("nombresAcompañante", acompañante.getNombres());
             parameters.put("numDocAcompañante", acompañante.getNumeroDoc());
             parameters.put("fechaCompromiso", fechaCompromiso.format(formatter));
+            parameters.put("fechaCompromiso", fechaCompromiso.format(formatter)); // FECHA COMPROMISO
 
             // * Exportar a PDF
             return this.jasperReportingService.generatePdfReport("compromiso_familiar.jrxml", parameters);

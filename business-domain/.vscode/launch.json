@@ -31,6 +31,26 @@
          "args": "",
          "envFile": "${workspaceFolder}/.env",
          "vmArgs": "-Xms4g -Xmx4g"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-SigesuApplication<sigesu>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "microservice.punche.SigesuApplication",
+         "projectName": "sigesu",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-SigesuApplication<sigesu>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "microservice.sigesu.SigesuApplication",
+         "projectName": "sigesu",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env"
       }
    ]
 }

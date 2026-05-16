@@ -12,6 +12,7 @@ public enum ApiResponseStatus {
    SUCCESS_GENERATE_CODE(200, "¡Código generado correctamente!"),
    NO_CONTENT(200, "¡Recurso no encontrado!"),
    NO_CONTENT_BY_ID(200, "¡Entidad con ID: %s, no encontrada!"),
+   
    // SUCCESS_NO_CONTENT(204, "¡No se encontraron resultados!"),
 
    // 400

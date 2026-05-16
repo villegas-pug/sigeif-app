@@ -50,6 +50,9 @@ public class UnidadOrganicaEntity {
     @Column(name = "UOR_CORREO_ELECTRONICO")
     private String correo;
 
+    @Column(name = "UORABREVIATURA")
+    private String nombreAbrev;
+
     @OneToOne
     @JoinColumn(name = "UOR_UBIGEO")
     private UbigeoNombreEntity ubigeo; // INSCONTACTO

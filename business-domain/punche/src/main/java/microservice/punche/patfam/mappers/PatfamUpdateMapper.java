@@ -27,7 +27,13 @@ public interface PatfamUpdateMapper {
          @Mapping(source = "idSesion", target = "sesion.idSesion"),
          @Mapping(source = "nombreSesion", target = "sesion.nombre"),
          @Mapping(source = "usuRegistra", target = "sesion.usuRegistra"),
-         @Mapping(source = "idTaller", target = "taller", qualifiedByName = "mapIdToTaller"),
+
+         // ! Nuevo
+         // @Mapping(source = "idTaller", target = "taller", qualifiedByName =
+         // "mapIdToTaller"),
+         @Mapping(source = "idTaller", target = "taller.idTaller"),
+         @Mapping(source = "nombreTaller", target = "taller.nombre"),
+         @Mapping(source = "usuRegistra", target = "taller.usuRegistra"),
    })
    DetPatfam toModel(CreateDetPatfamRequest source);
 

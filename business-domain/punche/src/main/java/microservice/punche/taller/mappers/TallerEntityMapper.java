@@ -26,7 +26,11 @@ public interface TallerEntityMapper {
       })
       TallerEntity toEntity(Taller source);
 
-      @Mapping(target = "sesion", ignore = true)
+      @Mappings({
+                  @Mapping(target = "sesion", ignore = true),
+                  @Mapping(target = "modulo", ignore = true),
+                  @Mapping(target = "objetivoEspecifico", ignore = true),
+      })
       Taller toModel(TallerEntity source);
 
       // * Default method's

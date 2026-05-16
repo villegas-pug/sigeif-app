@@ -9,16 +9,21 @@ import org.springframework.stereotype.Repository;
 import lombok.AllArgsConstructor;
 import microservice.punche.detpatfam.mappers.DetPatfamEntityMapper;
 import microservice.punche.detpatfam.repository.DetPatfamJpaRepository;
+import microservice.punche.objetivoespecifico.models.Unidad;
 import microservice.punche.objetivoespecifico.repository.ObjetivoEspecificoRepository;
 import microservice.punche.patfam.mappers.PatfamEntityMapper;
 import microservice.punche.patfam.models.DetPatfam;
 import microservice.punche.patfam.models.Patfam;
+import microservice.punche.taller.mappers.TallerEntityMapper;
+import microservice.punche.taller.model.Taller;
+import microservice.punche.taller.repository.TallerJpaRepository;
 import microservice.punche.unidadsesion.mappers.UnidadSesionEntityMapper;
 import microservice.punche.unidadsesion.model.UnidadSesion;
 import microservice.punche.unidadsesion.repository.UnidadSesionJpaRepository;
 import microservice.shared_data.entities.DetPatfamEntity;
 import microservice.shared_data.entities.PatfamEntity;
 import microservice.shared_data.entities.PotencialFamiliaEntity;
+import microservice.shared_data.entities.TallerEntity;
 import microservice.shared_data.entities.UnidadSesionEntity;
 
 @Repository
@@ -29,9 +34,11 @@ public class PatfamRepositoryImpl implements PatfamRepository {
    private final DetPatfamJpaRepository detPatfamJpaRepository;
    private final ObjetivoEspecificoRepository objetivoRepository;
    private final UnidadSesionJpaRepository unidadJpaRepository;
+   private final TallerJpaRepository tallerJpaRepository;
    private final PatfamEntityMapper patfamMapper;
    private final DetPatfamEntityMapper detPatfamMapper;
    private final UnidadSesionEntityMapper sesionMapper;
+   private final TallerEntityMapper tallerMapper;
 
    @Override
    public Patfam createPatfam(Patfam patfam) {
@@ -59,9 +66,11 @@ public class PatfamRepositoryImpl implements PatfamRepository {
             return;
          }
 
-         // * Suministrador en todos los servicios
-         if (detPatfam.getSesion().getIdSesion() == null && detPatfam.getSesion().getNombre() != null) { // * Nueva
-                                                                                                         // sesión
+         // * Obtiene sesion creada para asignar al taller nombrada
+         UnidadSesionEntity createdSesion = detPatfam.getSesion();
+
+         // * Si la sesion es nombrada
+         if (detPatfam.getSesion().getIdSesion() == null && detPatfam.getSesion().getNombre() != null) {
 
             UnidadSesionEntity createSesion = detPatfam.getSesion();
 
@@ -71,11 +80,27 @@ public class PatfamRepositoryImpl implements PatfamRepository {
                case 3 -> createSesion.setObjetivo(detPatfam.getObjetivo()); // * 3 -> Acercandonos
             }
 
-            UnidadSesionEntity createdSesion = this.unidadJpaRepository.save(createSesion);
+            createdSesion = this.unidadJpaRepository.save(createSesion);
             detPatfam.setSesion(createdSesion);
          }
 
+         // ! Este bloque es exclusivo para Cedif
+         if ( // * Si el taller es nombrado
+         detPatfam.getTaller().getIdTaller() == null
+               && detPatfam.getTaller().getNombre() != null
+               && idServicio.intValue() == 1 // * Cedif
+         ) {
+
+            TallerEntity createTaller = detPatfam.getTaller();
+            createTaller.setSesion(createdSesion);
+
+            TallerEntity createdTaller = this.tallerJpaRepository.save(createTaller);
+            detPatfam.setTaller(createdTaller);
+
+         }
+
          this.detPatfamJpaRepository.save(detPatfam);
+
       });
 
       return this.patfamMapper.toModel(createPatfam);
@@ -121,7 +146,10 @@ public class PatfamRepositoryImpl implements PatfamRepository {
             return;
          }
 
-         // * Crea sesión
+         // * Obtiene sesion creada para asignar al taller nombrada
+         UnidadSesionEntity createdSesion = this.sesionMapper.toEntity(detPatfam.getSesion());
+
+         // * Si la sesion es nombrada
          if (detPatfam.getSesion().getIdSesion() == null && detPatfam.getSesion().getNombre() != null) {
             UnidadSesion createSesion = detPatfam.getSesion();
 
@@ -131,8 +159,23 @@ public class PatfamRepositoryImpl implements PatfamRepository {
                case 3 -> createSesion.setObjetivo(detPatfam.getObjetivo()); // * 3 -> Acercandonos
             }
 
-            UnidadSesionEntity createdSesion = this.unidadJpaRepository.save(this.sesionMapper.toEntity(createSesion));
+            createdSesion = this.unidadJpaRepository.save(this.sesionMapper.toEntity(createSesion));
             detPatfam.setSesion(this.sesionMapper.toModel(createdSesion));
+         }
+
+         // ! Este bloque es exclusivo para Cedif
+         if ( // * Si el taller es nombrado
+         detPatfam.getTaller().getIdTaller() == null
+               && detPatfam.getTaller().getNombre() != null
+               && idServicio.intValue() == 1 // * Cedif
+         ) {
+
+            Taller createTaller = detPatfam.getTaller();
+            createTaller.setSesion(this.sesionMapper.toModel(createdSesion));
+
+            TallerEntity createdTaller = this.tallerJpaRepository.save(this.tallerMapper.toEntity(createTaller));
+            detPatfam.setTaller(this.tallerMapper.toModel(createdTaller));
+
          }
 
          this.detPatfamMapper.fromModelToEntity(detPatfam, oldDetPatfam);

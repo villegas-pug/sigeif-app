@@ -4,8 +4,8 @@ import java.util.Collections;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
+//import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+//import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.server.ServerWebExchange;
@@ -20,17 +20,17 @@ import reactor.core.publisher.Mono;
 @Log4j2
 @RequiredArgsConstructor
 @ConditionalOnProperty(prefix = "app.security", name = "enabled", havingValue = "true", matchIfMissing = true)
-public class JwtAuthenticationWebFilter implements WebFilter {
+public class JwtAuthenticationWebFilter  {
 
    private final JwtService jwtService;
 
-   @Value("${app.security.allowed-origins}")
-   private String allowedOrigin;
+   @Value("${app.security.allowed-origins:localhost}")
+   private String allowedOrigin="localhost";
 
    @Value("${spring.profiles.active}")
    private String profile;
 
-   @Override
+  /* @Override
    public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
 
       String token = this.extractToken(exchange);
@@ -58,7 +58,7 @@ public class JwtAuthenticationWebFilter implements WebFilter {
       // * 3. Token no válido
       return Mono.error(new ResponseStatusException(HttpStatus.UNAUTHORIZED));
 
-   }
+   }*/
 
    private String extractToken(ServerWebExchange exchange) {
       String tokenBearer = exchange.getRequest().getHeaders().getFirst("Authorization");

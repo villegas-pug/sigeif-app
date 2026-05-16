@@ -1,0 +1,48 @@
+package microservice.sigesu.catalogo.controller;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import microservice.sigesu.catalogo.service.CatalogoService;
+import microservice.sigesu.pais.service.PaisService;
+import microservice.shared_data.dtos.responses.ApiResponse;
+import microservice.shared_data.enums.ApiResponseStatus;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@RestController
+public class CatalogoController {
+
+	@Autowired
+	private CatalogoService service;
+
+	@Autowired
+	private PaisService paisService;
+
+	@GetMapping(path = { "/findAllCatalogosByGrupos" })
+	public ResponseEntity<?> findAllCatalogosByGrupos(@RequestParam Integer grupo,
+			@RequestParam(required = false) Integer subgrupo) {
+		return ResponseEntity
+				.ok(
+						ApiResponse
+								.builder()
+								.message(ApiResponseStatus.SUCCESS.getMessage())
+								.data(this.service.findAllCatalogosByGrupos(grupo, subgrupo))
+								.build());
+
+	}
+
+	@GetMapping(path = { "/findAllPais" })
+	public ResponseEntity<?> findAllPais() {
+		return ResponseEntity
+				.ok(
+						ApiResponse
+								.builder()
+								.message(ApiResponseStatus.SUCCESS.getMessage())
+								.data(this.paisService.findAllPais())
+								.build());
+	}
+
+}

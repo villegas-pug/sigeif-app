@@ -12,4 +12,6 @@ public interface TallerService {
 
    List<Taller> findAllTallerByIdSesion(Integer idSesion);
 
+   List<Taller> findAllTallers();
+
 }

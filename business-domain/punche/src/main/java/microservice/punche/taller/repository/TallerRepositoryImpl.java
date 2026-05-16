@@ -39,4 +39,9 @@ public class TallerRepositoryImpl implements TallerRepository {
             .map(this.mapper::toModel).toList();
    }
 
+   @Override
+   public List<Taller> findAllTallers() {
+      return this.jpaRepository.findAll().stream().map(this.mapper::toModel).toList();
+   }
+
 }

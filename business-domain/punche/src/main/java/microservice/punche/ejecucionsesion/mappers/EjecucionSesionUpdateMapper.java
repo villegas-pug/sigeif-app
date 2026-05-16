@@ -20,7 +20,9 @@ public interface EjecucionSesionUpdateMapper {
 
       // * Create-To-Model
       @Mappings({
-                  @Mapping(source = "idModalidad", target = "modalidad.idCatalogo")
+                  @Mapping(source = "idModalidad", target = "modalidad.idCatalogo"),
+                  @Mapping(source = "idPersonal", target = "personal.idPersonal"),
+
       })
       EjecucionSesion toModel(UpdateEjecucionSesionRequest source);
 

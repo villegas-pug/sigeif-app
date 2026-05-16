@@ -277,6 +277,10 @@ public class IntegranteFamiliaEntity {
 
    @Column(name = "FI_OCUPACION")
    private String descripcionOcupacion;
+
+   @Column(name = "FI_CONADIS")
+   private String conadis;
+
    // --------------------------------------------
 
    @Column(name = "FI_CUIDADOR")

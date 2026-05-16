@@ -80,7 +80,6 @@ public class PotencialFamiliaRepositoryImpl implements PotencialFamiliaRepositor
                      integrante.getIdDiscapacidad(),
                      integrante.getIdDerivadoPor(),
                      integrante.getIdServicioCuidador(),
-
                      integrante.getIdCentroPobla(),
                      integrante.getIdOcupacion(),
                      integrante.getNumeroDoc(),

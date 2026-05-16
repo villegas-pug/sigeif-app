@@ -67,6 +67,9 @@ public class UpdateFamiliaIntegranteRequest {
    // * Nuevo:
    // --------------------------------------------
    private String centroPoblado;
+   private String conadis;
+   private String gradoDiscapacidad;
+   private Integer tieneDiscapacidad;
    // --------------------------------------------
 
    // Crea y actualiza

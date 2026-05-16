@@ -49,7 +49,7 @@ public interface ZonaIntervencionEntityMapper {
 
       @Mappings({
                   @Mapping(target = "zonaIntervencion", ignore = true),
-                  @Mapping(target = "aliado", ignore = true),
+                  // ! @Mapping(target = "aliado", ignore = true),
                   @Mapping(target = "anexosRespuestas", ignore = true),
                   @Mapping(target = "motivosReferencia", ignore = true)
       })

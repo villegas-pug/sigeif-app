@@ -65,6 +65,10 @@ public class DetPatfamEntity {
    @JoinColumn(name = "SE_ID_SESION")
    private UnidadSesionEntity sesion;
 
+ /* @ManyToOne(fetch = FetchType.EAGER)
+   @JoinColumn(name = "SE_ID_TEMA")
+   private UnidadTemaEntity tema;*/
+
    @ManyToOne(fetch = FetchType.EAGER)
    @JoinColumn(name = "TA_ID_TALLER")
    private TallerEntity taller;

@@ -30,7 +30,13 @@ public class GenerateMatrizUseCaseImpl extends BaseReportingService implements G
          throw new IntervencionEstrategicaNotFoundException();
       }
 
-      // * 2. Generar archivo
+      // * 2. Eliminar `PF_ID_FAMILIA`
+      dataset.forEach(row -> {
+         row.remove("PF_ID_FAMILIA");
+         row.remove("FI_ID_INTEGRANTE");
+      });
+
+      // * 3. Generar archivo
       super.generateExcelFileAndSave(dataset);
    }
 
