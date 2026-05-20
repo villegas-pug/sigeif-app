@@ -10,6 +10,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.support.SqlLobValue;
 import org.springframework.stereotype.Repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.persistence.EntityManager;
@@ -522,11 +523,66 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
       super.executeProcedureWithInParams("USP_SAVE_PERSONAL_VALIDA_ANEXO", inParams);
    }
 
-   @Override
-   public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
-      Map<String, Object> inParams = new HashMap<>();
-      inParams.put("p_id_anexo_cabecera", idCabecera);
-      inParams.put("p_estado", estado);
-      super.executeProcedureWithInParams("USP_SAVE_CONFORMIDAD_ANEXO_CABECERA", inParams);
-   }
+    @Override
+    public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
+       Map<String, Object> inParams = new HashMap<>();
+       inParams.put("p_id_anexo_cabecera", idCabecera);
+       inParams.put("p_estado", estado);
+       super.executeProcedureWithInParams("USP_SAVE_CONFORMIDAD_ANEXO_CABECERA", inParams);
+    }
+
+    @Override
+    public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
+       Map<String, Object> inParams = new HashMap<>();
+       inParams.put("p_operacion", 1);
+       inParams.put("p_id_audio", null);
+       inParams.put("p_id_anexo_cabecera", idAnexoCabecera);
+       inParams.put("p_audio", new SqlLobValue(audio));
+       inParams.put("p_nombre_archivo", nombreArchivo);
+       inParams.put("p_estado", null);
+       super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
+    }
+
+    @Override
+    public void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado) {
+       Map<String, Object> inParams = new HashMap<>();
+       inParams.put("p_operacion", 2);
+       inParams.put("p_id_audio", idAudio);
+       inParams.put("p_id_anexo_cabecera", null);
+       inParams.put("p_audio", new SqlLobValue(audio));
+       inParams.put("p_nombre_archivo", nombreArchivo);
+       inParams.put("p_estado", estado);
+       super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
+    }
+
+    @Override
+    public void eliminarAnexoCabeceraAudio(Long idAudio) {
+       Map<String, Object> inParams = new HashMap<>();
+       inParams.put("p_operacion", 3);
+       inParams.put("p_id_audio", idAudio);
+       inParams.put("p_id_anexo_cabecera", null);
+       inParams.put("p_audio", null);
+       inParams.put("p_nombre_archivo", null);
+       inParams.put("p_estado", null);
+       super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
+    }
+
+    @Override
+    public List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera) {
+       Map<String, Object> inParams = new HashMap<>();
+       inParams.put("p_operacion", 4);
+       inParams.put("p_id_audio", null);
+       inParams.put("p_id_anexo_cabecera", idAnexoCabecera);
+       inParams.put("p_audio", null);
+       inParams.put("p_nombre_archivo", null);
+       inParams.put("p_estado", null);
+       return super.executeProcedureAndFetchResult("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams, "p_cursor");
+    }
+
+    @Override
+    public List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera) {
+       List<Map<String, Object>> resultados = consultarAnexoCabeceraAudio(idAnexoCabecera);
+       resultados.forEach(r -> r.remove("ACA_AUDIO"));
+       return resultados;
+    }
 }

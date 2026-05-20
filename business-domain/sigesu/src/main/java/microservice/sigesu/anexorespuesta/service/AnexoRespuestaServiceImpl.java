@@ -349,10 +349,40 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
 
    }
 
-   @Override
-   @Transactional
-   public void resetValidacionAnexoCabecera(Integer idCabecera) {
-      this.repository.savePersonalValidaAnexoCabecera(idCabecera, null);
-   }
+    @Override
+    @Transactional
+    public void resetValidacionAnexoCabecera(Integer idCabecera) {
+       this.repository.savePersonalValidaAnexoCabecera(idCabecera, null);
+    }
+
+    @Override
+    @Transactional
+    public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
+       this.repository.insertarAnexoCabeceraAudio(idAnexoCabecera, audio, nombreArchivo);
+    }
+
+    @Override
+    @Transactional
+    public void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado) {
+       this.repository.actualizarAnexoCabeceraAudio(idAudio, audio, nombreArchivo, estado);
+    }
+
+    @Override
+    @Transactional
+    public void eliminarAnexoCabeceraAudio(Long idAudio) {
+       this.repository.eliminarAnexoCabeceraAudio(idAudio);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera) {
+       return this.repository.consultarAnexoCabeceraAudio(idAnexoCabecera);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera) {
+       return this.repository.listarAnexoCabeceraAudio(idAnexoCabecera);
+    }
 
 }

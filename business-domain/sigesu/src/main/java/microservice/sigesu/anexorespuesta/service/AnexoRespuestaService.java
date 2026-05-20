@@ -62,4 +62,14 @@ public interface AnexoRespuestaService {
 
       void resetValidacionAnexoCabecera(Integer idCabecera);
 
+      void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo);
+
+      void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado);
+
+      void eliminarAnexoCabeceraAudio(Long idAudio);
+
+      List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera);
+
+      List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera);
+
 }

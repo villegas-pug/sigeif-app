@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import java.io.IOException;
+import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -360,6 +362,154 @@ public class AnexoRespuestaController {
                                     .message(ApiResponseStatus.SUCCESS.getMessage())
                                     .data(null).build());
 
+      }
+
+      @PostMapping("/anexo-cabecera-audio")
+      public ResponseEntity<?> insertarAnexoCabeceraAudio(
+                  @RequestParam("audio") MultipartFile audio,
+                  @RequestParam("idAnexoCabecera") Long idAnexoCabecera) {
+
+            try {
+                  this.service.insertarAnexoCabeceraAudio(idAnexoCabecera, audio.getBytes(), audio.getOriginalFilename());
+                  return ResponseEntity.ok(
+                              ApiResponse.builder()
+                                          .message(ApiResponseStatus.SUCCESS_CREATE.getMessage())
+                                          .data(null)
+                                          .build());
+            } catch (Exception e) {
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                              .body(ApiResponse.builder()
+                                          .message(ApiResponseStatus.INTERNAL_SERVER_ERROR.getMessage())
+                                          .data(e.getMessage())
+                                          .build());
+            }
+      }
+
+      @PutMapping("/anexo-cabecera-audio")
+      public ResponseEntity<?> actualizarAnexoCabeceraAudio(
+                  @RequestParam("audio") MultipartFile audio,
+                  @RequestParam("idAudio") Long idAudio,
+                  @RequestParam("estado") Integer estado) {
+
+            try {
+                  this.service.actualizarAnexoCabeceraAudio(idAudio, audio.getBytes(), audio.getOriginalFilename(), estado);
+                  return ResponseEntity.ok(
+                              ApiResponse.builder()
+                                          .message(ApiResponseStatus.SUCCESS.getMessage())
+                                          .data(null)
+                                          .build());
+            } catch (Exception e) {
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                              .body(ApiResponse.builder()
+                                          .message(ApiResponseStatus.INTERNAL_SERVER_ERROR.getMessage())
+                                          .data(e.getMessage())
+                                          .build());
+            }
+      }
+
+      @DeleteMapping("/anexo-cabecera-audio")
+      public ResponseEntity<?> eliminarAnexoCabeceraAudio(
+                  @RequestParam("idAudio") Long idAudio) {
+
+            try {
+                  this.service.eliminarAnexoCabeceraAudio(idAudio);
+                  return ResponseEntity.ok(
+                              ApiResponse.builder()
+                                          .message(ApiResponseStatus.SUCCESS_DELETE.getMessage())
+                                          .data(null)
+                                          .build());
+            } catch (Exception e) {
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                              .body(ApiResponse.builder()
+                                          .message(ApiResponseStatus.INTERNAL_SERVER_ERROR.getMessage())
+                                          .data(e.getMessage())
+                                          .build());
+            }
+      }
+
+      @GetMapping("/anexo-cabecera-audio/listar")
+      public ResponseEntity<?> listarAnexoCabeceraAudio(
+                  @RequestParam("idAnexoCabecera") Long idAnexoCabecera) {
+
+            try {
+                  List<Map<String, Object>> resultados = this.service.listarAnexoCabeceraAudio(idAnexoCabecera);
+
+                  return ResponseEntity.ok(
+                              ApiResponse.builder()
+                                          .message(ApiResponseStatus.SUCCESS.getMessage())
+                                          .data(resultados)
+                                          .build());
+
+            } catch (Exception e) {
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                              .body(ApiResponse.builder()
+                                          .message(ApiResponseStatus.INTERNAL_SERVER_ERROR.getMessage())
+                                          .data(e.getMessage())
+                                          .build());
+            }
+      }
+
+      @GetMapping("/anexo-cabecera-audio")
+      public ResponseEntity<?> descargarAnexoCabeceraAudio(
+                  @RequestParam("idAnexoCabecera") Long idAnexoCabecera,
+                  @RequestParam("idAudio") Long idAudio) {
+
+            try {
+                  List<Map<String, Object>> resultados = this.service.consultarAnexoCabeceraAudio(idAnexoCabecera);
+
+                  Map<String, Object> registro = resultados.stream()
+                              .filter(r -> idAudio.equals(
+                                          r.get("ACA_ID_AUDIO") instanceof Number
+                                                      ? ((Number) r.get("ACA_ID_AUDIO")).longValue()
+                                                      : null))
+                              .findFirst()
+                              .orElse(null);
+
+                  if (registro == null) {
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                                    .body(ApiResponse.builder()
+                                                .message(ApiResponseStatus.NOT_FOUND.getMessage())
+                                                .data(null)
+                                                .build());
+                  }
+
+                  Object audioObj = registro.get("ACA_AUDIO");
+                  byte[] audioBytes = extractBlobBytes(audioObj);
+                  String nombreArchivo = (String) registro.get("ACA_NOMBRE_ARCHIVO");
+
+                  if (nombreArchivo == null) {
+                        nombreArchivo = "audio.mp3";
+                  }
+
+                  HttpHeaders headers = new HttpHeaders();
+                  headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + nombreArchivo + "\"");
+
+                  return ResponseEntity.ok()
+                              .headers(headers)
+                              .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                              .body(audioBytes);
+
+            } catch (Exception e) {
+                  return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                              .body(ApiResponse.builder()
+                                          .message(ApiResponseStatus.INTERNAL_SERVER_ERROR.getMessage())
+                                          .data(e.getMessage())
+                                          .build());
+            }
+      }
+
+      private byte[] extractBlobBytes(Object blobValue) throws SQLException {
+            if (blobValue == null) {
+                  return new byte[0];
+            }
+            if (blobValue instanceof byte[]) {
+                  return (byte[]) blobValue;
+            }
+            if (blobValue instanceof Blob) {
+                  Blob blob = (Blob) blobValue;
+                  return blob.getBytes(1, (int) blob.length());
+            }
+            throw new RuntimeException("Tipo de dato no soportado para el audio: " + blobValue.getClass().getName());
       }
 
 }
