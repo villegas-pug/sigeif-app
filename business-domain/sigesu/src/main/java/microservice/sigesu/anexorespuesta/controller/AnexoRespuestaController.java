@@ -36,6 +36,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
@@ -312,10 +313,53 @@ public class AnexoRespuestaController {
 
       @GetMapping("/responsables-centro")
       public ResponseEntity<?> listarResponsablesCentro(
-                  @RequestParam String nombreCentro,
-                  @RequestParam String nombrePersona) {
+                  @RequestParam String nombreCentro
+      // @RequestParam String nombrePersona
+      ) {
 
             return ResponseEntity.ok(
-                        anexoRespuestaService.listarResponsablesCentro(nombreCentro, nombrePersona));
+                        anexoRespuestaService.listarResponsablesCentro(nombreCentro));
       }
+
+      @PatchMapping(path = { "/validatePersonalAnexoCabecera" })
+      public ResponseEntity<?> validatePersonalAnexoCabecera(
+                  @RequestParam Integer idAnexoCabecera,
+                  @RequestParam Integer idPersonal,
+                  @RequestParam String password) {
+
+            this.service.validatePersonalAnexoCabecera(idAnexoCabecera, idPersonal, password);
+
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(null).build());
+
+      }
+
+      @DeleteMapping(path = { "/resetValidacionAnexoCabecera" })
+      public ResponseEntity<?> resetValidacionAnexoCabecera(@RequestParam Integer idAnexoCabecera) {
+
+            this.service.resetValidacionAnexoCabecera(idAnexoCabecera);
+
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .builder()
+                                    .message(ApiResponseStatus.SUCCESS_DELETE.getMessage())
+                                    .data(null).build());
+
+      }
+
+      @PatchMapping(path = { "/saveConformidadAnexoCabecera" })
+      public ResponseEntity<?> saveConformidadAnexoCabecera(@RequestParam Integer idAnexoCabecera,
+                  @RequestParam Integer estado) {
+            this.service.saveConformidadAnexoCabecera(idAnexoCabecera, estado);
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(null).build());
+
+      }
+
 }

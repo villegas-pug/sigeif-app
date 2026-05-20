@@ -42,6 +42,10 @@ public interface AnexoRespuestaRepository {
       void actualizarAudio(Long idAnexoCabecera, String audioUrl);
 
       List<Map<String, Object>> listarResponsablesSupervision(String abreviatura);
-      
-      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, String nombrePersona);
+
+      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro);
+
+      void savePersonalValidaAnexoCabecera(Integer idCabecera, String idsPersonal);
+
+      void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado);
 }

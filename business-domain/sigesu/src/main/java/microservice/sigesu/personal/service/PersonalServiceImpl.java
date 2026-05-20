@@ -1,11 +1,17 @@
 package microservice.sigesu.personal.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
+import microservice.shared_data.entities.PersonalEntity;
 import microservice.shared_data.exceptions.NotFoundException;
 import microservice.sigesu.personal.dtos.PersonalDto;
+import microservice.sigesu.personal.mappers.PersonalEntityMapper;
+import microservice.sigesu.personal.model.Personal;
 import microservice.sigesu.personal.repository.PersonalRepository;
 
 @Service
@@ -13,6 +19,7 @@ import microservice.sigesu.personal.repository.PersonalRepository;
 public class PersonalServiceImpl implements PersonalService {
 
    private final PersonalRepository repository;
+   private final PersonalEntityMapper mapper;
 
    @Override
    @Transactional(readOnly = true)
@@ -32,6 +39,17 @@ public class PersonalServiceImpl implements PersonalService {
          throw new NotFoundException();
       }
       return personales;
+   }
+
+   @Override
+   public Personal findPersonalById(Integer idPersonal) {
+      Optional<PersonalEntity> personalE = this.repository.findPersonalById(idPersonal);
+
+      Personal personal = personalE
+            .map(this.mapper::toModel)
+            .orElseThrow(NotFoundException::new);
+
+      return personal;
    }
 
 }

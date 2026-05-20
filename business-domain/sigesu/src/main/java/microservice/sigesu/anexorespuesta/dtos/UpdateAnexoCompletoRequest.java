@@ -22,5 +22,5 @@ public class UpdateAnexoCompletoRequest {
     private List<RespuestaDTO> respuestas; // Lista de respuestas
     private Long idRespSupervision;
     private Long idDirector;
-    private Long idSupervisado;
+    private String idSupervisado;
 }

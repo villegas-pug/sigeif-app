@@ -27,29 +27,15 @@ public class CentroRepositoryImpl implements CentroRepository {
                                 .returningResultSet(
                                                 "P_CURSOR",
                                                 (rs, rowNum) -> {
-
                                                         CentroDTO dto = new CentroDTO();
-
-                                                        dto.setIdUnidadOrganica(
-                                                                        rs.getLong("IDUNIDADORGANICA"));
-
-                                                        dto.setNombreUnidad(
-                                                                        rs.getString("UORNOMBRE"));
-
-                                                        dto.setDepartamento(
-                                                                        rs.getString("DEPARTAMENTO"));
-
-                                                        dto.setProvincia(
-                                                                        rs.getString("PROVINCIA"));
-
-                                                        dto.setDistrito(
-                                                                        rs.getString("DISTRITO"));
-
-                                                        dto.setRespDirector(
-                                                                        rs.getString("DIRECTOR"));
-                                                        dto.setTipoCentro(
-                                                                        rs.getString("TIPO_CENTRO"));
-
+                                                        dto.setIdUnidadOrganica(rs.getLong("IDUNIDADORGANICA"));
+                                                        dto.setNombreUnidad(rs.getString("UORNOMBRE"));
+                                                        dto.setDepartamento(rs.getString("DEPARTAMENTO"));
+                                                        dto.setProvincia(rs.getString("PROVINCIA"));
+                                                        dto.setDistrito(rs.getString("DISTRITO"));
+                                                        dto.setIdPersonal(rs.getLong("IDPERSONAL"));
+                                                        dto.setRespDirector(rs.getString("DIRECTOR"));
+                                                        dto.setTipoCentro(rs.getString("TIPO_CENTRO"));
                                                         return dto;
                                                 });
         }
@@ -59,7 +45,7 @@ public class CentroRepositoryImpl implements CentroRepository {
 
                 Map<String, Object> result = simpleJdbcCall.execute(
                                 Map.of("P_ID_SERVICIO", idServicio,
-                                "P_TIPO_CENTRO", "-1"));
+                                                "P_TIPO_CENTRO", "-1"));
 
                 return (List<CentroDTO>) result.get("P_CURSOR");
         }

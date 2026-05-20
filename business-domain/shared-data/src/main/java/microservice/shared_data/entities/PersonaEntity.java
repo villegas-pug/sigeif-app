@@ -3,6 +3,7 @@ package microservice.shared_data.entities;
 import java.time.LocalDate;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -39,6 +40,9 @@ public class PersonaEntity {
    @OneToOne
    @JoinColumn(name = "PERDOCUMENTO")
    private DocumentoEntity tipoDoc;
+
+   @OneToOne(mappedBy = "persona", optional = false)
+   private UsuarioEntity usuario;
 
    @Column(name = "PERNRODOCUMENTO")
    private String numeroDoc;

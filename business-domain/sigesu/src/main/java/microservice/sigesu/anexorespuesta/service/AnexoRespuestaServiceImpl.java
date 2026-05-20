@@ -13,6 +13,7 @@ import microservice.sigesu.anexorespuesta.dtos.AnexoEvaluacionResponse;
 import microservice.sigesu.anexorespuesta.dtos.CreateAnexoEvaluacionRequest;
 import microservice.sigesu.anexorespuesta.dtos.CreateAnexoRespuestaRequest;
 import microservice.sigesu.anexorespuesta.dtos.UpdateAnexoRespuestaRequest;
+import microservice.sigesu.anexorespuesta.exceptions.PersonalInvalidException;
 import microservice.sigesu.anexorespuesta.mappers.AnexoRespuestaCreateMapper;
 import microservice.sigesu.anexorespuesta.mappers.AnexoRespuestaUpdateMapper;
 import microservice.sigesu.anexorespuesta.dtos.GetAnexoRespuestaByParamsQuery;
@@ -24,6 +25,18 @@ import microservice.shared_data.dtos.projections.ReporteComparativoFasesFichaPro
 import microservice.shared_data.dtos.responses.EstadoAnexoProjectionResponse;
 import microservice.shared_data.exceptions.NotFoundException;
 import microservice.sigesu.anexorespuesta.util.PdfGenerator;
+import microservice.sigesu.persona.model.Persona;
+import microservice.sigesu.personal.model.Personal;
+import microservice.sigesu.personal.service.PersonalService;
+
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -33,9 +46,12 @@ import java.util.UUID;
 @AllArgsConstructor
 public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
 
+   private static final String LDAP_VALIDATION_URL = "https://srvapp01.inabif.gob.pe:8443/sisserviciorest/rest/validacion/login/ldappost";
+
    private final AnexoRespuestaRepository repository;
    private final AnexoRespuestaUpdateMapper updateMapper;
    private final AnexoRespuestaCreateMapper createMapper;
+   private final PersonalService personalService;
 
    @Override
    @Transactional
@@ -253,7 +269,90 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
    }
 
    @Override
-   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, String nombrePersona) {
-      return repository.listarResponsablesCentro(nombreCentro, nombrePersona);
+   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro) {
+      return repository.listarResponsablesCentro(nombreCentro);
    }
+
+   @Override
+   @Transactional(readOnly = true)
+   public boolean verifyPersonal(Integer idPersonal, String password) {
+
+      // * Dep´s
+
+      // * 1. Buscar personal
+      Personal personal = this.personalService.findPersonalById(idPersonal);
+
+      if (personal == null) {
+         throw new NotFoundException();
+      }
+
+      String user = personal.getPersona().getUsuario().getLogin();
+
+      // * 2. Verificar usuario
+      try {
+         URL url = new URL(LDAP_VALIDATION_URL);
+         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+         connection.setRequestMethod("POST");
+         connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+         connection.setDoOutput(true);
+
+         String urlParameters = "user=" + URLEncoder.encode(user, StandardCharsets.UTF_8)
+               + "&password=" + URLEncoder.encode(password, StandardCharsets.UTF_8);
+
+         try (OutputStream os = connection.getOutputStream()) {
+            byte[] input = urlParameters.getBytes(StandardCharsets.UTF_8);
+            os.write(input, 0, input.length);
+         }
+
+         int responseCode = connection.getResponseCode();
+
+         InputStream is = (responseCode < HttpURLConnection.HTTP_BAD_REQUEST)
+               ? connection.getInputStream()
+               : connection.getErrorStream();
+
+         try (BufferedReader br = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+            StringBuilder response = new StringBuilder();
+            String responseLine;
+            while ((responseLine = br.readLine()) != null) {
+               response.append(responseLine.trim());
+            }
+         }
+
+         connection.disconnect();
+
+         return responseCode == HttpURLConnection.HTTP_OK;
+
+      } catch (Exception e) {
+         return false;
+      }
+
+   }
+
+   @Override
+   @Transactional
+   public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
+      this.repository.saveConformidadAnexoCabecera(idCabecera, estado);
+   }
+
+   @Override
+   @Transactional
+   public void validatePersonalAnexoCabecera(Integer idAnexoCabecera, Integer idPersonal, String password) {
+
+      // * 1.
+      boolean isValidPersonal = this.verifyPersonal(idPersonal, password);
+      if (!isValidPersonal) {
+         throw new PersonalInvalidException();
+      }
+
+      // * 2.
+      this.repository.savePersonalValidaAnexoCabecera(idAnexoCabecera, idPersonal.toString());
+
+   }
+
+   @Override
+   @Transactional
+   public void resetValidacionAnexoCabecera(Integer idCabecera) {
+      this.repository.savePersonalValidaAnexoCabecera(idCabecera, null);
+   }
+
 }

@@ -26,6 +26,8 @@ public class Persona {
    private String telefono;
    private String correo;
 
+   private Usuario usuario;
+
    public String getNombresCompletos() {
       return this.nombres + ", " + this.apePaterno + " " + this.apeMaterno;
    }

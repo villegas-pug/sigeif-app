@@ -30,8 +30,8 @@ public class PersonalRepositoryImpl extends BaseOracleRepository implements Pers
    }
 
    @Override
-   public Optional<PersonalEntity> findPersonalById(Long idPersonal) {
-      return this.repository.findById(idPersonal);
+   public Optional<PersonalEntity> findPersonalById(Integer idPersonal) {
+      return this.repository.findById((long) idPersonal);
    }
 
    @Override

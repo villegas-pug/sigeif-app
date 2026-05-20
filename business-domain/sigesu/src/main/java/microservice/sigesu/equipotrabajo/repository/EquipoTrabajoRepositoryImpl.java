@@ -41,7 +41,8 @@ public class EquipoTrabajoRepositoryImpl implements EquipoTrabajoRepository {
       }
 
       // * Común: Personal nuevo o existente.
-      PersonalEntity newPersonal = this.personalRepository.findPersonalById(equipoTrabajo.getPersonal().getIdPersonal())
+      PersonalEntity newPersonal = this.personalRepository
+            .findPersonalById(equipoTrabajo.getPersonal().getIdPersonal().intValue())
             .map(personal -> {
                personal.getPersona().setTelefono(equipoTrabajo.getPersonal().getPersona().getTelefono());
                personal.getPersona().setCorreo(equipoTrabajo.getPersonal().getPersona().getCorreo());

@@ -1,31 +1,24 @@
 package microservice.sigesu.anexorespuesta.repository;
 
-import java.math.BigDecimal;
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.sql.DataSource;
-
 import org.springframework.jdbc.core.CallableStatementCallback;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.ParameterMode;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.StoredProcedureQuery;
-import lombok.RequiredArgsConstructor;
 import microservice.sigesu.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.sigesu.anexorespuesta.dtos.AnexoEvaluacionResponse;
 import microservice.sigesu.anexorespuesta.dtos.CreateAnexoEvaluacionRequest;
-import microservice.sigesu.anexorespuesta.dtos.RespuestaDTO;
 import microservice.sigesu.anexorespuesta.dtos.UpdateAnexoCompletoRequest;
 import microservice.sigesu.anexorespuesta.mappers.AnexoRespuestaEntityMapper;
 import microservice.sigesu.anexorespuesta.model.AnexoRespuesta;
@@ -175,18 +168,18 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
 
          query.registerStoredProcedureParameter("p_respuestas_json", String.class, ParameterMode.IN);
 
-         query.registerStoredProcedureParameter("p_id_resp_supervision", Long.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_id_resp_supervision", Integer.class, ParameterMode.IN);
 
          query.registerStoredProcedureParameter("p_id_director", Long.class, ParameterMode.IN);
 
-         query.registerStoredProcedureParameter("p_id_supervisado", Long.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_id_supervisado", String.class, ParameterMode.IN);
 
          // =========================
          // Registrar parámetros OUT
-         // =========================
          query.registerStoredProcedureParameter("p_id_cabecera", Long.class, ParameterMode.OUT);
 
          query.registerStoredProcedureParameter("p_correlativo", Integer.class, ParameterMode.OUT);
+         // =========================
 
          // =========================
          // Setear parámetros IN
@@ -209,13 +202,13 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
 
          query.setParameter("p_usu_registra", request.getUsuRegistra());
 
+         query.setParameter("p_respuestas_json", respuestasJson);
+
          query.setParameter("p_id_resp_supervision", request.getIdRespSupervision());
 
          query.setParameter("p_id_director", request.getIdDirector());
 
-         query.setParameter("p_id_supervisado", request.getIdSupervisado());
-
-         query.setParameter("p_respuestas_json", respuestasJson);
+         query.setParameter("p_id_supervisado", request.getIdSupervisado()); // 8
 
          // =========================
          // Ejecutar procedure
@@ -342,13 +335,16 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                      cabeceraMap.put("fechaAplicacion", rs.getDate("FECHA_APLICACION"));
                      cabeceraMap.put("correlativo", rs.getInt("CORRELATIVO"));
                      cabeceraMap.put("audioUrl", rs.getString("AUDIO_URL"));
+                     cabeceraMap.put("idDirector", rs.getLong("IDDIRECTOR"));
                      cabeceraMap.put("respDirector", rs.getString("DIRECTOR"));
                      cabeceraMap.put("codigoAnexo2", rs.getString("CODIGO_ANEXO2"));
                      cabeceraMap.put("tipoCentro", rs.getString("TIPO_CENTRO"));
                      cabeceraMap.put("idRespSupervision", rs.getLong("ID_RESP_SUPERVISION"));
                      cabeceraMap.put("respSupervision", rs.getString("RESP_SUPERVISION"));
-                     cabeceraMap.put("idSupervisado", rs.getLong("ID_SUPERVISADO"));
-                     cabeceraMap.put("nombreSupervisado", rs.getString("SUPERVISADO"));
+                     cabeceraMap.put("idSupervisado", rs.getString("ID_SUPERVISADO"));
+                     cabeceraMap.put("idsPersonalValida", rs.getString("IDS_PERSONAL_VALIDA"));
+                     cabeceraMap.put("estado", rs.getLong("ESTADO"));
+                     // cabeceraMap.put("nombreSupervisado", rs.getString("SUPERVISADO"));
                      cabeceraSet = true;
                   }
 
@@ -399,7 +395,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_usu_modifica", Integer.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_id_resp_supervision", Long.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_id_director", Long.class, ParameterMode.IN);
-         query.registerStoredProcedureParameter("p_id_supervisado", Long.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_id_supervisado", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_respuestas_json", String.class, ParameterMode.IN);
 
          // OUT parameter
@@ -486,21 +482,21 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
    }
 
    @Override
-   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, String nombrePersona) {
+   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro) {
 
       return jdbcTemplate.execute(
             con -> {
-               CallableStatement cs = con.prepareCall("{call SP_LISTAR_TRAB_CENTRO(?, ?, ?)}");
+               CallableStatement cs = con.prepareCall("{call SP_LISTAR_TRAB_CENTRO(?, ?)}");
                cs.setString(1, nombreCentro);
-               cs.setString(2, nombrePersona);
-               cs.registerOutParameter(3, OracleTypes.CURSOR);
+               // cs.setString(2, nombrePersona);
+               cs.registerOutParameter(2, OracleTypes.CURSOR);
                return cs;
             },
             (CallableStatementCallback<List<Map<String, Object>>>) cs -> {
 
                cs.execute();
 
-               ResultSet rs = (ResultSet) cs.getObject(3);
+               ResultSet rs = (ResultSet) cs.getObject(2);
 
                List<Map<String, Object>> lista = new ArrayList<>();
 
@@ -516,5 +512,21 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
 
                return lista;
             });
+   }
+
+   @Override
+   public void savePersonalValidaAnexoCabecera(Integer idCabecera, String idsPersonal) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_id_anexo_cabecera", idCabecera);
+      inParams.put("p_ids_personal", idsPersonal);
+      super.executeProcedureWithInParams("USP_SAVE_PERSONAL_VALIDA_ANEXO", inParams);
+   }
+
+   @Override
+   public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_id_anexo_cabecera", idCabecera);
+      inParams.put("p_estado", estado);
+      super.executeProcedureWithInParams("USP_SAVE_CONFORMIDAD_ANEXO_CABECERA", inParams);
    }
 }

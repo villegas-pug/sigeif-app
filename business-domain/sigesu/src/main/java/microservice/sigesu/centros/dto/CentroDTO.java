@@ -10,6 +10,7 @@ public class CentroDTO {
     private String departamento;
     private String provincia;
     private String distrito;
+    private Long idPersonal;
     private String respDirector;
     private String tipoCentro;
 }

@@ -17,7 +17,7 @@ public class CreateAnexoEvaluacionRequest {
     @NotNull
     private Long idCentro;
 
-   // @NotNull
+    // @NotNull
     private Integer usuRegistra;
 
     private LocalDate fechaAplicacion;
@@ -29,8 +29,9 @@ public class CreateAnexoEvaluacionRequest {
     @NotNull
     private List<CreateAnexoRespuestaRequest> respuestas;
 
-    private Long idRespSupervision;
-    private Long idDirector;
-    private Long idSupervisado;
+    private Integer idRespSupervision;
+    private Integer idDirector;
+    // private Long idSupervisado;
+    private String idSupervisado;
 
 }

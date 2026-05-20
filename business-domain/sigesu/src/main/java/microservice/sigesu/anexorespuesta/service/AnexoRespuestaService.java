@@ -2,9 +2,7 @@ package microservice.sigesu.anexorespuesta.service;
 
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.web.multipart.MultipartFile;
-
 import microservice.sigesu.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.sigesu.anexorespuesta.dtos.AnexoEvaluacionResponse;
 import microservice.sigesu.anexorespuesta.dtos.CreateAnexoEvaluacionRequest;
@@ -48,12 +46,20 @@ public interface AnexoRespuestaService {
 
       AnexoEvaluacionResponse updateAnexoCompleto(UpdateAnexoCompletoRequest request);
 
-     byte[] generarPdf(Long idAnexoCabecera, Integer correlativo);
+      byte[] generarPdf(Long idAnexoCabecera, Integer correlativo);
 
-     void guardarAudio(MultipartFile file, Long idAnexoCabecera);
+      void guardarAudio(MultipartFile file, Long idAnexoCabecera);
 
-     List<Map<String, Object>> listarResponsablesSupervision(String abreviatura);
+      List<Map<String, Object>> listarResponsablesSupervision(String abreviatura);
 
-     List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, String nombrePersona);
+      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro);
+
+      boolean verifyPersonal(Integer idPersonal, String password);
+
+      void validatePersonalAnexoCabecera(Integer idAnexoCabecera, Integer idPersonal, String password);
+
+      void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado);
+
+      void resetValidacionAnexoCabecera(Integer idCabecera);
 
 }

@@ -7,7 +7,7 @@ import microservice.shared_data.entities.PersonalEntity;
 
 public interface PersonalRepository {
 
-   Optional<PersonalEntity> findPersonalById(Long idPersonal);
+   Optional<PersonalEntity> findPersonalById(Integer idPersonal);
 
    List<PersonalDto> findPersonalByDocumento(String nroDoc);
 
