@@ -1,10 +1,14 @@
 package microservice.sigesu.anexorespuesta.dtos;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnexoCabeceraResponse {
 
     private Long idAnexoCabecera;
@@ -25,4 +29,7 @@ public class AnexoCabeceraResponse {
     private String tipoCentro;
     private Long idRespSupervision;
     private Long idSupervisado;
+
+    private String periodo;
+    private String tipo;
 }

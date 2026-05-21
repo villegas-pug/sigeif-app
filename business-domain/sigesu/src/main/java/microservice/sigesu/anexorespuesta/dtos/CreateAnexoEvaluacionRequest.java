@@ -1,6 +1,7 @@
 package microservice.sigesu.anexorespuesta.dtos;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -33,5 +34,12 @@ public class CreateAnexoEvaluacionRequest {
     private Integer idDirector;
     // private Long idSupervisado;
     private String idSupervisado;
+
+    // ? Nuevo
+    @NotBlank
+    private String periodo;
+
+    @NotBlank
+    private String tipo;
 
 }

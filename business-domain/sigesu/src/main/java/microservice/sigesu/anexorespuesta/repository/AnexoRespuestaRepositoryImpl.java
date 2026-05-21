@@ -158,22 +158,16 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          // Registrar parámetros IN
          // =========================
          query.registerStoredProcedureParameter("p_id_anexo", Long.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_id_centro", Long.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_fecha_aplicacion", java.sql.Date.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_fecha_registro", java.sql.Date.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_usu_registra", Integer.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_respuestas_json", String.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_id_resp_supervision", Integer.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_id_director", Long.class, ParameterMode.IN);
-
          query.registerStoredProcedureParameter("p_id_supervisado", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_periodo", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_tipo", String.class, ParameterMode.IN);
 
          // =========================
          // Registrar parámetros OUT
@@ -186,30 +180,24 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          // Setear parámetros IN
          // =========================
          query.setParameter("p_id_anexo", request.getIdAnexo());
-
          query.setParameter("p_id_centro", request.getIdCentro());
-
          query.setParameter(
                "p_fecha_aplicacion",
                request.getFechaAplicacion() != null
                      ? java.sql.Date.valueOf(request.getFechaAplicacion())
                      : null);
-
          query.setParameter(
                "p_fecha_registro",
                request.getFechaRegistro() != null
                      ? java.sql.Date.valueOf(request.getFechaRegistro())
                      : null);
-
          query.setParameter("p_usu_registra", request.getUsuRegistra());
-
          query.setParameter("p_respuestas_json", respuestasJson);
-
          query.setParameter("p_id_resp_supervision", request.getIdRespSupervision());
-
          query.setParameter("p_id_director", request.getIdDirector());
-
-         query.setParameter("p_id_supervisado", request.getIdSupervisado()); // 8
+         query.setParameter("p_id_supervisado", request.getIdSupervisado());
+         query.setParameter("p_periodo", request.getPeriodo());
+         query.setParameter("p_tipo", request.getTipo());
 
          // =========================
          // Ejecutar procedure
@@ -255,47 +243,28 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
       StoredProcedureQuery query = entityManager.createStoredProcedureQuery("USP_LISTAR_ANEXOS_CABECERA");
 
       query.registerStoredProcedureParameter("p_cursor", void.class, ParameterMode.REF_CURSOR);
-
       query.execute();
 
       List<Object[]> rows = query.getResultList();
-
       List<AnexoCabeceraResponse> lista = new ArrayList<>();
 
       for (Object[] row : rows) {
-
          AnexoCabeceraResponse dto = AnexoCabeceraResponse.builder()
-
-               .idAnexoCabecera(
-                     row[0] != null ? ((Number) row[0]).longValue() : null)
-
-               .idAnexo(
-                     row[1] != null ? ((Number) row[1]).longValue() : null)
-
-               .idCentro(
-                     row[2] != null ? ((Number) row[2]).longValue() : null)
-
-               .correlativo(
-                     row[3] != null ? ((Number) row[3]).intValue() : null)
-
-               .usuRegistra(
-                     row[4] != null ? ((Number) row[4]).intValue() : null)
-
-               .estado(
-                     row[5] != null ? ((Number) row[5]).intValue() : null)
-
-               .eliminado(
-                     row[6] != null ? ((Number) row[6]).intValue() : null)
+               .idAnexoCabecera(row[0] != null ? ((Number) row[0]).longValue() : null)
+               .idAnexo(row[1] != null ? ((Number) row[1]).longValue() : null)
+               .idCentro(row[2] != null ? ((Number) row[2]).longValue() : null)
+               .correlativo(row[3] != null ? ((Number) row[3]).intValue() : null)
+               .usuRegistra(row[4] != null ? ((Number) row[4]).intValue() : null)
+               .estado(row[5] != null ? ((Number) row[5]).intValue() : null)
+               .eliminado(row[6] != null ? ((Number) row[6]).intValue() : null)
                .codigoAnexo2((String) row[7])
                .nombreAnexo((String) row[8])
-
                .nombreUnidad((String) row[9])
-
                .nombreServicio((String) row[10])
                .nombreCentro((String) row[11])
-
+               .periodo((String) row[12])
+               .tipo((String) row[13])
                .build();
-
          lista.add(dto);
       }
 
@@ -398,6 +367,8 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_id_director", Long.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_id_supervisado", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_respuestas_json", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_periodo", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_tipo", String.class, ParameterMode.IN);
 
          // OUT parameter
          query.registerStoredProcedureParameter("p_correlativo", Integer.class, ParameterMode.OUT);
@@ -408,17 +379,12 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.setParameter("p_fecha_aplicacion", java.sql.Date.valueOf(request.getFechaAplicacion()));
          query.setParameter("p_fecha_registro", java.sql.Date.valueOf(request.getFechaRegistro()));
          query.setParameter("p_usu_modifica", request.getUsuModifica());
-         query.setParameter("p_respuestas_json", respuestasJson);
          query.setParameter("p_id_resp_supervision", request.getIdRespSupervision());
          query.setParameter("p_id_director", request.getIdDirector());
          query.setParameter("p_id_supervisado", request.getIdSupervisado());
-
-         System.out.println("ID CABECERA: " + request.getIdCabecera());
-         System.out.println("ID ANEXO: " + request.getIdAnexo());
-         System.out.println("ID CENTRO: " + request.getIdCentro());
-         System.out.println("FECHA: " + request.getFechaAplicacion());
-         System.out.println("USUARIO MODIFICA: " + request.getUsuModifica());
-         System.out.println("RESPUESTAS JSON: " + respuestasJson);
+         query.setParameter("p_respuestas_json", respuestasJson);
+         query.setParameter("p_periodo", request.getPeriodo());
+         query.setParameter("p_tipo", request.getTipo());
 
          query.execute();
 
@@ -523,66 +489,66 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
       super.executeProcedureWithInParams("USP_SAVE_PERSONAL_VALIDA_ANEXO", inParams);
    }
 
-    @Override
-    public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
-       Map<String, Object> inParams = new HashMap<>();
-       inParams.put("p_id_anexo_cabecera", idCabecera);
-       inParams.put("p_estado", estado);
-       super.executeProcedureWithInParams("USP_SAVE_CONFORMIDAD_ANEXO_CABECERA", inParams);
-    }
+   @Override
+   public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_id_anexo_cabecera", idCabecera);
+      inParams.put("p_estado", estado);
+      super.executeProcedureWithInParams("USP_SAVE_CONFORMIDAD_ANEXO_CABECERA", inParams);
+   }
 
-    @Override
-    public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
-       Map<String, Object> inParams = new HashMap<>();
-       inParams.put("p_operacion", 1);
-       inParams.put("p_id_audio", null);
-       inParams.put("p_id_anexo_cabecera", idAnexoCabecera);
-       inParams.put("p_audio", new SqlLobValue(audio));
-       inParams.put("p_nombre_archivo", nombreArchivo);
-       inParams.put("p_estado", null);
-       super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
-    }
+   @Override
+   public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_operacion", 1);
+      inParams.put("p_id_audio", null);
+      inParams.put("p_id_anexo_cabecera", idAnexoCabecera);
+      inParams.put("p_audio", new SqlLobValue(audio));
+      inParams.put("p_nombre_archivo", nombreArchivo);
+      inParams.put("p_estado", null);
+      super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
+   }
 
-    @Override
-    public void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado) {
-       Map<String, Object> inParams = new HashMap<>();
-       inParams.put("p_operacion", 2);
-       inParams.put("p_id_audio", idAudio);
-       inParams.put("p_id_anexo_cabecera", null);
-       inParams.put("p_audio", new SqlLobValue(audio));
-       inParams.put("p_nombre_archivo", nombreArchivo);
-       inParams.put("p_estado", estado);
-       super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
-    }
+   @Override
+   public void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_operacion", 2);
+      inParams.put("p_id_audio", idAudio);
+      inParams.put("p_id_anexo_cabecera", null);
+      inParams.put("p_audio", new SqlLobValue(audio));
+      inParams.put("p_nombre_archivo", nombreArchivo);
+      inParams.put("p_estado", estado);
+      super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
+   }
 
-    @Override
-    public void eliminarAnexoCabeceraAudio(Long idAudio) {
-       Map<String, Object> inParams = new HashMap<>();
-       inParams.put("p_operacion", 3);
-       inParams.put("p_id_audio", idAudio);
-       inParams.put("p_id_anexo_cabecera", null);
-       inParams.put("p_audio", null);
-       inParams.put("p_nombre_archivo", null);
-       inParams.put("p_estado", null);
-       super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
-    }
+   @Override
+   public void eliminarAnexoCabeceraAudio(Long idAudio) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_operacion", 3);
+      inParams.put("p_id_audio", idAudio);
+      inParams.put("p_id_anexo_cabecera", null);
+      inParams.put("p_audio", null);
+      inParams.put("p_nombre_archivo", null);
+      inParams.put("p_estado", null);
+      super.executeProcedureWithInParams("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams);
+   }
 
-    @Override
-    public List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera) {
-       Map<String, Object> inParams = new HashMap<>();
-       inParams.put("p_operacion", 4);
-       inParams.put("p_id_audio", null);
-       inParams.put("p_id_anexo_cabecera", idAnexoCabecera);
-       inParams.put("p_audio", null);
-       inParams.put("p_nombre_archivo", null);
-       inParams.put("p_estado", null);
-       return super.executeProcedureAndFetchResult("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams, "p_cursor");
-    }
+   @Override
+   public List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_operacion", 4);
+      inParams.put("p_id_audio", null);
+      inParams.put("p_id_anexo_cabecera", idAnexoCabecera);
+      inParams.put("p_audio", null);
+      inParams.put("p_nombre_archivo", null);
+      inParams.put("p_estado", null);
+      return super.executeProcedureAndFetchResult("USP_CRUD_ANEXO_CABECERA_AUDIO", inParams, "p_cursor");
+   }
 
-    @Override
-    public List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera) {
-       List<Map<String, Object>> resultados = consultarAnexoCabeceraAudio(idAnexoCabecera);
-       resultados.forEach(r -> r.remove("ACA_AUDIO"));
-       return resultados;
-    }
+   @Override
+   public List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera) {
+      List<Map<String, Object>> resultados = consultarAnexoCabeceraAudio(idAnexoCabecera);
+      resultados.forEach(r -> r.remove("ACA_AUDIO"));
+      return resultados;
+   }
 }

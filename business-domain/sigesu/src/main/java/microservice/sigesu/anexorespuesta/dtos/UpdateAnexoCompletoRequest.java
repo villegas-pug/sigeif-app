@@ -3,6 +3,7 @@ package microservice.sigesu.anexorespuesta.dtos;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,4 +24,11 @@ public class UpdateAnexoCompletoRequest {
     private Long idRespSupervision;
     private Long idDirector;
     private String idSupervisado;
+
+    // ? Nuevo
+    @NotBlank
+    private String periodo;
+
+    @NotBlank
+    private String tipo;
 }
