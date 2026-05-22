@@ -268,10 +268,10 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
       return repository.listarResponsablesSupervision(abreviatura);
    }
 
-   @Override
-   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro) {
-      return repository.listarResponsablesCentro(nombreCentro);
-   }
+    @Override
+    public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, Long idUnidadOrganica) {
+       return repository.listarResponsablesCentro(nombreCentro, idUnidadOrganica);
+    }
 
    @Override
    @Transactional(readOnly = true)

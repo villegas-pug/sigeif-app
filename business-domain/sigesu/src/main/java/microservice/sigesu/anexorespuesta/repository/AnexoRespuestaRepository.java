@@ -43,7 +43,7 @@ public interface AnexoRespuestaRepository {
 
       List<Map<String, Object>> listarResponsablesSupervision(String abreviatura);
 
-      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro);
+      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, Long idUnidadOrganica);
 
       void savePersonalValidaAnexoCabecera(Integer idCabecera, String idsPersonal);
 

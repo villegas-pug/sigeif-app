@@ -315,12 +315,11 @@ public class AnexoRespuestaController {
 
       @GetMapping("/responsables-centro")
       public ResponseEntity<?> listarResponsablesCentro(
-                  @RequestParam String nombreCentro
-      // @RequestParam String nombrePersona
-      ) {
+                  @RequestParam(required = false) String nombreCentro,
+                  @RequestParam(required = false) Long idUnidadOrganica) {
 
             return ResponseEntity.ok(
-                        anexoRespuestaService.listarResponsablesCentro(nombreCentro));
+                        anexoRespuestaService.listarResponsablesCentro(nombreCentro, idUnidadOrganica));
       }
 
       @PatchMapping(path = { "/validatePersonalAnexoCabecera" })
@@ -370,7 +369,8 @@ public class AnexoRespuestaController {
                   @RequestParam("idAnexoCabecera") Long idAnexoCabecera) {
 
             try {
-                  this.service.insertarAnexoCabeceraAudio(idAnexoCabecera, audio.getBytes(), audio.getOriginalFilename());
+                  this.service.insertarAnexoCabeceraAudio(idAnexoCabecera, audio.getBytes(),
+                              audio.getOriginalFilename());
                   return ResponseEntity.ok(
                               ApiResponse.builder()
                                           .message(ApiResponseStatus.SUCCESS_CREATE.getMessage())
@@ -392,7 +392,8 @@ public class AnexoRespuestaController {
                   @RequestParam("estado") Integer estado) {
 
             try {
-                  this.service.actualizarAnexoCabeceraAudio(idAudio, audio.getBytes(), audio.getOriginalFilename(), estado);
+                  this.service.actualizarAnexoCabeceraAudio(idAudio, audio.getBytes(), audio.getOriginalFilename(),
+                              estado);
                   return ResponseEntity.ok(
                               ApiResponse.builder()
                                           .message(ApiResponseStatus.SUCCESS.getMessage())

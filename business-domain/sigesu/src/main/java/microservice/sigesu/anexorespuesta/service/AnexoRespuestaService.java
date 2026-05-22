@@ -52,7 +52,7 @@ public interface AnexoRespuestaService {
 
       List<Map<String, Object>> listarResponsablesSupervision(String abreviatura);
 
-      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro);
+      List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, Long idUnidadOrganica);
 
       boolean verifyPersonal(Integer idPersonal, String password);
 

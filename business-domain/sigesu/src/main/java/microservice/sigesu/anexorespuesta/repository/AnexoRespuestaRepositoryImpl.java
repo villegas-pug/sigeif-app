@@ -448,38 +448,42 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
             });
    }
 
-   @Override
-   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro) {
+    @Override
+    public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, Long idUnidadOrganica) {
 
-      return jdbcTemplate.execute(
-            con -> {
-               CallableStatement cs = con.prepareCall("{call SP_LISTAR_TRAB_CENTRO(?, ?)}");
-               cs.setString(1, nombreCentro);
-               // cs.setString(2, nombrePersona);
-               cs.registerOutParameter(2, OracleTypes.CURSOR);
-               return cs;
-            },
-            (CallableStatementCallback<List<Map<String, Object>>>) cs -> {
+       return jdbcTemplate.execute(
+             con -> {
+                CallableStatement cs = con.prepareCall("{call SP_LISTAR_TRAB_CENTRO(?, ?, ?)}");
+                cs.setString(1, nombreCentro);
+                if (idUnidadOrganica != null) {
+                   cs.setLong(2, idUnidadOrganica);
+                } else {
+                   cs.setNull(2, java.sql.Types.NUMERIC);
+                }
+                cs.registerOutParameter(3, OracleTypes.CURSOR);
+                return cs;
+             },
+             (CallableStatementCallback<List<Map<String, Object>>>) cs -> {
 
-               cs.execute();
+                cs.execute();
 
-               ResultSet rs = (ResultSet) cs.getObject(2);
+                ResultSet rs = (ResultSet) cs.getObject(3);
 
-               List<Map<String, Object>> lista = new ArrayList<>();
+                List<Map<String, Object>> lista = new ArrayList<>();
 
-               while (rs.next()) {
+                while (rs.next()) {
 
-                  Map<String, Object> map = new HashMap<>();
+                   Map<String, Object> map = new HashMap<>();
 
-                  map.put("idPersonal", rs.getLong("IDPERSONAL"));
-                  map.put("nombre", rs.getString("NOMBRES"));
+                   map.put("idPersonal", rs.getLong("IDPERSONAL"));
+                   map.put("nombre", rs.getString("NOMBRES"));
 
-                  lista.add(map);
-               }
+                   lista.add(map);
+                }
 
-               return lista;
-            });
-   }
+                return lista;
+             });
+    }
 
    @Override
    public void savePersonalValidaAnexoCabecera(Integer idCabecera, String idsPersonal) {
