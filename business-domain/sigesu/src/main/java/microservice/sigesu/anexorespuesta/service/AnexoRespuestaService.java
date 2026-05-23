@@ -56,7 +56,7 @@ public interface AnexoRespuestaService {
 
       boolean verifyPersonal(Integer idPersonal, String password);
 
-      void validatePersonalAnexoCabecera(Integer idAnexoCabecera, Integer idPersonal, String password);
+      void validatePersonalAnexoCabecera(Integer idAnexoCabecera, String idPersonal, String password);
 
       void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado);
 

@@ -1,5 +1,6 @@
 package microservice.sigesu.anexorespuesta.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -268,10 +269,10 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
       return repository.listarResponsablesSupervision(abreviatura);
    }
 
-    @Override
-    public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, Long idUnidadOrganica) {
-       return repository.listarResponsablesCentro(nombreCentro, idUnidadOrganica);
-    }
+   @Override
+   public List<Map<String, Object>> listarResponsablesCentro(String nombreCentro, Long idUnidadOrganica) {
+      return repository.listarResponsablesCentro(nombreCentro, idUnidadOrganica);
+   }
 
    @Override
    @Transactional(readOnly = true)
@@ -336,7 +337,13 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
 
    @Override
    @Transactional
-   public void validatePersonalAnexoCabecera(Integer idAnexoCabecera, Integer idPersonal, String password) {
+   public void validatePersonalAnexoCabecera(Integer idAnexoCabecera, String personal, String password) {
+
+      Integer idPersonal = Arrays.stream(personal.split(","))
+            .map(String::trim)
+            .map(Integer::valueOf)
+            .findFirst()
+            .orElse(null);
 
       // * 1.
       boolean isValidPersonal = this.verifyPersonal(idPersonal, password);
@@ -345,44 +352,44 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
       }
 
       // * 2.
-      this.repository.savePersonalValidaAnexoCabecera(idAnexoCabecera, idPersonal.toString());
+      this.repository.savePersonalValidaAnexoCabecera(idAnexoCabecera, personal);
 
    }
 
-    @Override
-    @Transactional
-    public void resetValidacionAnexoCabecera(Integer idCabecera) {
-       this.repository.savePersonalValidaAnexoCabecera(idCabecera, null);
-    }
+   @Override
+   @Transactional
+   public void resetValidacionAnexoCabecera(Integer idCabecera) {
+      this.repository.savePersonalValidaAnexoCabecera(idCabecera, null);
+   }
 
-    @Override
-    @Transactional
-    public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
-       this.repository.insertarAnexoCabeceraAudio(idAnexoCabecera, audio, nombreArchivo);
-    }
+   @Override
+   @Transactional
+   public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
+      this.repository.insertarAnexoCabeceraAudio(idAnexoCabecera, audio, nombreArchivo);
+   }
 
-    @Override
-    @Transactional
-    public void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado) {
-       this.repository.actualizarAnexoCabeceraAudio(idAudio, audio, nombreArchivo, estado);
-    }
+   @Override
+   @Transactional
+   public void actualizarAnexoCabeceraAudio(Long idAudio, byte[] audio, String nombreArchivo, Integer estado) {
+      this.repository.actualizarAnexoCabeceraAudio(idAudio, audio, nombreArchivo, estado);
+   }
 
-    @Override
-    @Transactional
-    public void eliminarAnexoCabeceraAudio(Long idAudio) {
-       this.repository.eliminarAnexoCabeceraAudio(idAudio);
-    }
+   @Override
+   @Transactional
+   public void eliminarAnexoCabeceraAudio(Long idAudio) {
+      this.repository.eliminarAnexoCabeceraAudio(idAudio);
+   }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera) {
-       return this.repository.consultarAnexoCabeceraAudio(idAnexoCabecera);
-    }
+   @Override
+   @Transactional(readOnly = true)
+   public List<Map<String, Object>> consultarAnexoCabeceraAudio(Long idAnexoCabecera) {
+      return this.repository.consultarAnexoCabeceraAudio(idAnexoCabecera);
+   }
 
-    @Override
-    @Transactional(readOnly = true)
-    public List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera) {
-       return this.repository.listarAnexoCabeceraAudio(idAnexoCabecera);
-    }
+   @Override
+   @Transactional(readOnly = true)
+   public List<Map<String, Object>> listarAnexoCabeceraAudio(Long idAnexoCabecera) {
+      return this.repository.listarAnexoCabeceraAudio(idAnexoCabecera);
+   }
 
 }

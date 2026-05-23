@@ -325,7 +325,7 @@ public class AnexoRespuestaController {
       @PatchMapping(path = { "/validatePersonalAnexoCabecera" })
       public ResponseEntity<?> validatePersonalAnexoCabecera(
                   @RequestParam Integer idAnexoCabecera,
-                  @RequestParam Integer idPersonal,
+                  @RequestParam String idPersonal,
                   @RequestParam String password) {
 
             this.service.validatePersonalAnexoCabecera(idAnexoCabecera, idPersonal, password);
@@ -353,6 +353,18 @@ public class AnexoRespuestaController {
 
       @PatchMapping(path = { "/saveConformidadAnexoCabecera" })
       public ResponseEntity<?> saveConformidadAnexoCabecera(@RequestParam Integer idAnexoCabecera,
+                  @RequestParam Integer estado) {
+            this.service.saveConformidadAnexoCabecera(idAnexoCabecera, estado);
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(null).build());
+
+      }
+
+      @PatchMapping(path = { "/saveEstadoConformidadAnexoCabecera" })
+      public ResponseEntity<?> saveEstadoConformidadAnexoCabecera(@RequestParam Integer idAnexoCabecera,
                   @RequestParam Integer estado) {
             this.service.saveConformidadAnexoCabecera(idAnexoCabecera, estado);
             return ResponseEntity.ok(

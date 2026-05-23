@@ -70,8 +70,10 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaHeader("Director/Coordinador:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("respDirector")), normalFont));
 
-            tablaDatos.addCell(crearCeldaHeader("Supervisado:", headerFont));
-            tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("nombreSupervisado")), normalFont));
+            tablaDatos.addCell(crearCeldaHeader("Supervisado (OS):", headerFont));
+            // tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("nombreSupervisado")),
+            // normalFont));
+            tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("idSupervisado")), normalFont));
 
             tablaDatos.addCell(crearCeldaHeader("Fecha Registro:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("fechaRegistro")), normalFont));
