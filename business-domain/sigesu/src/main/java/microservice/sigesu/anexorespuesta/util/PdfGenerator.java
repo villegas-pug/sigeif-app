@@ -1,6 +1,10 @@
 package microservice.sigesu.anexorespuesta.util;
 
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.awt.Color;
@@ -71,9 +75,7 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("respDirector")), normalFont));
 
             tablaDatos.addCell(crearCeldaHeader("Supervisado (OS):", headerFont));
-            // tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("nombreSupervisado")),
-            // normalFont));
-            tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("idSupervisado")), normalFont));
+            tablaDatos.addCell(crearCeldaNormal(extraerNombresSupervisados(data.get("idSupervisado")), normalFont));
 
             tablaDatos.addCell(crearCeldaHeader("Fecha Registro:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("fechaRegistro")), normalFont));
@@ -160,6 +162,35 @@ public class PdfGenerator {
 
                 document.add(tablaTotales);
             }
+
+            List<String[]> personalValida = extraerPersonalValida(data.get("idsPersonalValida"));
+
+            if (!personalValida.isEmpty()) {
+                // Espacio
+                document.add(new Paragraph(" "));
+
+                // Título de validación
+                Paragraph tituloValidadoPor = new Paragraph("VALIDADO POR", headerFont);
+                tituloValidadoPor.setSpacingAfter(10);
+                document.add(tituloValidadoPor);
+
+                // Tabla de validación
+                PdfPTable tablaValidadoPor = new PdfPTable(3);
+                tablaValidadoPor.setWidthPercentage(100);
+                tablaValidadoPor.setWidths(new float[] { 3, 2, 2 });
+
+                tablaValidadoPor.addCell(crearCeldaEncabezadoTabla("NOMBRES Y APELLIDOS"));
+                tablaValidadoPor.addCell(crearCeldaEncabezadoTabla("ROL"));
+                tablaValidadoPor.addCell(crearCeldaEncabezadoTabla("FECHA Y HORA"));
+
+                for (String[] fila : personalValida) {
+                    tablaValidadoPor.addCell(crearCeldaNormal(fila[0], normalFont));
+                    tablaValidadoPor.addCell(crearCeldaNormalCentrada(fila[1], normalFont));
+                    tablaValidadoPor.addCell(crearCeldaNormalCentrada(fila[2], normalFont));
+                }
+
+                document.add(tablaValidadoPor);
+            }
             document.close();
             return baos.toByteArray();
 
@@ -185,6 +216,13 @@ public class PdfGenerator {
         return cell;
     }
 
+    private static PdfPCell crearCeldaNormalCentrada(String texto, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(texto, font));
+        cell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        cell.setPadding(5);
+        return cell;
+    }
+
     private static PdfPCell crearCeldaEncabezadoTabla(String texto) {
         Font font = new Font(Font.HELVETICA, 11, Font.BOLD, Color.WHITE);
         PdfPCell cell = new PdfPCell(new Phrase(texto, font));
@@ -192,5 +230,119 @@ public class PdfGenerator {
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setPadding(6);
         return cell;
+    }
+
+    private static String extraerNombresSupervisados(Object idSupervisadoObj) {
+        if (idSupervisadoObj == null) {
+            return "";
+        }
+
+        String idSupervisado = String.valueOf(idSupervisadoObj).trim();
+        if (idSupervisado.isEmpty()) {
+            return "";
+        }
+
+        String[] registros = idSupervisado.split("\\|");
+        StringBuilder nombres = new StringBuilder();
+
+        for (String registro : registros) {
+            String item = registro.trim();
+            if (item.isEmpty()) {
+                continue;
+            }
+
+            String[] partes = item.split(",", 2);
+            String nombre = partes.length > 1 ? partes[1].trim() : "";
+
+            if (!nombre.isEmpty()) {
+                if (nombres.length() > 0) {
+                    nombres.append(", ");
+                }
+                nombres.append(nombre);
+            }
+        }
+
+        return nombres.toString();
+    }
+
+    private static List<String[]> extraerPersonalValida(Object idsPersonalValidaObj) {
+        if (idsPersonalValidaObj == null) {
+            return List.of();
+        }
+
+        String idsPersonalValida = String.valueOf(idsPersonalValidaObj).trim();
+        if (idsPersonalValida.isEmpty()) {
+            return List.of();
+        }
+
+        List<String[]> filas = new java.util.ArrayList<>();
+        String[] registros = idsPersonalValida.split("\\|");
+
+        for (String registro : registros) {
+            String item = registro.trim();
+            if (item.isEmpty()) {
+                continue;
+            }
+
+            String[] partes = item.split(",", 4);
+            String nombres = partes.length > 1 ? partes[1].trim() : "";
+            String rol = partes.length > 2 ? partes[2].trim() : "";
+            String fechaHora = partes.length > 3 ? partes[3].trim().replace("T", " ") : "";
+
+            filas.add(new String[] { nombres, rol, fechaHora });
+        }
+
+        filas.sort(Comparator
+                .comparingInt((String[] fila) -> prioridadRol(fila[1]))
+                .thenComparing((fila1, fila2) -> {
+                    int prioridad1 = prioridadRol(fila1[1]);
+                    int prioridad2 = prioridadRol(fila2[1]);
+
+                    if (prioridad1 != 3 || prioridad2 != 3) {
+                        return 0;
+                    }
+
+                    LocalDateTime fecha1 = parseFechaHora(fila1[2]);
+                    LocalDateTime fecha2 = parseFechaHora(fila2[2]);
+
+                    if (fecha1 == null && fecha2 == null) {
+                        return fila1[2].compareToIgnoreCase(fila2[2]);
+                    }
+                    if (fecha1 == null) {
+                        return 1;
+                    }
+                    if (fecha2 == null) {
+                        return -1;
+                    }
+                    return fecha1.compareTo(fecha2);
+                }));
+
+        return filas;
+    }
+
+    private static int prioridadRol(String rol) {
+        String valorRol = rol == null ? "" : rol.trim().toUpperCase();
+
+        if ("DIRECTOR".equals(valorRol)) {
+            return 1;
+        }
+
+        if ("RESPONSABLE SUPERVISIÓN".equals(valorRol) || "RESPONSABLE SUPERVISION".equals(valorRol)) {
+            return 2;
+        }
+
+        return 3;
+    }
+
+    private static LocalDateTime parseFechaHora(String fechaHora) {
+        if (fechaHora == null || fechaHora.trim().isEmpty()) {
+            return null;
+        }
+
+        try {
+            return LocalDateTime.parse(fechaHora.trim(), DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
+        } catch (DateTimeParseException e) {
+            return null;
+        }
     }
 }
