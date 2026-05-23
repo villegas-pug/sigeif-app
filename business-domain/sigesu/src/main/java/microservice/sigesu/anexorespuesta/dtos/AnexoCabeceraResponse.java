@@ -29,6 +29,7 @@ public class AnexoCabeceraResponse {
     private String tipoCentro;
     private Long idRespSupervision;
     private Long idSupervisado;
+    private Integer reqValidacion;
 
     private String periodo;
     private String tipo;
