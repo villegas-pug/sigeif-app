@@ -30,6 +30,7 @@ public class AnexoCabeceraResponse {
     private Long idRespSupervision;
     private Long idSupervisado;
     private Integer reqValidacion;
+    private Integer reqSupervisados;
 
     private String periodo;
     private String tipo;

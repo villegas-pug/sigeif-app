@@ -265,6 +265,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                .periodo((String) row[12])
                .tipo((String) row[13])
                .reqValidacion(((Number) row[14]).intValue())
+               .reqSupervisados(((Number) row[15]).intValue())
                .build();
          lista.add(dto);
       }

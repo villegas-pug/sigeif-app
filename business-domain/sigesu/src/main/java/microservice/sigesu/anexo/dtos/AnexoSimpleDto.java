@@ -11,5 +11,6 @@ public class AnexoSimpleDto {
 
     private Long idAnexo;
     private String nombreAnexo;
-    private String codigoAnexo2; 
+    private String codigoAnexo2;
+    private Integer reqSupervisados;
 }

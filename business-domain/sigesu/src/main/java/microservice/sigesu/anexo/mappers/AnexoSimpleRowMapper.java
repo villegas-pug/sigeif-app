@@ -12,7 +12,8 @@ public class AnexoSimpleRowMapper implements RowMapper<AnexoSimpleDto> {
         AnexoSimpleDto dto = new AnexoSimpleDto();
         dto.setIdAnexo(rs.getLong("ID_ANEXO")); // Nombre exacto de la columna
         dto.setNombreAnexo(rs.getString("ANX_NOMBRE")); // Nombre exacto de la columna
-         dto.setCodigoAnexo2(rs.getString("ANX_CODIGO2"));
+        dto.setCodigoAnexo2(rs.getString("ANX_CODIGO2"));
+        dto.setReqSupervisados(rs.getInt("ANX_REQ_SUPERVISADOS"));
         return dto;
     }
 }
