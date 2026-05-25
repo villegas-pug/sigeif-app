@@ -168,6 +168,9 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_id_supervisado", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_periodo", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_tipo", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_acreditacion_vigente", Integer.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_fecha_acreditacion", java.sql.Date.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_modalidad", String.class, ParameterMode.IN);
 
          // =========================
          // Registrar parámetros OUT
@@ -198,6 +201,9 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.setParameter("p_id_supervisado", request.getIdSupervisado());
          query.setParameter("p_periodo", request.getPeriodo());
          query.setParameter("p_tipo", request.getTipo());
+         query.setParameter("p_acreditacion_vigente", request.getAcreditacionVigente());
+         query.setParameter("p_fecha_acreditacion", request.getFechaAcreditacion());
+         query.setParameter("p_modalidad", request.getModalidad());
 
          // =========================
          // Ejecutar procedure
@@ -316,6 +322,9 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                      cabeceraMap.put("idSupervisado", rs.getString("ID_SUPERVISADO"));
                      cabeceraMap.put("idsPersonalValida", rs.getString("IDS_PERSONAL_VALIDA"));
                      cabeceraMap.put("estado", rs.getLong("ESTADO"));
+                     cabeceraMap.put("acreditacionVigente", rs.getInt("ACREDITACION_VIGENTE"));
+                     cabeceraMap.put("fechaAcreditacion", rs.getDate("FECHA_ACREDITACION"));
+                     cabeceraMap.put("modalidad", rs.getString("MODALIDAD"));
                      // cabeceraMap.put("nombreSupervisado", rs.getString("SUPERVISADO"));
                      cabeceraSet = true;
                   }
@@ -371,6 +380,9 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_respuestas_json", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_periodo", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_tipo", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_acreditacion_vigente", Integer.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_fecha_acreditacion", java.sql.Date.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_modalidad", String.class, ParameterMode.IN);
 
          // OUT parameter
          query.registerStoredProcedureParameter("p_correlativo", Integer.class, ParameterMode.OUT);
@@ -387,6 +399,9 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.setParameter("p_respuestas_json", respuestasJson);
          query.setParameter("p_periodo", request.getPeriodo());
          query.setParameter("p_tipo", request.getTipo());
+         query.setParameter("p_acreditacion_vigente", request.getAcreditacionVigente());
+         query.setParameter("p_fecha_acreditacion", request.getFechaAcreditacion());
+         query.setParameter("p_modalidad", request.getModalidad());
 
          query.execute();
 

@@ -14,7 +14,7 @@ public class ValidaAnexoCabeceraExceptionHandler {
       @ExceptionHandler(value = { PersonalInvalidException.class })
       public ResponseEntity<?> handleNotFoundException(Exception e) {
 
-            ApiResponseStatus apiStatus = ApiResponseStatus.NO_CONTENT;
+            ApiResponseStatus apiStatus = ApiResponseStatus.AUTH_ERROR;
             return ResponseEntity
                         .status(apiStatus.getCode())
                         .body(

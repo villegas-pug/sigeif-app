@@ -41,5 +41,8 @@ public class CreateAnexoEvaluacionRequest {
 
     @NotBlank
     private String tipo;
+    private Integer acreditacionVigente;
+    private LocalDate fechaAcreditacion;
+    private String modalidad;
 
 }

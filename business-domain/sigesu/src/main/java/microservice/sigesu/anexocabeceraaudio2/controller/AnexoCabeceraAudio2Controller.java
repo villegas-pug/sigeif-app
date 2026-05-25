@@ -20,21 +20,22 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import microservice.sigesu.anexocabeceraaudio2.dtos.AnexoCabeceraAudio2Response;
-import microservice.sigesu.anexocabeceraaudio2.dtos.CreateAnexoCabeceraAudio2Request;
-import microservice.sigesu.anexocabeceraaudio2.dtos.UpdateAnexoCabeceraAudio2Request;
 import microservice.sigesu.anexocabeceraaudio2.mappers.AnexoCabeceraAudio2ResponseMapper;
 import microservice.sigesu.anexocabeceraaudio2.model.AnexoCabeceraAudio2;
+import microservice.sigesu.anexocabeceraaudio2.service.AnexoCabeceraAudio2ReportingService;
 import microservice.sigesu.anexocabeceraaudio2.service.AnexoCabeceraAudio2Service;
+import microservice.shared_data.controller.BaseRestController;
 import microservice.shared_data.dtos.responses.ApiResponse;
 import microservice.shared_data.enums.ApiResponseStatus;
 
 @RestController
 @AllArgsConstructor
 @Validated
-public class AnexoCabeceraAudio2Controller {
+public class AnexoCabeceraAudio2Controller extends BaseRestController {
 
 	private final AnexoCabeceraAudio2Service service;
 	private final AnexoCabeceraAudio2ResponseMapper responseMapper;
+	private final AnexoCabeceraAudio2ReportingService reportingService;
 
 	@PostMapping(path = { "/createAnexoCabeceraAudio2" })
 	public ResponseEntity<ApiResponse<Void>> createAnexoCabeceraAudio2(
@@ -101,6 +102,15 @@ public class AnexoCabeceraAudio2Controller {
 				ContentDisposition.builder("attachment").filename(model.getNombreArchivo()).build());
 
 		return ResponseEntity.ok().headers(headers).body(model.getAudio());
+	}
+
+	@GetMapping(path = { "/codigos-familias/reporte" })
+	public ResponseEntity<byte[]> downloadCodigosFamiliasReporte(
+			@RequestParam(required = false) Long idServicio,
+			@RequestParam(required = false) Long idFamilia,
+			@RequestParam(required = false) String codigo) {
+		return super.buildDownloadResponseEntity("Reporte_Codigos_Familias.xlsx",
+				this.reportingService.generateCodigosFamiliasExcelReport(idServicio, idFamilia, codigo));
 	}
 
 }

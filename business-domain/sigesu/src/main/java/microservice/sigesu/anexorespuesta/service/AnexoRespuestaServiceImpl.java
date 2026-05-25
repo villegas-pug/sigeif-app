@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.AllArgsConstructor;
 import microservice.sigesu.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.sigesu.anexorespuesta.dtos.AnexoEvaluacionResponse;
@@ -294,6 +297,8 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
          URL url = new URL(LDAP_VALIDATION_URL);
          HttpURLConnection connection = (HttpURLConnection) url.openConnection();
          connection.setRequestMethod("POST");
+         connection.setConnectTimeout(5000);
+         connection.setReadTimeout(8000);
          connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
          connection.setDoOutput(true);
 
@@ -317,11 +322,13 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
             while ((responseLine = br.readLine()) != null) {
                response.append(responseLine.trim());
             }
+
+            JsonNode responseJson = new ObjectMapper().readTree(response.toString());
+            boolean estado = responseJson.path("estado").asBoolean(false);
+
+            connection.disconnect();
+            return responseCode == HttpURLConnection.HTTP_OK && estado;
          }
-
-         connection.disconnect();
-
-         return responseCode == HttpURLConnection.HTTP_OK;
 
       } catch (Exception e) {
          return false;

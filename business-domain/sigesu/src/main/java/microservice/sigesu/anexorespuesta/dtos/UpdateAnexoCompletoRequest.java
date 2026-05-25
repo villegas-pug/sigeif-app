@@ -28,6 +28,9 @@ public class UpdateAnexoCompletoRequest {
     // ? Nuevo
     @NotBlank
     private String periodo;
+    private Integer acreditacionVigente;
+    private LocalDate fechaAcreditacion;
+    private String modalidad;
 
     @NotBlank
     private String tipo;
