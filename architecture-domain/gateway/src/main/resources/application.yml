@@ -25,7 +25,7 @@ spring:
                   - Path=/api/ms-acercandonos/**
             - id: ms-sigesu
                # uri: lb://microservice-sigesu
-              uri: http://${SIGESU_SERVICE:127.0.0.1}:${SIGESU_PORT:4004}
+              uri: http://${SIGES_SERVICE:127.0.0.1}:${SIGES_PORT:4004}
               predicates:
                  - Path=/api/ms-sigesu/**
 

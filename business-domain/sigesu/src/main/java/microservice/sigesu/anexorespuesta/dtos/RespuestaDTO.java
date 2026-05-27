@@ -10,5 +10,6 @@ public class RespuestaDTO {
     private String tipoControl;
     private String pregunta;
     private String respuesta;
-       private String opciones; 
+    private String respuesta2;
+    private String opciones;
 }

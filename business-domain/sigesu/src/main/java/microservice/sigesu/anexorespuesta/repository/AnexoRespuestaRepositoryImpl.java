@@ -334,6 +334,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                   if (idPregunta != null) {
                      Map<String, Object> respuestaMap = new HashMap<>();
                      respuestaMap.put("idPregunta", idPregunta);
+                     respuestaMap.put("idRespuesta", rs.getInt("AR_ID_RESPUESTA"));
                      respuestaMap.put("tipoControl", rs.getString("TIPO_CONTROL"));
                      respuestaMap.put("pregunta", rs.getString("PREGUNTA"));
                      // respuestaMap.put("pregunta", rs.getString("PREGUNTA") != null ?

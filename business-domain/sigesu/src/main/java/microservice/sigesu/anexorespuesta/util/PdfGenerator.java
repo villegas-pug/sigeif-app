@@ -32,7 +32,18 @@ public class PdfGenerator {
             // ===============================
             // TÍTULO
             // ===============================
-            Paragraph titulo = new Paragraph("FICHA DE EVALUACIÓN", tituloFont);
+            String nombreAnexo = data.get("nombreAnexo") != null ? String.valueOf(data.get("nombreAnexo")).trim()
+                    : null;
+            String codigoAnexo2 = data.get("codigoAnexo2") != null ? String.valueOf(data.get("codigoAnexo2")).trim()
+                    : null;
+
+            String tituloTexto = "FICHA DE EVALUACIÓN";
+            if (nombreAnexo != null && !nombreAnexo.isEmpty() && !"null".equals(nombreAnexo)
+                    && codigoAnexo2 != null && !codigoAnexo2.isEmpty() && !"null".equals(codigoAnexo2)) {
+                tituloTexto = codigoAnexo2 + " - " + nombreAnexo;
+            }
+
+            Paragraph titulo = new Paragraph(tituloTexto, tituloFont);
             titulo.setAlignment(Element.ALIGN_CENTER);
             titulo.setSpacingAfter(20);
             document.add(titulo);
@@ -107,7 +118,11 @@ public class PdfGenerator {
 
                     String respuesta2 = r.get("respuesta2") != null ? String.valueOf(r.get("respuesta2")).trim() : null;
                     if (respuesta2 != null && !respuesta2.isEmpty() && !"null".equals(respuesta2)) {
-                        tablaPreguntas.addCell(crearCeldaComentario("Comentario: " + respuesta2));
+                        String pregunta2 = r.get("pregunta2") != null ? String.valueOf(r.get("pregunta2")).trim() : null;
+                        String etiqueta = pregunta2 != null && !pregunta2.isEmpty() && !"null".equals(pregunta2)
+                                ? pregunta2.substring(0, 1).toUpperCase() + pregunta2.substring(1).toLowerCase()
+                                : "Comentario";
+                        tablaPreguntas.addCell(crearCeldaComentario(etiqueta + ": " + respuesta2));
                     }
                 }
             }
