@@ -104,6 +104,11 @@ public class PdfGenerator {
 
                     tablaPreguntas.addCell(crearCeldaNormal(pregunta, normalFont));
                     tablaPreguntas.addCell(crearCeldaNormal(respuesta, normalFont));
+
+                    String respuesta2 = r.get("respuesta2") != null ? String.valueOf(r.get("respuesta2")).trim() : null;
+                    if (respuesta2 != null && !respuesta2.isEmpty() && !"null".equals(respuesta2)) {
+                        tablaPreguntas.addCell(crearCeldaComentario("Comentario: " + respuesta2));
+                    }
                 }
             }
 
@@ -229,6 +234,15 @@ public class PdfGenerator {
         cell.setBackgroundColor(Color.DARK_GRAY);
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setPadding(6);
+        return cell;
+    }
+
+    private static PdfPCell crearCeldaComentario(String texto) {
+        Font comentarioFont = new Font(Font.HELVETICA, 9, Font.ITALIC);
+        PdfPCell cell = new PdfPCell(new Phrase(texto, comentarioFont));
+        cell.setColspan(2);
+        cell.setBackgroundColor(new Color(230, 230, 230));
+        cell.setPadding(5);
         return cell;
     }
 
