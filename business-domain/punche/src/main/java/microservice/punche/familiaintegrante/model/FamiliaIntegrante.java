@@ -3,7 +3,6 @@ package microservice.punche.familiaintegrante.model;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -32,6 +31,12 @@ public class FamiliaIntegrante {
    private Long idTipoSeguro;
    private Long idNac;
    private Long idPaisNacimiento;
+
+   // ? Nuevo
+   private String idDepartamentoNac;
+   private String idProvinciaNac;
+   private String idDistritoNac;
+
    private Long idParentesco;
    private Long idEstadoCivil;
    private Long idSexo;
@@ -51,7 +56,7 @@ public class FamiliaIntegrante {
    private Catalogo ocupacion;
    private Catalogo centroPobla;
    private UbigeoNombre ubigeo;
-   
+   private UbigeoNombre ubigeoNac;
 
    private Set<AnexoRespuesta> anexosRespuestas;
 

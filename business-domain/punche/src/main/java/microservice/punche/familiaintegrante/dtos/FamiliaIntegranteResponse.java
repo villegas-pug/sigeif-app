@@ -27,6 +27,7 @@ public class FamiliaIntegranteResponse {
    private Catalogo estadoCivil;
    private Catalogo sexo;
    private Catalogo ocupacion;
+   private UbigeoNombre ubigeoNac;
    private UbigeoNombre ubigeo;
 
    private Set<AnexoRespuesta> anexosRespuestas;

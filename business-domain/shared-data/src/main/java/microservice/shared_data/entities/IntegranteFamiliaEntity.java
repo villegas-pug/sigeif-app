@@ -339,17 +339,35 @@ public class IntegranteFamiliaEntity {
    }
 
    private void calcularUbigeoDomicilio() { // * Domicilio
-      if (this.getIdDepartamento() != null && this.getIdProvincia() != null && this.getIdDistrito() != null) {
-         this.setUbigeo(UbigeoNombreEntity.builder().idUbigeo(this.getIdDepartamento().concat(
-               this.getIdProvincia()).concat(this.getIdDistrito())).build());
+      String idDepartamento = normalizarDosDigitos(this.getIdDepartamento());
+      String idProvincia = normalizarDosDigitos(this.getIdProvincia());
+      String idDistrito = normalizarDosDigitos(this.getIdDistrito());
+
+      if (idDepartamento != null && idProvincia != null && idDistrito != null) {
+         this.setUbigeo(UbigeoNombreEntity.builder().idUbigeo(idDepartamento.concat(
+               idProvincia).concat(idDistrito)).build());
       }
    }
 
    private void calcularUbigeoNacimiento() { // * Nacimiento
-      if (this.getIdDepartamentoNac() != null && this.getIdProvinciaNac() != null && this.getIdDistritoNac() != null) {
-         this.setUbigeoNac(UbigeoNombreEntity.builder().idUbigeo(this.getIdDepartamentoNac().concat(
-               this.getIdProvinciaNac()).concat(this.getIdDistritoNac())).build());
+      String idDepartamentoNac = normalizarDosDigitos(this.getIdDepartamentoNac());
+      String idProvinciaNac = normalizarDosDigitos(this.getIdProvinciaNac());
+      String idDistritoNac = normalizarDosDigitos(this.getIdDistritoNac());
+
+      if (idDepartamentoNac != null && idProvinciaNac != null && idDistritoNac != null) {
+         this.setUbigeoNac(UbigeoNombreEntity.builder().idUbigeo(idDepartamentoNac.concat(
+               idProvinciaNac).concat(idDistritoNac)).build());
       }
+   }
+
+   private String normalizarDosDigitos(String valor) {
+      if (valor == null) {
+         return null;
+      }
+      if (valor.trim().length() == 1) {
+         return "0".concat(valor);
+      }
+      return valor;
    }
 
 }

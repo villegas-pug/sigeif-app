@@ -20,6 +20,12 @@ public class CreateFamiliaIntegranteRequest {
    private Integer idTipoSeguro;
    private Integer idNac;
    private Integer idPaisNacimiento;
+
+   // ? Nuevo
+   private String idDepartamentoNac;
+   private String idProvinciaNac;
+   private String idDistritoNac;
+
    private Integer idParentesco;
    private Integer idEstadoCivil;
    private Integer idSexo;
