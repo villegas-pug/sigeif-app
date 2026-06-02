@@ -85,11 +85,14 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaHeader("Director/Coordinador:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("respDirector")), normalFont));
 
-            tablaDatos.addCell(crearCeldaHeader("Supervisado (OS):", headerFont));
-            tablaDatos.addCell(crearCeldaNormal(extraerNombresSupervisados(data.get("idSupervisado")), normalFont));
+            String supervisados = extraerNombresSupervisados(data.get("idSupervisado"));
+            if (!supervisados.isEmpty()) {
+                tablaDatos.addCell(crearCeldaHeader("Supervisado (OS):", headerFont));
+                tablaDatos.addCell(crearCeldaNormal(supervisados, normalFont));
+            }
 
             tablaDatos.addCell(crearCeldaHeader("Fecha Registro:", headerFont));
-            tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("fechaRegistro")), normalFont));
+            tablaDatos.addCell(crearCeldaNormal(formatearFecha(data.get("fechaRegistro")), normalFont));
 
             document.add(tablaDatos);
 
@@ -110,7 +113,17 @@ public class PdfGenerator {
 
                 for (Map<String, Object> r : respuestas) {
 
+                    String tipoControl = r.get("tipoControl") != null ? String.valueOf(r.get("tipoControl")).trim() : "";
                     String pregunta = String.valueOf(r.get("pregunta"));
+
+                    if ("cabecera".equalsIgnoreCase(tipoControl) || "label".equalsIgnoreCase(tipoControl)) {
+                        PdfPCell celdaCabecera = crearCeldaNormal(pregunta, headerFont);
+                        celdaCabecera.setColspan(2);
+                        celdaCabecera.setBackgroundColor(new Color(220, 220, 220));
+                        tablaPreguntas.addCell(celdaCabecera);
+                        continue;
+                    }
+
                     String respuesta = String.valueOf(r.get("respuesta"));
 
                     tablaPreguntas.addCell(crearCeldaNormal(pregunta, normalFont));
@@ -373,5 +386,65 @@ public class PdfGenerator {
         } catch (DateTimeParseException e) {
             return null;
         }
+    }
+
+    private static String formatearFecha(Object fechaObj) {
+        if (fechaObj == null) {
+            return "";
+        }
+
+        if (fechaObj instanceof java.time.LocalDate) {
+            return ((java.time.LocalDate) fechaObj).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+
+        if (fechaObj instanceof java.time.LocalDateTime) {
+            return ((java.time.LocalDateTime) fechaObj).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+
+        if (fechaObj instanceof java.sql.Date) {
+            return ((java.sql.Date) fechaObj).toLocalDate()
+                    .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+
+        if (fechaObj instanceof java.sql.Timestamp) {
+            return ((java.sql.Timestamp) fechaObj).toLocalDateTime()
+                    .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+
+        if (fechaObj instanceof java.util.Date) {
+            return ((java.util.Date) fechaObj).toInstant()
+                    .atZone(java.time.ZoneId.systemDefault())
+                    .toLocalDate()
+                    .format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+        }
+
+        String fechaStr = String.valueOf(fechaObj).trim();
+        if (fechaStr.isEmpty() || "null".equals(fechaStr)) {
+            return "";
+        }
+
+        // Try parsing common formats and reformat to dd/MM/yyyy
+        List<String> patterns = Arrays.asList(
+                "yyyy-MM-dd'T'HH:mm:ss.SSS",
+                "yyyy-MM-dd'T'HH:mm:ss",
+                "yyyy-MM-dd'T'HH:mm",
+                "yyyy-MM-dd HH:mm:ss.SSS",
+                "yyyy-MM-dd HH:mm:ss",
+                "yyyy-MM-dd HH:mm",
+                "dd/MM/yyyy HH:mm:ss",
+                "dd/MM/yyyy"
+        );
+
+        for (String pattern : patterns) {
+            try {
+                LocalDateTime ldt = LocalDateTime.parse(fechaStr, DateTimeFormatter.ofPattern(pattern));
+                return ldt.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+            } catch (DateTimeParseException e) {
+                // try next pattern
+            }
+        }
+
+        // If all parsing fails, return original string as fallback
+        return fechaStr;
     }
 }
