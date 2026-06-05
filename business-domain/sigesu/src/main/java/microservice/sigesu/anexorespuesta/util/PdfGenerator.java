@@ -61,8 +61,13 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaHeader("Servicio:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("nombreServicio")), normalFont));
 
+            String nombreCentro = data.get("nombreCentro") != null ? String.valueOf(data.get("nombreCentro")).trim() : null;
+            String centro = data.get("centro") != null ? String.valueOf(data.get("centro")).trim() : null;
+            String centroMostrar = centro != null && !centro.isEmpty() && !"null".equals(centro) ? centro
+                    : (nombreCentro != null && !nombreCentro.isEmpty() && !"null".equals(nombreCentro) ? nombreCentro : "");
+
             tablaDatos.addCell(crearCeldaHeader("Centro:", headerFont));
-            tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("nombreCentro")), normalFont));
+            tablaDatos.addCell(crearCeldaNormal(centroMostrar, normalFont));
 
             String tipoCentro = (String) data.get("tipoCentro");
 
@@ -82,8 +87,11 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaHeader("Responsable Supervisión:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("respSupervision")), normalFont));
 
-            tablaDatos.addCell(crearCeldaHeader("Director/Coordinador:", headerFont));
-            tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("respDirector")), normalFont));
+            String respDirector = data.get("respDirector") != null ? String.valueOf(data.get("respDirector")).trim() : null;
+            if (respDirector != null && !respDirector.isEmpty() && !"null".equals(respDirector)) {
+                tablaDatos.addCell(crearCeldaHeader("Director/Coordinador:", headerFont));
+                tablaDatos.addCell(crearCeldaNormal(respDirector, normalFont));
+            }
 
             String supervisados = extraerNombresSupervisados(data.get("idSupervisado"));
             if (!supervisados.isEmpty()) {
@@ -113,7 +121,8 @@ public class PdfGenerator {
 
                 for (Map<String, Object> r : respuestas) {
 
-                    String tipoControl = r.get("tipoControl") != null ? String.valueOf(r.get("tipoControl")).trim() : "";
+                    String tipoControl = r.get("tipoControl") != null ? String.valueOf(r.get("tipoControl")).trim()
+                            : "";
                     String pregunta = String.valueOf(r.get("pregunta"));
 
                     if ("cabecera".equalsIgnoreCase(tipoControl) || "label".equalsIgnoreCase(tipoControl)) {
@@ -131,7 +140,8 @@ public class PdfGenerator {
 
                     String respuesta2 = r.get("respuesta2") != null ? String.valueOf(r.get("respuesta2")).trim() : null;
                     if (respuesta2 != null && !respuesta2.isEmpty() && !"null".equals(respuesta2)) {
-                        String pregunta2 = r.get("pregunta2") != null ? String.valueOf(r.get("pregunta2")).trim() : null;
+                        String pregunta2 = r.get("pregunta2") != null ? String.valueOf(r.get("pregunta2")).trim()
+                                : null;
                         String etiqueta = pregunta2 != null && !pregunta2.isEmpty() && !"null".equals(pregunta2)
                                 ? pregunta2.substring(0, 1).toUpperCase() + pregunta2.substring(1).toLowerCase()
                                 : "Comentario";
@@ -432,8 +442,7 @@ public class PdfGenerator {
                 "yyyy-MM-dd HH:mm:ss",
                 "yyyy-MM-dd HH:mm",
                 "dd/MM/yyyy HH:mm:ss",
-                "dd/MM/yyyy"
-        );
+                "dd/MM/yyyy");
 
         for (String pattern : patterns) {
             try {

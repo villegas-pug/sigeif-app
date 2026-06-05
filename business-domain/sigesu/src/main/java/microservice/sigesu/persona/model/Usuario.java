@@ -14,5 +14,6 @@ public class Usuario {
    private Long idUsuario;
    private String login;
    private Persona persona;
+   private Integer estado;
 
 }

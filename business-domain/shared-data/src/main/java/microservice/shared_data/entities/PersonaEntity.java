@@ -1,11 +1,14 @@
 package microservice.shared_data.entities;
 
 import java.time.LocalDate;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -41,8 +44,8 @@ public class PersonaEntity {
    @JoinColumn(name = "PERDOCUMENTO")
    private DocumentoEntity tipoDoc;
 
-   @OneToOne(mappedBy = "persona", optional = false)
-   private UsuarioEntity usuario;
+   @OneToMany(mappedBy = "persona", fetch = FetchType.LAZY)
+   private List<UsuarioEntity> usuarios;
 
    @Column(name = "PERNRODOCUMENTO")
    private String numeroDoc;

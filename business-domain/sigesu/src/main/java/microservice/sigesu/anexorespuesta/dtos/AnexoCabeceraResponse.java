@@ -31,7 +31,9 @@ public class AnexoCabeceraResponse {
     private Long idSupervisado;
     private Integer reqValidacion;
     private Integer reqSupervisados;
+    private Integer reqDirector;
 
     private String periodo;
     private String tipo;
+    // private String centro;
 }

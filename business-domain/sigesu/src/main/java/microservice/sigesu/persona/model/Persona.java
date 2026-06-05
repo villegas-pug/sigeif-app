@@ -1,6 +1,7 @@
 package microservice.sigesu.persona.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -26,7 +27,7 @@ public class Persona {
    private String telefono;
    private String correo;
 
-   private Usuario usuario;
+   private List<Usuario> usuarios;
 
    public String getNombresCompletos() {
       return this.nombres + ", " + this.apePaterno + " " + this.apeMaterno;

@@ -171,6 +171,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_acreditacion_vigente", Integer.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_fecha_acreditacion", java.sql.Date.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_modalidad", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_centro", String.class, ParameterMode.IN);
 
          // =========================
          // Registrar parámetros OUT
@@ -204,6 +205,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.setParameter("p_acreditacion_vigente", request.getAcreditacionVigente());
          query.setParameter("p_fecha_acreditacion", request.getFechaAcreditacion());
          query.setParameter("p_modalidad", request.getModalidad());
+         query.setParameter("p_centro", request.getCentro());
 
          // =========================
          // Ejecutar procedure
@@ -272,6 +274,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                .tipo((String) row[13])
                .reqValidacion(((Number) row[14]).intValue())
                .reqSupervisados(((Number) row[15]).intValue())
+               .reqDirector(((Number) row[16]).intValue())
                .build();
          lista.add(dto);
       }
@@ -325,6 +328,8 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                      cabeceraMap.put("acreditacionVigente", rs.getInt("ACREDITACION_VIGENTE"));
                      cabeceraMap.put("fechaAcreditacion", rs.getDate("FECHA_ACREDITACION"));
                      cabeceraMap.put("modalidad", rs.getString("MODALIDAD"));
+                     cabeceraMap.put("reqDirector", rs.getInt("REQDIRECTOR"));
+                     cabeceraMap.put("centro", rs.getString("CENTRO"));
                      // cabeceraMap.put("nombreSupervisado", rs.getString("SUPERVISADO"));
                      cabeceraSet = true;
                   }

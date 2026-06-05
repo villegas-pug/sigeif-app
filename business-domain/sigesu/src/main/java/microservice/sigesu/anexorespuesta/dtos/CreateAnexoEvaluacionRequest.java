@@ -44,5 +44,6 @@ public class CreateAnexoEvaluacionRequest {
     private Integer acreditacionVigente;
     private LocalDate fechaAcreditacion;
     private String modalidad;
+    private String centro;
 
 }

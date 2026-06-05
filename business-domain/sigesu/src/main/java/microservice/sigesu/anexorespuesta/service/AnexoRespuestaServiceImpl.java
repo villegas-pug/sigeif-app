@@ -1,8 +1,10 @@
 package microservice.sigesu.anexorespuesta.service;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,9 +29,12 @@ import microservice.sigesu.anexorespuesta.model.AnexoRespuesta;
 import microservice.sigesu.anexorespuesta.repository.AnexoRespuestaRepository;
 import microservice.shared_data.dtos.projections.ReporteComparativoFasesFichaProjection;
 import microservice.shared_data.dtos.responses.EstadoAnexoProjectionResponse;
+import microservice.shared_data.entities.PersonaEntity;
+import microservice.shared_data.entities.UsuarioEntity;
 import microservice.shared_data.exceptions.NotFoundException;
 import microservice.sigesu.anexorespuesta.util.PdfGenerator;
 import microservice.sigesu.persona.model.Persona;
+import microservice.sigesu.persona.model.Usuario;
 import microservice.sigesu.personal.model.Personal;
 import microservice.sigesu.personal.service.PersonalService;
 
@@ -290,7 +295,14 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
          throw new NotFoundException();
       }
 
-      String user = personal.getPersona().getUsuario().getLogin();
+      String user = Optional.ofNullable(personal.getPersona())
+            .map(Persona::getUsuarios)
+            .orElse(Collections.emptyList())
+            .stream()
+            .filter(u -> Integer.valueOf(1).equals(u.getEstado()))
+            .findFirst()
+            .map(Usuario::getLogin)
+            .orElse(null);
 
       // * 2. Verificar usuario
       try {
