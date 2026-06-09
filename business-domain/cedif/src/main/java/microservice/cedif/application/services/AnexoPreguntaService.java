@@ -2,6 +2,7 @@ package microservice.cedif.application.services;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -56,7 +57,9 @@ public class AnexoPreguntaService implements AnexoPreguntaServicePort {
       List<AnexoPregunta> anexoPreguntas = switch (integranteTotalMonthsOfAge) {
          // * FICHA 13:
          // * 1 año a 1 año 6 meses
-         case Long meses when meses >= 12 && meses <= 18 -> this.findAllAnexoPregustasByParams(idServicio, anexo, 1);
+         // case Long meses when meses >= 12 && meses <= 18 ->
+         // this.findAllAnexoPregustasByParams(idServicio, anexo, 1);
+         case Long meses when meses >= 0 && meses <= 18 -> this.findAllAnexoPregustasByParams(idServicio, anexo, 1);
          // * 1 año 6 meses a 2 años
          case Long meses when meses > 18 && meses <= 24 -> this.findAllAnexoPregustasByParams(idServicio, anexo, 2);
          // * 2 años a 2 años 11 meses
@@ -69,7 +72,7 @@ public class AnexoPreguntaService implements AnexoPreguntaServicePort {
          case Long meses when meses >= 60 && meses < 72 -> this.findAllAnexoPregustasByParams(idServicio, anexo, 6);
          // * 6 años a 17 años 11 meses
          case Long meses when meses >= 72 && meses <= 215 -> this.findAllAnexoPregustasByParams(idServicio, anexo, 7);
-         default -> List.of();
+         default -> new ArrayList<>();
       };
 
       anexoPreguntasFlags.forEach(anexoPreguntas::add);
