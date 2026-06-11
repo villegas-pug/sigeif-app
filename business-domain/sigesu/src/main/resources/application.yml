@@ -3,7 +3,7 @@ spring:
    application:
       name: microservice-sigesu
    profiles:
-      active: ${PROFILE:dev}
+      active: ${PROFILE:prod}
 
    datasource:
       hikari:
