@@ -8,3 +8,5 @@ spring:
                   allowedMethods: "*"
                   allowedHeaders: "*"
                   allowCredentials: true
+                  exposedHeaders:
+                     - "Content-Disposition"

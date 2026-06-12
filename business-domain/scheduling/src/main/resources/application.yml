@@ -8,7 +8,7 @@ spring:
    application:
       name: ms-scheduling
    profiles:
-      active: ${PROFILE:test}
+      active: ${PROFILE:prod}
 
    datasource:
       hikari:
@@ -37,7 +37,7 @@ schedulers:
          report:
             output-path: ${schedulers.punche.output-path}/matriz
             excel:
-               enabled: true
+               enabled: false
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_matriz
                cron: '0 0 8 * * *' # ? 08:00 AM
@@ -86,5 +86,17 @@ schedulers:
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_ficha_encuesta_satisfaccion
                cron: '0 11 8 * * *' # ? 08:00 AM
+   siges: # ? » SIGES
+      enabled: true
+      output-path: reports/siges/
+      matriz_fichas_siges:
+         enabled: true
+         report:
+            output-path: ${schedulers.siges.output-path}/matriz-fichas-siges
+            excel:
+               enabled: true
+               output-path: ${schedulers.siges.output-path}/excel/
+               file-name: rpt_matriz_fichas_siges
+               cron: '0 0 8 * * *' # ? 08:00 AM
 
 # ======================================================================================================
