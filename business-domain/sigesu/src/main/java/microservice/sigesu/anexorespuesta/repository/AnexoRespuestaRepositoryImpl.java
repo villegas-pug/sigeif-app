@@ -330,6 +330,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                      cabeceraMap.put("modalidad", rs.getString("MODALIDAD"));
                      cabeceraMap.put("reqDirector", rs.getInt("REQDIRECTOR"));
                      cabeceraMap.put("centro", rs.getString("CENTRO"));
+                     cabeceraMap.put("reqObligatoriedad", rs.getInt("REQOBLIGATORIEDAD"));
                      // cabeceraMap.put("nombreSupervisado", rs.getString("SUPERVISADO"));
                      cabeceraSet = true;
                   }
