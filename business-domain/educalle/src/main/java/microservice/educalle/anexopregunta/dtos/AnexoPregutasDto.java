@@ -35,4 +35,5 @@ public class AnexoPregutasDto {
    private String httpMetodo;
    private String httpParams;
    private String iconoControl;
+   private String editableBifurcaciones;
 }
