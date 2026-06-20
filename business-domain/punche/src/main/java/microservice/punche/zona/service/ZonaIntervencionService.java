@@ -20,4 +20,15 @@ public interface ZonaIntervencionService {
 
       void deleteZonaIntervencionById(Long idZona);
 
+      // ? Short
+      List<ZonaIntervencion> findZonasIntervencionShortByParams(String descripcionZona, int anioRegistroZona,
+                  int mesRegistroZona);
+
+      // ? Minified
+
+      List<ZonaIntervencion> findZonasIntervencionMinifiedByParams(String descripcionZona, int anioRegistroZona,
+                  int mesRegistroZona);
+
+      ZonaIntervencion findZonaIntervencionMinifiedById(Long idZona);
+
 }

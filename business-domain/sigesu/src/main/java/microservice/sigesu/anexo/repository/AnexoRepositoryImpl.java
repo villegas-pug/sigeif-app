@@ -16,6 +16,7 @@ import microservice.sigesu.anexo.dtos.UnidadDto;
 import microservice.sigesu.anexo.dtos.UnidadServicioDto;
 import microservice.sigesu.anexo.mappers.AnexoSimpleRowMapper;
 import microservice.sigesu.anexo.mappers.UnidadServicioRowMapper;
+import microservice.shared_data.enums.InabifServices;
 import microservice.shared_data.repositories.BaseOracleRepository;
 
 @Repository
@@ -49,11 +50,12 @@ public class AnexoRepositoryImpl extends BaseOracleRepository implements AnexoRe
     public List<UnidadServicioDto> listarServiciosPorUnidad(Long idUnidadOrganica) {
 
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("USP_LISTAR_UNIDADES_SERVICIOS")
+                .withProcedureName("USP_LISTAR_UNIDADES_SERVICIOS_V1")
                 .returningResultSet("C_RESULTADO", new UnidadServicioRowMapper());
 
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_UNIDAD_ORGANICA", idUnidadOrganica);
+        params.put("P_ID_SERVICIO_PADRE", InabifServices.EDUCALLE.getId());
 
         Map<String, Object> result = jdbcCall.execute(params);
 

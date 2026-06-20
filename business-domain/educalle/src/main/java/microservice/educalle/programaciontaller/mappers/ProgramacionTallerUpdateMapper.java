@@ -1,0 +1,71 @@
+package microservice.educalle.programaciontaller.mappers;
+
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
+import org.mapstruct.Named;
+
+import microservice.educalle.objetivoespecifico.models.Modulo;
+import microservice.educalle.objetivoespecifico.models.ObjetivoEspecifico;
+import microservice.educalle.personal.model.Personal;
+import microservice.educalle.programaciontaller.dtos.UpdateProgramacionTallerRequest;
+import microservice.educalle.programaciontaller.model.ProgramacionTaller;
+import microservice.educalle.programaciontallerfamilia.dtos.CreateProgramacionTallerFamiliaRequest;
+import microservice.educalle.programaciontallerfamilia.model.ProgramacionTallerFamilia;
+import microservice.educalle.unidadorganica.model.UnidadOrganica;
+import microservice.educalle.unidadsesion.model.UnidadSesion;
+import microservice.shared_data.mappers.BaseMapStructConfig;
+
+@Mapper(config = BaseMapStructConfig.class)
+public interface ProgramacionTallerUpdateMapper {
+
+      // * Dep´s
+      @Mappings({
+                  @Mapping(source = "idFamilia", target = "familia.idFamilia"),
+      })
+      ProgramacionTallerFamilia toModel(CreateProgramacionTallerFamiliaRequest source);
+
+      // * Create-To-Model
+      @Mappings({
+
+                  @Mapping(source = "idModulo", target = "taller.modulo", qualifiedByName = "mapIdToModulo"), // ! Cedif
+
+                  @Mapping(source = "idSesion", target = "taller.sesion", qualifiedByName = "mapIdToSesion"), // !
+                                                                                                              // Punche
+                  @Mapping(source = "idObjetivo", target = "taller.objetivoEspecifico", qualifiedByName = "mapIdToObjetivo"), // !
+                                                                                                                              // Acercandonos
+                  @Mapping(source = "idTaller", target = "taller.idTaller"),
+                  @Mapping(source = "idPersonal", target = "personal", qualifiedByName = "mapIdToPersonal"),
+                  @Mapping(source = "idUO", target = "unidadorg", qualifiedByName = "mapIdToUO"),
+                  @Mapping(source = "nombreTaller", target = "taller.nombre"),
+                  @Mapping(source = "usuModifica", target = "taller.usuRegistra"),
+      })
+      ProgramacionTaller toModel(UpdateProgramacionTallerRequest source);
+
+      // * Default method's
+      @Named("mapIdToModulo")
+      default Modulo mapIdToModulo(Integer idModulo) {
+            return idModulo != null ? Modulo.builder().idModulo(idModulo).build() : null;
+      }
+
+      @Named("mapIdToSesion")
+      default UnidadSesion mapIdToSesion(Integer idSesion) {
+            return idSesion != null ? UnidadSesion.builder().idSesion(idSesion).build() : null;
+      }
+
+      @Named("mapIdToObjetivo")
+      default ObjetivoEspecifico mapIdToObjetivo(Integer idObjetivo) {
+            return idObjetivo != null ? ObjetivoEspecifico.builder().idObjetivo(idObjetivo).build() : null;
+      }
+
+      @Named("mapIdToPersonal")
+      default Personal mapIdToPersonal(Long idPersonal) {
+            return idPersonal != null ? Personal.builder().idPersonal(idPersonal).build() : null;
+      }
+
+      @Named("mapIdToUO")
+      default UnidadOrganica mapIdToUO(Long idUO) {
+            return idUO != null ? UnidadOrganica.builder().idUO(idUO).build() : null;
+      }
+
+}

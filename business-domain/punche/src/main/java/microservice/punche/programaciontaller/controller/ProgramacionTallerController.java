@@ -78,12 +78,13 @@ public class ProgramacionTallerController {
       @GetMapping(path = { "/findProgramacionTalleresByParams" })
       public ResponseEntity<ApiResponse<List<ProgramacionTallerProjectionResponse>>> findProgramacionTalleresByParams(
                   @RequestParam Integer idServicio, @RequestParam Integer anio,
-                  @RequestParam Integer mes) {
+                  @RequestParam Integer mes, @RequestParam(required = false) Integer idZona) {
             return ResponseEntity.ok(
                         ApiResponse
                                     .<List<ProgramacionTallerProjectionResponse>>builder()
                                     .message(ApiResponseStatus.SUCCESS.getMessage())
-                                    .data(this.service.findProgramacionTalleresByParams(idServicio, anio, mes))
+                                    .data(this.service.findProgramacionTalleresByParams(idServicio, anio, mes,
+                                                idZona))
                                     .build());
       }
 

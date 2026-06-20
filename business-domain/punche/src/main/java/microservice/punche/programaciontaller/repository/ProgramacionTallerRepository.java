@@ -17,7 +17,7 @@ public interface ProgramacionTallerRepository {
       Optional<ProgramacionTaller> findProgramacionTallerById(Long idProgTaller);
 
       List<ProgramacionTallerProjectionResponse> findProgramacionTalleresByParams(Integer idServicio, Integer anio,
-                  Integer mes);
+                  Integer mes, Integer idZona);
 
       void uploadAnexoProgramacionTaller(Long idProgTaller, String anexoName, byte[] anexo);
 

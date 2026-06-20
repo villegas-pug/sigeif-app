@@ -70,6 +70,32 @@ public class ZonaIntervencionController {
                                     .build());
       }
 
+      @GetMapping(path = { "/findZonasIntervencionShortByParams" })
+      public ResponseEntity<ApiResponse<List<ZonaIntervencion>>> findZonasIntervencionShortByParams(
+                  @RequestParam String descripcionZona,
+                  @RequestParam int anioRegistroZona, @RequestParam int mesRegistroZona) {
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .<List<ZonaIntervencion>>builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(this.service.findZonasIntervencionShortByParams(descripcionZona,
+                                                anioRegistroZona, mesRegistroZona))
+                                    .build());
+      }
+
+      @GetMapping(path = { "/findZonasIntervencionMinifiedByParams" })
+      public ResponseEntity<ApiResponse<List<ZonaIntervencion>>> findZonasIntervencionMinifiedByParams(
+                  @RequestParam String descripcionZona,
+                  @RequestParam int anioRegistroZona, @RequestParam int mesRegistroZona) {
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .<List<ZonaIntervencion>>builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(this.service.findZonasIntervencionMinifiedByParams(descripcionZona,
+                                                anioRegistroZona, mesRegistroZona))
+                                    .build());
+      }
+
       @GetMapping(path = { "/findZonaIntervencionById" })
       public ResponseEntity<?> findZonaIntervencionById(@RequestParam Long idZona) {
             return ResponseEntity.ok(
@@ -77,6 +103,16 @@ public class ZonaIntervencionController {
                                     .builder()
                                     .message(ApiResponseStatus.SUCCESS.getMessage())
                                     .data(this.service.findZonaIntervencionById(idZona))
+                                    .build());
+      }
+
+      @GetMapping(path = { "/findZonaIntervencionMinifiedById" })
+      public ResponseEntity<?> findZonaIntervencionMinifiedById(@RequestParam Long idZona) {
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(this.service.findZonaIntervencionMinifiedById(idZona))
                                     .build());
       }
 

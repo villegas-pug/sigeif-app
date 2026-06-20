@@ -9,6 +9,7 @@ import microservice.punche.anexorespuesta.repository.AnexoRespuestaRepository;
 import microservice.punche.zona.dtos.ZonaIntervencionResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionSaveDto;
 import microservice.punche.zona.mappers.ZonaIntervencionEntityMapper;
+import microservice.punche.zona.mappers.ZonaIntervencionShortEntityMapper;
 import microservice.punche.zona.model.ZonaIntervencion;
 import microservice.punche.zona.repository.ZonaIntervencionJpaRepository;
 import microservice.punche.zona.repository.ZonaIntervencionRepository;
@@ -24,6 +25,7 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
    private final ZonaIntervencionRepository repository;
    private final ZonaIntervencionJpaRepository jpaRepository;
    private final ZonaIntervencionEntityMapper entityMapper;
+   private final ZonaIntervencionShortEntityMapper entityShortMapper;
    private final AnexoRespuestaRepository anexoRespuestaRepository;
 
    @Override
@@ -127,6 +129,75 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
       List<ZonaIntervencionResponse> zonasIntervencion = this.repository
             .findZonasIntervencionByDescripcionContaining(descripcionZona);
       if (zonasIntervencion.size() == 0) {
+         throw new NotFoundException();
+      }
+
+      return zonasIntervencion;
+   }
+
+   @Override
+   public List<ZonaIntervencion> findZonasIntervencionMinifiedByParams(String descripcionZona, int anioRegistroZona,
+         int mesRegistroZona) {
+
+      LocalDate fecIni, fecFin;
+
+      if (mesRegistroZona == -1) {
+         fecIni = LocalDate.of(anioRegistroZona, 1, 1);
+         fecFin = LocalDate.of(anioRegistroZona, 12, 31);
+      } else {
+         fecIni = LocalDate.of(anioRegistroZona, mesRegistroZona, 1);
+         fecFin = fecIni.plusMonths(1).minusDays(1);
+      }
+
+      List<ZonaIntervencion> zonasIntervencion = this.jpaRepository
+            .findByDescripcionIgnoreCaseAndFecRegistraBetweenAndServicio(
+                  descripcionZona,
+                  fecIni,
+                  fecFin,
+                  InabifServices.PUNCHE.getId())
+            .stream()
+            .map(this.entityMapper::toModelMinified)
+            .toList();
+
+      if (zonasIntervencion.isEmpty()) {
+         throw new NotFoundException();
+      }
+
+      return zonasIntervencion;
+
+   }
+
+   @Override
+   public ZonaIntervencion findZonaIntervencionMinifiedById(Long idZona) {
+      ZonaIntervencion zonaIntervencion = this.jpaRepository.findById(idZona).map(this.entityMapper::toModelMinified)
+            .orElseThrow(NotFoundException::new);
+      return zonaIntervencion;
+   }
+
+   @Override
+   public List<ZonaIntervencion> findZonasIntervencionShortByParams(String descripcionZona, int anioRegistroZona,
+         int mesRegistroZona) {
+      LocalDate fecIni, fecFin;
+
+      if (mesRegistroZona == -1) {
+         fecIni = LocalDate.of(anioRegistroZona, 1, 1);
+         fecFin = LocalDate.of(anioRegistroZona, 12, 31);
+      } else {
+         fecIni = LocalDate.of(anioRegistroZona, mesRegistroZona, 1);
+         fecFin = fecIni.plusMonths(1).minusDays(1);
+      }
+
+      List<ZonaIntervencion> zonasIntervencion = this.jpaRepository
+            .findByDescripcionIgnoreCaseAndFecRegistraBetweenAndServicio(
+                  descripcionZona,
+                  fecIni,
+                  fecFin,
+                  InabifServices.PUNCHE.getId())
+            .stream()
+            .map(this.entityShortMapper::toModel)
+            .toList();
+
+      if (zonasIntervencion.isEmpty()) {
          throw new NotFoundException();
       }
 

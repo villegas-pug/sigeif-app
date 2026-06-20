@@ -188,12 +188,14 @@ public class ProgramacionTallerRepositoryImpl extends BaseOracleRepository imple
       @Override
       public List<ProgramacionTallerProjectionResponse> findProgramacionTalleresByParams(Integer idServicio,
                   Integer anio,
-                  Integer mes) {
+                  Integer mes,
+                  Integer idZona) {
 
             Map<String, Object> params = new HashMap<>();
             params.put("p_id_servicio", idServicio);
             params.put("p_anio", anio);
             params.put("p_mes", mes);
+            params.put("p_id_zona", idZona);
 
             return this.executeProcedureWithInParams("USP_BUSCAR_PROGRAMACION_TALLERES_POR_PARAMETROS", params,
                         "p_resultado_busqueda", ProgramacionTallerProjectionResponse.class);

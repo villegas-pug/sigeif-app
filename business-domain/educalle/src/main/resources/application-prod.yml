@@ -1,0 +1,6 @@
+spring:
+   datasource:
+      url: jdbc:oracle:thin:@172.19.0.9:1521:INABIF02
+      username: USRSEGURIDAD # devuser | USRSEGURIDAD | Prod: USRSEGURIDAD
+      password: QL7nstYOMwxQ # D3vUs3r$2025 | C0ntr4s3n4$3gur4 | Prod: QL7nstYOMwxQ
+      driver-class-name: oracle.jdbc.OracleDriver

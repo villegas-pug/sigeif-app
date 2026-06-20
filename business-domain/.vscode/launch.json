@@ -51,6 +51,16 @@
          "projectName": "sigesu",
          "args": "",
          "envFile": "${workspaceFolder}/.env"
+      },
+      {
+         "type": "java",
+         "name": "Spring Boot-EducalleApplication<educalle>",
+         "request": "launch",
+         "cwd": "${workspaceFolder}",
+         "mainClass": "microservice.educalle.EducalleApplication",
+         "projectName": "educalle",
+         "args": "",
+         "envFile": "${workspaceFolder}/.env"
       }
    ]
 }

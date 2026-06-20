@@ -60,9 +60,9 @@ public class ProgramacionTallerServiceImpl implements ProgramacionTallerService 
    @Override
    @Transactional(readOnly = true)
    public List<ProgramacionTallerProjectionResponse> findProgramacionTalleresByParams(Integer idServicio, Integer anio,
-         Integer mes) {
+         Integer mes, Integer idZona) {
       List<ProgramacionTallerProjectionResponse> programacionTalleres = this.repository
-            .findProgramacionTalleresByParams(idServicio, anio, mes);
+            .findProgramacionTalleresByParams(idServicio, anio, mes, idZona);
 
       if (programacionTalleres.isEmpty()) {
          throw new NotFoundException();

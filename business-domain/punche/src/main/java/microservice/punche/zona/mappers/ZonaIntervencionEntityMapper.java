@@ -71,6 +71,11 @@ public interface ZonaIntervencionEntityMapper {
       // * Entity-To-Model
       ZonaIntervencion toModel(ZonaIntervencionEntity source);
 
+      @Mappings({ // ! No depende de `toEntity`
+                  @Mapping(target = "potencialesFamilias", ignore = true)
+      })
+      ZonaIntervencion toModelMinified(ZonaIntervencionEntity source);
+
       // * Default method's
       @Named("mapInstitucionToEntity")
       default InstitucionEntity mapInstitucionToEntity(Institucion model) {

@@ -1,0 +1,162 @@
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3-41034ca841d452f3305ba55b9042260aaa1ab5dd  -->
+<jasperReport name="Cherry" language="java" columnCount="1" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="0" uuid="e115bc59-fd0f-446b-a585-04725e27d7f0">
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="Title" fontName="SansSerif" fontSize="26.0" bold="true"/>
+	<style name="SubTitle" forecolor="#666666" fontName="SansSerif" fontSize="18.0"/>
+	<style name="Column header" forecolor="#FFFFFF" fontName="SansSerif" fontSize="12.0" bold="true"/>
+	<style name="Detail" fontName="SansSerif" fontSize="12.0"/>
+	<parameter name="nombresCuidador" class="java.lang.String"/>
+	<parameter name="numDocCuidador" class="java.lang.String"/>
+	<parameter name="nombresAcompañante" class="java.lang.String"/>
+	<parameter name="numDocAcompañante" class="java.lang.String"/>
+	<parameter name="fechaCompromiso" class="java.lang.String"/>
+	<query language="sql"><![CDATA[]]></query>
+	<background height="20" splitType="Stretch"/>
+	<title height="97" splitType="Stretch">
+		<element kind="staticText" uuid="1dcadd54-7d50-4470-85ed-189e4d910b25" x="20" y="34" width="511" height="37" fontSize="24.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Title">
+			<text><![CDATA[ANEXO 14:]]></text>
+		</element>
+		<element kind="staticText" uuid="862cb50c-5a5e-4906-a495-226e25115fb6" x="20" y="72" width="510" height="23" fontName="SansSerif&#xd;&#xa;" fontSize="16.0" hTextAlign="Center" style="SubTitle">
+			<text><![CDATA[Ficha de Consentimiento Informado y Compromiso Familiar]]></text>
+		</element>
+	</title>
+	<pageHeader splitType="Stretch"/>
+	<columnHeader height="4" splitType="Stretch"/>
+	<detail>
+		<band height="671" splitType="Stretch">
+			<element kind="staticText" uuid="bfc54ad0-5803-4984-a7c4-e98d1788af3e" x="20" y="8" width="512" height="71" fontName="SansSerif" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[En base a lo detallado previamente, yo……………………………………………………………………………………….....................................
+Identificada(o) con DNI N°………………………..……….., doy fe que se me ha informado lo descrito en este documento, por ello estoy de acuerdo en participar de la estrategia.]]></text>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="503146bf-db92-4ef4-9dd9-c1d98321f63a" x="20" y="138" width="512" height="128" fontName="SansSerif" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[La estrategia tiene como finalidad fortalecer y potenciar factores protectores, para prevenir situaciones de riesgo de desprotección que afectan a niñas, niños, adolescentes y jóvenes, en su entorno familiar.
+
+• Brindar el servicio de manera gratuita, a través de consejerías, talleres que se realizan a través de visitas domiciliarias o teleasistencia.
+• Brindar orientación a las familias para la atención de problemáticas de carácter social o derivándoles a servicios que se brinden dentro de la jurisdicción.]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="edf5f172-77ea-4f0c-a2af-83d36515990b" mode="Opaque" x="20" y="89" width="512" height="48" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[COMPROMISOS DE LA ESTRATEGIA EXTRAMUROS ESPECIALIZADA EN PREVENCIÓN PRIMARIA Y FORTALECIMIENTO DE LAS FAMILIAS]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="a0c6eeb2-144e-499d-a702-922bd05521cc" mode="Opaque" x="20" y="277" width="512" height="49" forecolor="#FFFFFF" backcolor="#0B93BD" fontName="SansSerif" fontSize="11.0" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[COMPROMISOS DE LOS INTEGRANTES DE LA FAMILIA]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="staticText" uuid="cfac4092-98cd-4582-b561-86522ffd8d0e" x="20" y="326" width="512" height="110" fontName="SansSerif" fontSize="11.0" hTextAlign="Justified">
+				<text><![CDATA[•	Participar en todas las actividades del servicio de acuerdo a las fechas y tiempo programado.
+•	Cumplir con los compromisos asumidos durante las reuniones de acompañamiento familiar e informar sobre las dificultades que se presenten en el incumplimiento de las mismas.
+•	Cumplir con las acciones y/o actividades contenidas en el Plan de Trabajo Familiar.
+•	Comunicar con anticipación cuando necesite reprogramar la atención para otro momento, considerando horarios que no afecten la atención de las otras familias.
+]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<box topPadding="10" leftPadding="10" bottomPadding="10" rightPadding="10">
+					<pen lineWidth="20.0" lineStyle="Solid"/>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+			</element>
+			<element kind="rectangle" uuid="0ebf1769-add6-40d4-9381-0d1b3d011222" x="28" y="505" width="240" height="1" backcolor="#030303">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="staticText" uuid="72d6ede8-81df-43fc-8c93-e5f5d615c36e" x="28" y="507" width="240" height="20" fontName="SansSerif" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Firma del Cuidador]]></text>
+			</element>
+			<element kind="staticText" uuid="9fddba96-78aa-445a-9c25-19b6aea40d3a" x="28" y="527" width="240" height="18" fontName="SansSerif" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[Nombres y Apellidos:]]></text>
+			</element>
+			<element kind="staticText" uuid="99aff8f5-26dd-4795-8b5d-8d50fca238b3" x="20" y="622" width="90" height="18" fontName="SansSerif" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[Fecha y hora:]]></text>
+			</element>
+			<element kind="rectangle" uuid="a221f1ba-7694-4ed7-92eb-3d090f119b28" x="278" y="505" width="240" height="1" backcolor="#030303">
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			</element>
+			<element kind="staticText" uuid="3be8b6e3-11cf-4827-a507-c8cc0bc79da2" x="278" y="507" width="240" height="20" fontName="SansSerif" fontSize="12.0" hTextAlign="Center" vTextAlign="Middle">
+				<text><![CDATA[Firma y sello del Acompañante Familiar]]></text>
+			</element>
+			<element kind="staticText" uuid="0b8bd1c0-cbd7-416d-a84c-d9ce0dd5513d" x="278" y="527" width="240" height="18" fontName="SansSerif" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[Nombres y Apellidos:]]></text>
+			</element>
+			<element kind="staticText" uuid="4e7f372f-9624-4f91-8597-6d1f23d98fed" x="29" y="567" width="40" height="18" fontName="SansSerif" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[DNI:]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="staticText" uuid="3c0a5108-accd-4bb2-ad9b-4235cbf97bf8" x="279" y="567" width="40" height="18" fontName="SansSerif" fontSize="12.0" vTextAlign="Middle">
+				<text><![CDATA[DNI:]]></text>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="67464288-9373-45eb-aa6f-c50f4147ff96" x="50" y="29" width="470" height="20" fontName="SansSerif" hTextAlign="Center" style="Detail">
+				<expression><![CDATA[$P{nombresCuidador}]]></expression>
+			</element>
+			<element kind="textField" uuid="f2f7362a-95fa-41a9-bee1-d4a40e3b22a3" x="160" y="42" width="140" height="20" fontName="SansSerif" hTextAlign="Center">
+				<expression><![CDATA[$P{numDocCuidador}]]></expression>
+			</element>
+			<element kind="textField" uuid="4e8435ef-9936-4f96-afdb-5f9b3f134fdd" x="28" y="544" width="240" height="20" fontName="SansSerif" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresCuidador}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="9d77a6ac-4d9d-48a1-8a0b-050f55dfe24f" x="281" y="544" width="236" height="20" fontName="SansSerif" bold="true" hTextAlign="Left" vTextAlign="Middle">
+				<expression><![CDATA[$P{nombresAcompañante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="cff61a87-17f4-409a-8014-1b526c1178f5" x="69" y="566" width="120" height="19" fontName="SansSerif" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{numDocCuidador}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="2bf64295-f95c-494f-a602-ca7f73c4c444" x="320" y="566" width="120" height="19" fontName="SansSerif" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{numDocAcompañante}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<element kind="textField" uuid="a659b615-6a38-4231-9efa-593ebac68e6d" x="113" y="622" width="120" height="19" fontName="SansSerif" bold="true" hTextAlign="Center" vTextAlign="Middle">
+				<expression><![CDATA[$P{fechaCompromiso}]]></expression>
+				<property name="com.jaspersoft.studio.unit.width" value="px"/>
+			</element>
+			<property name="com.jaspersoft.studio.layout"/>
+		</band>
+	</detail>
+	<columnFooter splitType="Stretch"/>
+	<pageFooter height="39" splitType="Stretch"/>
+	<summary splitType="Stretch"/>
+</jasperReport>

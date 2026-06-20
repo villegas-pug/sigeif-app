@@ -97,6 +97,6 @@ schedulers:
                enabled: true
                output-path: ${schedulers.siges.output-path}/excel/
                file-name: rpt_matriz_fichas_siges
-               cron: '0 0 8 * * *' # ? 08:00 AM
+               cron: '0 0 6 * * *' # ? 08:00 AM
 
 # ======================================================================================================

@@ -5,7 +5,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 import microservice.sigesu.centros.dto.CentroDTO;
-import microservice.sigesu.centros.repository.CentroRepository;
 
 import jakarta.annotation.PostConstruct;
 import java.util.List;

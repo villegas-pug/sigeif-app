@@ -20,7 +20,8 @@ public interface ProgramacionTallerService {
 
       public List<ProgramacionTallerProjectionResponse> findProgramacionTalleresByParams(Integer idServicio,
                   Integer anio,
-                  Integer mes);
+                  Integer mes,
+                  Integer idZona);
 
       void uploadAnexoProgramacionTaller(Long idProgTaller, String anexoName, byte[] anexo);
 

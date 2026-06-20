@@ -225,6 +225,7 @@
       <module>sigesu</module>
       <module>punche</module>
       <module>cedif</module>
+      <module>educalle</module>
       <module>shared-data</module>
       <module>scheduling</module>
       

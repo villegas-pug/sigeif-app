@@ -28,11 +28,16 @@ spring:
               uri: http://${SIGES_SERVICE:127.0.0.1}:${SIGES_PORT:4004}
               predicates:
                  - Path=/api/ms-sigesu/**
+            - id: ms-educalle
+               # uri: lb://microservice-sigesu
+              uri: http://${EDUCALLE_SERVICE:127.0.0.1}:${EDUCALLE_PORT:4005}
+              predicates:
+                 - Path=/api/ms-educalle/**
 
          # Configuración global de timeouts
          httpclient:
             connect-timeout: 5000  # Tiempo de espera para establecer la conexión (ms)
-            response-timeout: 20s  # Tiempo de espera para recibir la respuesta (ms)
+            response-timeout: 180s  # Tiempo de espera para recibir la respuesta (ms)
 
 server:
    port: ${PORT:4000}
