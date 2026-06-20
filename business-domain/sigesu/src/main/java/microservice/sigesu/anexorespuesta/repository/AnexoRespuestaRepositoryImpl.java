@@ -248,9 +248,11 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
    @Override
    public List<AnexoCabeceraResponse> listarAnexosCabecera() {
 
-      StoredProcedureQuery query = entityManager.createStoredProcedureQuery("USP_LISTAR_ANEXOS_CABECERA");
+      StoredProcedureQuery query = entityManager.createStoredProcedureQuery("USP_LISTAR_ANEXOS_CABECERA_V2");
 
+      query.registerStoredProcedureParameter("p_id_servicio_padre", Long.class, ParameterMode.IN);
       query.registerStoredProcedureParameter("p_cursor", void.class, ParameterMode.REF_CURSOR);
+      query.setParameter("p_id_servicio_padre", InabifServices.SIGESU.getId());
       query.execute();
 
       List<Object[]> rows = query.getResultList();

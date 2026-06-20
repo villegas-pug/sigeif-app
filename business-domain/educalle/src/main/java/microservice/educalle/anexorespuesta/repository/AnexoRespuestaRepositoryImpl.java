@@ -2,6 +2,8 @@ package microservice.educalle.anexorespuesta.repository;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -277,6 +279,11 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                .reqValidacion(((Number) row[14]).intValue())
                .reqSupervisados(((Number) row[15]).intValue())
                .reqDirector(((Number) row[16]).intValue())
+               .nombreCompleto((String) row[17])
+               .edad(((Number) row[18]).intValue())
+               .genero((String) row[19])
+               .fechaAbordaje(toLocalDate(row[20]))
+               .fechaIngreso(toLocalDate(row[21]))
                .build();
          lista.add(dto);
       }
@@ -333,6 +340,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                      cabeceraMap.put("reqDirector", rs.getInt("REQDIRECTOR"));
                      cabeceraMap.put("centro", rs.getString("CENTRO"));
                      cabeceraMap.put("reqObligatoriedad", rs.getInt("REQOBLIGATORIEDAD"));
+
                      // cabeceraMap.put("nombreSupervisado", rs.getString("SUPERVISADO"));
                      cabeceraSet = true;
                   }
@@ -358,6 +366,17 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                      respuestaMap.put("tipoDato1", rs.getString("TIPODATO1"));
                      respuestaMap.put("tipoDato2", rs.getString("TIPODATO2"));
                      respuestaMap.put("condicion", rs.getString("CONDICION"));
+
+                     respuestaMap.put("modoControl", rs.getString("MODOCONTROL"));
+                     respuestaMap.put("iconoControl", rs.getString("ICONOCONTROL"));
+                     respuestaMap.put("vistaControl", rs.getString("VISTACONTROL"));
+                     respuestaMap.put("editable", rs.getString("EDITABLE"));
+                     respuestaMap.put("urlServicio", rs.getString("URLSERVICIO"));
+                     respuestaMap.put("reqDisparador", rs.getInt("REQDISPARADOR"));
+                     respuestaMap.put("httpMetodo", rs.getString("HTTPMETODO"));
+                     respuestaMap.put("httpParams", rs.getString("HTTPPARAMS"));
+                     respuestaMap.put("editableBifurcaciones", rs.getString("EDITABLEBIFURCACIONES"));
+
                      listaRespuestas.add(respuestaMap);
                   }
                }
@@ -580,5 +599,21 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
       List<Map<String, Object>> resultados = consultarAnexoCabeceraAudio(idAnexoCabecera);
       resultados.forEach(r -> r.remove("ACA_AUDIO"));
       return resultados;
+   }
+
+   private LocalDate toLocalDate(Object value) {
+      if (value == null) {
+         return null;
+      }
+      if (value instanceof LocalDate localDate) {
+         return localDate;
+      }
+      if (value instanceof java.sql.Date sqlDate) {
+         return sqlDate.toLocalDate();
+      }
+      if (value instanceof Timestamp timestamp) {
+         return timestamp.toLocalDateTime().toLocalDate();
+      }
+      throw new IllegalArgumentException("Tipo de fecha no soportado: " + value.getClass().getName());
    }
 }

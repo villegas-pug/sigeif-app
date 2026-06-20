@@ -1,5 +1,7 @@
 package microservice.educalle.anexorespuesta.dtos;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -35,5 +37,12 @@ public class AnexoCabeceraResponse {
 
     private String periodo;
     private String tipo;
-    // private String centro;
+
+    // * Anexo Respuestas
+    private String nombreCompleto;
+    private Integer edad;
+    private String genero;
+    private LocalDate fechaAbordaje;
+    private LocalDate fechaIngreso;
+
 }
