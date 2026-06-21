@@ -48,4 +48,12 @@ public interface ReportService {
          String nombreAdministrador,
          String condicion);
 
+   // ============================================================
+   // INDICADORES_ANEXOS_CABECERA
+   // ============================================================
+
+   List<Map<String, Object>> listarIndicadoresAnexosCabecera();
+
 }
+
+

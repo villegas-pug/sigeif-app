@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import microservice.shared_data.enums.InabifServices;
 import microservice.shared_data.repositories.BaseOracleRepository;
 
 /**
@@ -23,6 +24,11 @@ public class ReportRepositoryImpl extends BaseOracleRepository implements Report
 
    private static final String TIPO_ASISTENCIA_ECONOMICA = "RPT_ASISTENCIA_ECONOMICA";
    private static final String TIPO_SIGEIR = "RPT_SIGEIR";
+
+   private static final String SP_INDICADORES_ANEXOS_CABECERA = "USP_INDICADORES_ANEXOS_CABECERA";
+   private static final String PARAM_ID_SERVICIO_PADRE = "p_id_servicio_padre";
+   private static final String PARAM_META_MENSUAL = "p_meta_mensual";
+   private static final String PARAM_CURSOR = "p_cursor";
 
    public ReportRepositoryImpl(JdbcTemplate jdbcTemplate, DataSource dataSource) {
       super(jdbcTemplate, dataSource);
@@ -42,6 +48,14 @@ public class ReportRepositoryImpl extends BaseOracleRepository implements Report
       inParams.put(PARAM_TIPO, TIPO_SIGEIR);
       inParams.put(PARAM_VALOR, pValor);
       return super.executeProcedureAndFetchResult(SP_NAME, inParams, PARAM_RESULTADO);
+   }
+
+   @Override
+   public List<Map<String, Object>> executeIndicadoresAnexosCabeceraReport(Integer metaMensual) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put(PARAM_ID_SERVICIO_PADRE, InabifServices.EDUCALLE.getId());
+      inParams.put(PARAM_META_MENSUAL, metaMensual);
+      return super.executeProcedureAndFetchResult(SP_INDICADORES_ANEXOS_CABECERA, inParams, PARAM_CURSOR);
    }
 
 }

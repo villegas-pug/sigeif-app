@@ -4,27 +4,32 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import microservice.educalle.reporting.repository.ReportRepository;
+import microservice.shared_data.enums.InabifServices;
 import microservice.shared_data.exceptions.NotFoundException;
 import microservice.shared_data.services.BaseReportingService;
 
 /**
  * Implementacion del servicio de reportes transversales SIGES.
  * <p>
- * - Recibe los filtros como parametros individuales (mas amigable para el consumidor)
- *   y los concatena con {@code |} usando {@code SF} como sentinela de "no aplica",
- *   tal como espera el SP {@code USP_GENERAR_REPORTES_SIGES}.
+ * - Recibe los filtros como parametros individuales (mas amigable para el
+ * consumidor)
+ * y los concatena con {@code |} usando {@code SF} como sentinela de "no
+ * aplica",
+ * tal como espera el SP {@code USP_GENERAR_REPORTES_SIGES}.
  * - El dataset siempre es {@code List<Map<String, Object>>}. Si esta vacio,
- *   se lanza {@link NotFoundException} (politica transversal de reporting).
- * - La generacion de Excel se delega a {@code super.apachePOIReportingService.generateDynamicExcelFile}.
+ * se lanza {@link NotFoundException} (politica transversal de reporting).
+ * - La generacion de Excel se delega a
+ * {@code super.apachePOIReportingService.generateDynamicExcelFile}.
  * </p>
  */
 @Service
 @Transactional(readOnly = true)
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class ReportServiceImpl extends BaseReportingService implements ReportService {
 
    private static final String FILTER_EMPTY_VALUE = "SF";
@@ -32,6 +37,9 @@ public class ReportServiceImpl extends BaseReportingService implements ReportSer
    private static final String EXCEL_SHEET_NAME = "░";
 
    private final ReportRepository repository;
+
+   @Value("${reporte.indicadores.meta-mensual}")
+   private Integer metaMensual;
 
    // ============================================================
    // RPT_ASISTENCIA_ECONOMICA
@@ -104,11 +112,24 @@ public class ReportServiceImpl extends BaseReportingService implements ReportSer
    }
 
    // ============================================================
+   // INDICADORES_ANEXOS_CABECERA
+   // ============================================================
+
+   @Override
+   public List<Map<String, Object>> listarIndicadoresAnexosCabecera() {
+      List<Map<String, Object>> dataset = this.repository.executeIndicadoresAnexosCabeceraReport(this.metaMensual);
+
+      validateDataset(dataset);
+      return dataset;
+   }
+
+   // ============================================================
    // Helpers
    // ============================================================
 
    /**
-    * Concatena los filtros con {@code |}, sustituyendo nulos/vacios por {@code SF}.
+    * Concatena los filtros con {@code |}, sustituyendo nulos/vacios por
+    * {@code SF}.
     * Preserva el orden posicional requerido por el SP.
     */
    private String joinFilters(String... filters) {

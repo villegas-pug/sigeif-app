@@ -13,4 +13,6 @@ public interface ReportRepository {
 
    List<Map<String, Object>> executeSigeirReport(String pValor);
 
+   List<Map<String, Object>> executeIndicadoresAnexosCabeceraReport(Integer metaMensual);
+
 }
