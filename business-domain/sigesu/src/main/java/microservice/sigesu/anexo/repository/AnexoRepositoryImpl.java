@@ -50,12 +50,11 @@ public class AnexoRepositoryImpl extends BaseOracleRepository implements AnexoRe
     public List<UnidadServicioDto> listarServiciosPorUnidad(Long idUnidadOrganica) {
 
         SimpleJdbcCall jdbcCall = new SimpleJdbcCall(jdbcTemplate)
-                .withProcedureName("USP_LISTAR_UNIDADES_SERVICIOS_V1")
+                .withProcedureName("USP_LISTAR_UNIDADES_SERVICIOS")
                 .returningResultSet("C_RESULTADO", new UnidadServicioRowMapper());
 
         Map<String, Object> params = new HashMap<>();
         params.put("P_ID_UNIDAD_ORGANICA", idUnidadOrganica);
-        params.put("P_ID_SERVICIO_PADRE", InabifServices.EDUCALLE.getId());
 
         Map<String, Object> result = jdbcCall.execute(params);
 
@@ -84,9 +83,10 @@ public class AnexoRepositoryImpl extends BaseOracleRepository implements AnexoRe
     public List<UnidadDto> listarUnidades() {
 
         Map<String, Object> inParams = new HashMap<>();
+        inParams.put("p_id_servicio_padre", InabifServices.SIGESU.getId());
 
         return this.executeProcedureWithInParams(
-                "USP_LISTAR_UNIDADES",
+                "USP_LISTAR_UNIDADES_V2",
                 inParams,
                 "C_RESULTADO",
                 UnidadDto.class);

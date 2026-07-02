@@ -15,6 +15,7 @@ import microservice.educalle.reporting.services.ReportService;
 import microservice.shared_data.controller.BaseRestController;
 import microservice.shared_data.dtos.responses.ApiResponse;
 import microservice.shared_data.enums.ApiResponseStatus;
+import microservice.shared_data.exceptions.NotFoundException;
 
 /**
  * Endpoints GET para los reportes transversales SIGES.
@@ -123,17 +124,17 @@ public class ReportController extends BaseRestController {
    // INDICADORES_ANEXOS_CABECERA
    // ============================================================
 
-    @GetMapping("/indicadores-anexos-cabecera")
-    public ResponseEntity<?> getIndicadoresAnexosCabecera() {
+   @GetMapping("/indicadores-anexos-cabecera")
+   public ResponseEntity<?> getIndicadoresAnexosCabecera() {
 
-       List<Map<String, Object>> data = this.service.listarIndicadoresAnexosCabecera();
+      List<Map<String, Object>> data = this.service.listarIndicadoresAnexosCabecera();
 
-       return ResponseEntity.ok(
-             ApiResponse.builder()
-                   .message(ApiResponseStatus.SUCCESS.getMessage())
-                   .data(data)
-                   .build());
-    }
+      return ResponseEntity.ok(
+            ApiResponse.builder()
+                  .message(ApiResponseStatus.SUCCESS.getMessage())
+                  .data(data)
+                  .build());
+   }
 
    // ============================================================
    // Helpers
@@ -144,4 +145,3 @@ public class ReportController extends BaseRestController {
    }
 
 }
-

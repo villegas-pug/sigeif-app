@@ -30,7 +30,7 @@ spring:
                  - Path=/api/ms-sigesu/**
             - id: ms-educalle
                # uri: lb://microservice-sigesu
-              uri: http://${EDUCALLE_SERVICE:127.0.0.1}:${EDUCALLE_PORT:4005}
+              uri: http://${SISEC_SERVICE:127.0.0.1}:${SISEC_PORT:4005}
               predicates:
                  - Path=/api/ms-educalle/**
 
