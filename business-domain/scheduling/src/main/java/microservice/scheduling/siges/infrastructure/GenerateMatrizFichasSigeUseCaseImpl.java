@@ -202,16 +202,6 @@ public class GenerateMatrizFichasSigeUseCaseImpl
          }
       }
 
-      // * LOG TEMPORAL: diagnóstico de render de respuestas (remover tras verificar el fix).
-      log.info("[MATRIZ_SIGES] sheet='{}' rows={} fichas={} preguntaCols={} cellLookup={}",
-            sheetName, rows.size(), fichas.size(), preguntaCols.size(), cellLookup.size());
-      if (!cellLookup.isEmpty()) {
-         log.info("[MATRIZ_SIGES] preguntaCols: {}", preguntaCols);
-         log.info("[MATRIZ_SIGES] cellLookup sample (max 3):");
-         cellLookup.entrySet().stream().limit(3).forEach(e ->
-               log.info("[MATRIZ_SIGES]   key='{}' value='{}'", e.getKey(), e.getValue()));
-      }
-
       // * 4. Cabeceras: dimensiones + preguntas pivoteadas
       List<String> headers = new ArrayList<>(DIMENSION_COLUMNS);
       headers.addAll(preguntaCols);
@@ -269,6 +259,7 @@ public class GenerateMatrizFichasSigeUseCaseImpl
 
       cellStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
       cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+      cellStyle.setWrapText(true);
 
       sheet.getRow(0).setHeightInPoints(25);
       sheet.createFreezePane(0, 1);
@@ -299,13 +290,13 @@ public class GenerateMatrizFichasSigeUseCaseImpl
       font.setFontHeightInPoints((short) 9);
       font.setFontName("Arial");
       cellStyle.setFont(font);
+      cellStyle.setWrapText(true);
 
       for (int i = 0; i < sheet.getRow(0).getLastCellNum(); i++) {
          int headerLength = sheet.getRow(0).getCell(i).getStringCellValue().length();
-         // * Excel limita el ancho de columna a 255 caracteres (65 280 unidades).
-         // * Si el header (o el contenido típico de la columna) excede eso, cap al
-         // máximo permitido.
-         int cellWidth = Math.min(255, headerLength + 5) * 256;
+         // * Ancho máximo de columna: 50 caracteres (12 800 unidades POI). Si el
+         // header es más corto, se reduce proporcionalmente.
+         int cellWidth = Math.min(50, headerLength + 5) * 256;
          sheet.setColumnWidth(i, cellWidth);
       }
 
