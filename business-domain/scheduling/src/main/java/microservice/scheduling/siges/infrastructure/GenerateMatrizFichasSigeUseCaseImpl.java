@@ -45,10 +45,27 @@ public class GenerateMatrizFichasSigeUseCaseImpl
    // * Columnas de dimensión que se conservan como columnas en cada hoja
    // * (en el orden en que aparecerán a la izquierda de la grilla).
    // * NO incluye ANEXO ni NUMERO_PREGUNTA.
+   // * Las claves se mantienen con UNDERSCORE porque deben coincidir con las
+   // * columnas del cursor de USP_GENERAR_REPORTES_SIGES (Oracle). Para la
+   // * etiqueta visible en el Excel se usa DIMENSION_LABELS (espacios).
    private static final List<String> DIMENSION_COLUMNS = List.of(
          "ID", "PERIODO", "TIPO", "CODIGO", "INSTRUMENTO", "CORRELATIVO",
          "UNIDAD", "SERVICIO", "PERFIL", "CENTRO", "DEPARTAMENTO_PROVINCIA_DISTRITO",
          "RESPONSABLE_SUPERVISION", "DIRECTOR_COORDINADOR", "FECHA_DE_REGISTRO");
+
+   // * Etiqueta visible en el Excel para las columnas de dimensión que
+   // * tienen UNDERSORE en su nombre. Si la clave no está en este mapa, se
+   // * muestra tal cual (caso de las dimensiones que ya usan identificadores
+   // * simples como "ID", "PERIODO", etc.).
+   private static final Map<String, String> DIMENSION_LABELS = Map.of(
+         "DEPARTAMENTO_PROVINCIA_DISTRITO", "DEPARTAMENTO PROVINCIA DISTRITO",
+         "RESPONSABLE_SUPERVISION", "RESPONSABLE SUPERVISION",
+         "DIRECTOR_COORDINADOR", "DIRECTOR COORDINADOR",
+         "FECHA_DE_REGISTRO", "FECHA DE REGISTRO");
+
+   private static String displayLabel(String cursorKey) {
+      return DIMENSION_LABELS.getOrDefault(cursorKey, cursorKey);
+   }
 
    // * Columnas del cursor que participan en el pivot.
    private static final String COL_NUMERO_PREGUNTA = "NUMERO_PREGUNTA";
@@ -208,7 +225,7 @@ public class GenerateMatrizFichasSigeUseCaseImpl
 
       XSSFRow headerRow = sheet.createRow(0);
       for (int i = 0; i < headers.size(); i++) {
-         headerRow.createCell(i).setCellValue(headers.get(i).toUpperCase());
+         headerRow.createCell(i).setCellValue(displayLabel(headers.get(i)).toUpperCase());
       }
 
       // * 5. Cuerpo: una fila por ficha, celdas = respuesta
@@ -261,7 +278,7 @@ public class GenerateMatrizFichasSigeUseCaseImpl
       cellStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
       cellStyle.setWrapText(true);
 
-      sheet.getRow(0).setHeightInPoints(25);
+      sheet.getRow(0).setHeightInPoints(70);
       sheet.createFreezePane(0, 1);
 
       for (int i = 0; i < sheet.getRow(0).getLastCellNum(); i++) {
