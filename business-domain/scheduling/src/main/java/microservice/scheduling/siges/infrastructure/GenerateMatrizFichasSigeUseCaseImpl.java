@@ -48,23 +48,38 @@ public class GenerateMatrizFichasSigeUseCaseImpl
    private static final List<String> DIMENSION_COLUMNS = List.of(
          "ID", "PERIODO", "TIPO", "CODIGO", "INSTRUMENTO", "CORRELATIVO",
          "UNIDAD", "SERVICIO", "PERFIL", "CENTRO", "DEPARTAMENTO_PROVINCIA_DISTRITO",
-         "RESPONSABLE_SUPERVISION", "DIRECTOR_COORDINADOR", "FECHA_DE_REGISTRO"
-   );
+         "RESPONSABLE_SUPERVISION", "DIRECTOR_COORDINADOR", "FECHA_DE_REGISTRO");
 
    // * Columnas del cursor que participan en el pivot.
-   private static final String COL_PREGUNTA = "PREGUNTAS";
-   private static final String COL_RESPUESTA = "RESPUESTAS";
    private static final String COL_NUMERO_PREGUNTA = "NUMERO_PREGUNTA";
    private static final String COL_NUMERO_GRUPO = "NUMERO_GRUPO";
    private static final String COL_ANEXO = "ANEXO";
    private static final String COL_CODIGO = "CODIGO";
 
+   // * Pares (pregunta, respuesta) que se pivotan a columnas.
+   // * El orden de aparición en la lista define el pairIndex (0 = primera, 1 =
+   // segunda, etc.).
+   // * skipEmpty=true omite la fila cuando la pregunta viene null/vacía en esa
+   // fila.
+   // * Por regla: solo PREGUNTAS2 omite vacíos (PREGUNTAS2 es sub-pregunta de
+   // PREGUNTAS).
+   private record PivotPair(String preguntaCol, String respuestaCol, boolean skipEmpty) {
+   }
+
+   private static final List<PivotPair> PIVOT_PAIRS = List.of(
+         new PivotPair("PREGUNTAS", "RESPUESTAS", false),
+         new PivotPair("PREGUNTAS2", "RESPUESTAS2", true));
+
    // * SP fijo de este reporte.
    private static final String SP_NAME = "USP_GENERAR_REPORTES_SIGES";
    private static final String OUT_CURSOR = "p_resultado";
 
-   // * Par (grupo, pregunta) usado para ordenar las columnas pivoteadas.
-   private record PreguntaOrden(int grupo, int pregunta) {}
+   // * Triplete usado para ordenar las columnas pivoteadas.
+   // * pairIndex actúa como tie-breaker: cuando dos preguntas empatan en (g, n),
+   // * gana la del par con índice menor (PREGUNTAS antes que PREGUNTAS2,
+   // * porque PREGUNTAS2 es sub-pregunta de PREGUNTAS).
+   private record PreguntaOrden(int grupo, int pregunta, int pairIndex) {
+   }
 
    private final MatrizFichasSigeProperties properties;
    private final BaseRepository repository;
@@ -85,7 +100,8 @@ public class GenerateMatrizFichasSigeUseCaseImpl
          throw new MatrizFichasSigeNotFoundException();
       }
 
-      // * 3. Agrupar filas por (ANEXO + CODIGO) → una hoja por grupo, formato: ANEXO(CODIGO)
+      // * 3. Agrupar filas por (ANEXO + CODIGO) → una hoja por grupo, formato:
+      // ANEXO(CODIGO)
       Map<String, List<Map<String, Object>>> groups = new LinkedHashMap<>();
       for (Map<String, Object> row : dataset) {
          String codigo = str(row.get(COL_CODIGO));
@@ -132,24 +148,36 @@ public class GenerateMatrizFichasSigeUseCaseImpl
 
       XSSFSheet sheet = workbook.createSheet(sheetName);
 
-      // * 1. Preguntas únicas ordenadas por (NUMERO_GRUPO, NUMERO_PREGUNTA).
-      // * Estable: primer orden de aparición como desempate (LinkedHashMap).
+      // * 1. Preguntas únicas ordenadas por (NUMERO_GRUPO, NUMERO_PREGUNTA,
+      // pairIndex).
+      // * pairIndex es el tie-breaker: cuando hay empate en (g, n), gana la pregunta
+      // * del par con índice menor (PREGUNTAS antes que PREGUNTAS2).
+      // * Estable: primer orden de aparición como desempate final (LinkedHashMap).
       Map<String, PreguntaOrden> preguntaOrder = new LinkedHashMap<>();
-      for (Map<String, Object> r : rows) {
-         String pregunta = str(r.get(COL_PREGUNTA));
-         preguntaOrder.putIfAbsent(pregunta,
-               new PreguntaOrden(
-                     safeInt(r.get(COL_NUMERO_GRUPO)),
-                     safeInt(r.get(COL_NUMERO_PREGUNTA))));
+      int pairIndex = 0;
+      for (PivotPair pair : PIVOT_PAIRS) {
+         for (Map<String, Object> r : rows) {
+            String pregunta = str(r.get(pair.preguntaCol()));
+            if (pair.skipEmpty() && pregunta.isBlank())
+               continue;
+            preguntaOrder.putIfAbsent(pregunta,
+                  new PreguntaOrden(
+                        safeInt(r.get(COL_NUMERO_GRUPO)),
+                        safeInt(r.get(COL_NUMERO_PREGUNTA)),
+                        pairIndex));
+         }
+         pairIndex++;
       }
       List<String> preguntaCols = preguntaOrder.entrySet().stream()
             .sorted(Comparator
                   .comparingInt((Map.Entry<String, PreguntaOrden> e) -> e.getValue().grupo)
-                  .thenComparingInt(e -> e.getValue().pregunta))
+                  .thenComparingInt(e -> e.getValue().pregunta)
+                  .thenComparingInt(e -> e.getValue().pairIndex))
             .map(Map.Entry::getKey)
             .toList();
 
-      // * 2. Fichas únicas (tupla de dimensiones) preservando primer orden de aparición
+      // * 2. Fichas únicas (tupla de dimensiones) preservando primer orden de
+      // aparición
       Map<String, Map<String, Object>> fichaIndex = new LinkedHashMap<>();
       for (Map<String, Object> r : rows) {
          String fichaKey = dimensionKey(r);
@@ -158,13 +186,30 @@ public class GenerateMatrizFichasSigeUseCaseImpl
       List<Map<String, Object>> fichas = new ArrayList<>(fichaIndex.values());
 
       // * 3. Lookup rápido (fichaKey + pregunta) -> respuesta (siempre en mayúscula)
-      // * Clave compuesta: "fichaKey\u0001pregunta" para evitar colisiones por concatenación.
+      // * Clave compuesta: "fichaKey\u0001pregunta" para evitar colisiones por
+      // concatenación.
+      // * Itera sobre PIVOT_PAIRS respetando el flag skipEmpty (PREGUNTAS2 omite
+      // vacíos).
       Map<String, String> cellLookup = new HashMap<>();
       for (Map<String, Object> r : rows) {
          String fichaKey = dimensionKey(r);
-         String pregunta = str(r.get(COL_PREGUNTA));
-         String respuesta = str(r.get(COL_RESPUESTA)).toUpperCase(Locale.ROOT);
-         cellLookup.put(fichaKey + "\u0001" + pregunta, respuesta);
+         for (PivotPair pair : PIVOT_PAIRS) {
+            String pregunta = str(r.get(pair.preguntaCol()));
+            if (pair.skipEmpty() && pregunta.isBlank())
+               continue;
+            String respuesta = str(r.get(pair.respuestaCol())).toUpperCase(Locale.ROOT);
+            cellLookup.put(fichaKey + "" + pregunta, respuesta);
+         }
+      }
+
+      // * LOG TEMPORAL: diagnóstico de render de respuestas (remover tras verificar el fix).
+      log.info("[MATRIZ_SIGES] sheet='{}' rows={} fichas={} preguntaCols={} cellLookup={}",
+            sheetName, rows.size(), fichas.size(), preguntaCols.size(), cellLookup.size());
+      if (!cellLookup.isEmpty()) {
+         log.info("[MATRIZ_SIGES] preguntaCols: {}", preguntaCols);
+         log.info("[MATRIZ_SIGES] cellLookup sample (max 3):");
+         cellLookup.entrySet().stream().limit(3).forEach(e ->
+               log.info("[MATRIZ_SIGES]   key='{}' value='{}'", e.getKey(), e.getValue()));
       }
 
       // * 4. Cabeceras: dimensiones + preguntas pivoteadas
@@ -200,7 +245,8 @@ public class GenerateMatrizFichasSigeUseCaseImpl
    // * Estilos (réplica local de BaseApachePOIReportingService, aplicada por hoja)
    // ------------------------------------------------------------------
    private void applyBasicHeaderCellStyle(XSSFWorkbook workbook, Sheet sheet) {
-      if (sheet.getRow(0) == null) return;
+      if (sheet.getRow(0) == null)
+         return;
 
       CellStyle cellStyle = workbook.createCellStyle();
       Font fuente = workbook.createFont();
@@ -233,7 +279,8 @@ public class GenerateMatrizFichasSigeUseCaseImpl
    }
 
    private void applyBasicBodyCellStyle(XSSFWorkbook workbook, Sheet sheet) {
-      if (sheet.getRow(0) == null) return;
+      if (sheet.getRow(0) == null)
+         return;
 
       CellStyle cellStyle = workbook.createCellStyle();
       cellStyle.setBorderLeft(BorderStyle.THIN);
@@ -256,13 +303,15 @@ public class GenerateMatrizFichasSigeUseCaseImpl
       for (int i = 0; i < sheet.getRow(0).getLastCellNum(); i++) {
          int headerLength = sheet.getRow(0).getCell(i).getStringCellValue().length();
          // * Excel limita el ancho de columna a 255 caracteres (65 280 unidades).
-         // * Si el header (o el contenido típico de la columna) excede eso, cap al máximo permitido.
+         // * Si el header (o el contenido típico de la columna) excede eso, cap al
+         // máximo permitido.
          int cellWidth = Math.min(255, headerLength + 5) * 256;
          sheet.setColumnWidth(i, cellWidth);
       }
 
       for (int i = 1; i < sheet.getLastRowNum() + 1; i++) {
-         if (sheet.getRow(i) == null) continue;
+         if (sheet.getRow(i) == null)
+            continue;
          for (int j = 0; j < sheet.getRow(i).getLastCellNum(); j++) {
             sheet.getRow(i).getCell(j).setCellStyle(cellStyle);
          }
@@ -283,7 +332,8 @@ public class GenerateMatrizFichasSigeUseCaseImpl
    }
 
    private static int safeInt(Object o) {
-      if (o == null) return Integer.MAX_VALUE;
+      if (o == null)
+         return Integer.MAX_VALUE;
       try {
          return Integer.parseInt(o.toString().trim());
       } catch (NumberFormatException e) {
