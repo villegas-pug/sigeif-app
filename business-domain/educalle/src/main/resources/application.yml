@@ -22,7 +22,7 @@ spring:
    jpa:
       database-platform: org.hibernate.dialect.OracleDialect
       ddl-auto: validate
-      show-sql: true
+      show-sql: false
       properties:
          hibernate:
             format_sql: true
@@ -34,8 +34,8 @@ spring:
 
 logging:
    level:
-      org.hibernate.SQL: DEBUG
-      org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+      org.hibernate.SQL: WARN
+      org.hibernate.type.descriptor.sql.BasicBinder: WARN
 
 server:
   port: ${PORT:4005}
