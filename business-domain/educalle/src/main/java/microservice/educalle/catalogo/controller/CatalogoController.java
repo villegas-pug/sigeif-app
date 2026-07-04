@@ -45,4 +45,17 @@ public class CatalogoController {
 								.build());
 	}
 
+	@GetMapping(path = { "/findAllNivelesEducativos" })
+	public ResponseEntity<?> findAllNivelesEducativos(@RequestParam(required = false) Integer idTipoEdu,
+			@RequestParam(required = false) Integer idNivelEdu) {
+		return ResponseEntity
+				.ok(
+						ApiResponse
+								.builder()
+								.message(ApiResponseStatus.SUCCESS.getMessage())
+								.data(this.service.findAllNivelesEducativos(idTipoEdu, idNivelEdu))
+								.build());
+
+	}
+
 }

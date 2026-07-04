@@ -1,6 +1,7 @@
 package microservice.educalle.catalogo.service;
 
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
@@ -34,6 +35,16 @@ public class CatalogoServiceImpl implements CatalogoService {
          throw new NotFoundException();
       }
       return catalogos;
+   }
+
+   @Override
+   @Transactional(readOnly = true)
+   public List<Map<String, Object>> findAllNivelesEducativos(Integer idTipoEdu, Integer idNivelEdu) {
+      List<Map<String, Object>> nivelesEducativos = catalogoRepository.findAllNivelesEducativos(idTipoEdu, idNivelEdu);
+      if (nivelesEducativos.size() == 0) {
+         throw new NotFoundException();
+      }
+      return nivelesEducativos;
    }
 
 }

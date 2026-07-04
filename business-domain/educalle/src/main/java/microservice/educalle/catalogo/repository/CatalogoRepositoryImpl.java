@@ -25,4 +25,12 @@ public class CatalogoRepositoryImpl extends BaseOracleRepository implements Cata
             "c_resultado_busqueda", CatalogoDto.class);
    }
 
+   @Override
+   public List<Map<String, Object>> findAllNivelesEducativos(Integer idTipoEdu, Integer idNivelEdu) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_id_tipo_edu", idTipoEdu);
+      inParams.put("p_id_nivel_edu", idNivelEdu);
+      return this.executeProcedureAndFetchResult("PRC_SISEC_CATALOGO_LISTAR_NIVEL_EDU", inParams, "p_cursor");
+   }
+
 }
