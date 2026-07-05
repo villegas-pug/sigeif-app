@@ -38,4 +38,9 @@ public class AnexoPregutasDto {
    private String editableBifurcaciones;
    private Integer lng;
    private Integer lngBifurcacion;
+   private String rangoLongitud;
+   private Integer reqAlfNum;
+   private Integer reqContador;
+   private Integer reqObligatoria1Cierre;
+   private Integer reqObligatoria2Cierre;
 }

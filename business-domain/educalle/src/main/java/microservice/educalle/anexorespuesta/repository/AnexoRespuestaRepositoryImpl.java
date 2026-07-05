@@ -394,7 +394,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          ObjectMapper mapper = new ObjectMapper();
          String respuestasJson = mapper.writeValueAsString(request.getRespuestas());
 
-         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("USP_ACTUALIZAR_ANEXO_COMPLETO");
+         StoredProcedureQuery query = entityManager.createStoredProcedureQuery("USP_ACTUALIZAR_ANEXO_COMPLETO_V2");
 
          query.registerStoredProcedureParameter("p_id_cabecera", Long.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_id_anexo", Long.class, ParameterMode.IN);
