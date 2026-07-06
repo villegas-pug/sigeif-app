@@ -3,6 +3,7 @@ package microservice.educalle.anexorespuesta.service;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.text.Normalizer;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -18,6 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import microservice.educalle.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.educalle.anexorespuesta.dtos.AnexoEvaluacionResponse;
+import microservice.educalle.anexorespuesta.dtos.CompromisoNnaPdfResponse;
 import microservice.educalle.anexorespuesta.dtos.CreateAnexoEvaluacionRequest;
 import microservice.educalle.anexorespuesta.dtos.CreateAnexoRespuestaRequest;
 import microservice.educalle.anexorespuesta.dtos.UpdateAnexoRespuestaRequest;
@@ -242,9 +244,9 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
    }
 
    @Override
-   public byte[] generarCompromisoNNA(Long idAnexoCabecera) {
+   public CompromisoNnaPdfResponse generarCompromisoNNA(Long idAnexoCabecera, Integer correlativo) {
 
-      Map<String, Object> data = repository.obtenerRespuestasPorAnexo(idAnexoCabecera, 1);
+      Map<String, Object> data = repository.obtenerRespuestasPorAnexo(idAnexoCabecera, correlativo);
       List<Map<String, Object>> respuestas = (List<Map<String, Object>>) data.get("respuestas");
 
       Map<String, String> nna = extraerPersonaCompromiso(respuestas, 4273L);
@@ -256,8 +258,31 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
       compromisoData.put("tutorNombreCompleto", tutor.getOrDefault("nombreCompleto", ""));
       compromisoData.put("tutorDni", tutor.getOrDefault("dni", ""));
       compromisoData.put("educadorNombreCompleto", normalizarTexto(data.get("respSupervision")));
+      String filename = buildCompromisoNnaFilename(idAnexoCabecera, nna.getOrDefault("nombreCompleto", ""));
 
-      return PdfGenerator.generarCompromisoNNA(compromisoData);
+      return new CompromisoNnaPdfResponse(PdfGenerator.generarCompromisoNNA(compromisoData), filename);
+   }
+
+   private String buildCompromisoNnaFilename(Long idAnexoCabecera, String nombreCompletoNna) {
+      String slug = normalizarSlug(nombreCompletoNna);
+      if (!slug.isBlank()) {
+         return "compromiso-nna-" + idAnexoCabecera + "-" + slug + ".pdf";
+      }
+
+      return "compromiso-nna-" + idAnexoCabecera + ".pdf";
+   }
+
+   private String normalizarSlug(String valor) {
+      String texto = normalizarTexto(valor);
+      if (texto.isBlank()) {
+         return "";
+      }
+
+      return Normalizer.normalize(texto, Normalizer.Form.NFD)
+            .replaceAll("\\p{M}+", "")
+            .toLowerCase()
+            .replaceAll("[^a-z0-9]+", "-")
+            .replaceAll("^-+|-+$", "");
    }
 
    private Map<String, String> extraerPersonaCompromiso(List<Map<String, Object>> respuestas, Long idPreguntaObjetivo) {

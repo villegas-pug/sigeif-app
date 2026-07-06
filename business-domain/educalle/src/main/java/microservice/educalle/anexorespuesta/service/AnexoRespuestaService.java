@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import org.springframework.web.multipart.MultipartFile;
 import microservice.educalle.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.educalle.anexorespuesta.dtos.AnexoEvaluacionResponse;
+import microservice.educalle.anexorespuesta.dtos.CompromisoNnaPdfResponse;
 import microservice.educalle.anexorespuesta.dtos.CreateAnexoEvaluacionRequest;
 import microservice.educalle.anexorespuesta.dtos.CreateAnexoRespuestaRequest;
 import microservice.educalle.anexorespuesta.dtos.UpdateAnexoRespuestaRequest;
@@ -49,7 +50,7 @@ public interface AnexoRespuestaService {
 
       byte[] generarPdf(Long idAnexoCabecera, Integer correlativo);
 
-      byte[] generarCompromisoNNA(Long idAnexoCabecera);
+      CompromisoNnaPdfResponse generarCompromisoNNA(Long idAnexoCabecera, Integer correlativo);
 
       void guardarAudio(MultipartFile file, Long idAnexoCabecera);
 

@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import microservice.educalle.anexopregunta.model.AnexoPregunta;
 import microservice.educalle.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.educalle.anexorespuesta.dtos.AnexoEvaluacionResponse;
+import microservice.educalle.anexorespuesta.dtos.CompromisoNnaPdfResponse;
 import microservice.educalle.anexorespuesta.dtos.CreateAnexoEvaluacionRequest;
 import microservice.educalle.anexorespuesta.dtos.CreateAnexoRespuestaRequest;
 import microservice.educalle.anexorespuesta.dtos.UpdateAnexoRespuestaRequest;
@@ -29,9 +30,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
-import java.text.Normalizer;
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -286,77 +285,16 @@ public class AnexoRespuestaController {
       }
 
       @GetMapping("/anexo/compromiso-nna/pdf")
-      public ResponseEntity<byte[]> generarCompromisoNNA(@RequestParam Long idAnexoCabecera) {
+      public ResponseEntity<byte[]> generarCompromisoNNA(@RequestParam Long idAnexoCabecera,
+                  @RequestParam Integer correlativo) {
 
-            byte[] pdf = service.generarCompromisoNNA(idAnexoCabecera);
-            String filename = buildCompromisoNnaFilename(idAnexoCabecera);
+            CompromisoNnaPdfResponse response = service.generarCompromisoNNA(idAnexoCabecera, correlativo);
 
             return ResponseEntity.ok()
                         .header(HttpHeaders.CONTENT_DISPOSITION,
-                                    "inline; filename=\"" + filename + "\"")
+                                    "inline; filename=\"" + response.filename() + "\"")
                         .contentType(MediaType.APPLICATION_PDF)
-                        .body(pdf);
-      }
-
-      private String buildCompromisoNnaFilename(Long idAnexoCabecera) {
-            try {
-                  Map<String, Object> data = service.obtenerRespuestas(idAnexoCabecera, 1);
-                  List<Map<String, Object>> respuestas = (List<Map<String, Object>>) data.get("respuestas");
-
-                  if (respuestas != null) {
-                        for (Map<String, Object> respuesta : respuestas) {
-                              Long idPregunta = extractLong(respuesta.get("idPregunta"));
-                              if (Long.valueOf(4273L).equals(idPregunta)) {
-                                    String nombre = extractSlugFromRespuesta(respuesta.get("respuesta"));
-                                    if (!nombre.isBlank()) {
-                                          return "compromiso-nna-" + idAnexoCabecera + "-" + nombre + ".pdf";
-                                    }
-                              }
-                        }
-                  }
-            } catch (Exception e) {
-                  // Fallback al nombre base si no se puede resolver el nombre del NNA.
-            }
-
-            return "compromiso-nna-" + idAnexoCabecera + ".pdf";
-      }
-
-      private String extractSlugFromRespuesta(Object respuestaObj) {
-            if (respuestaObj == null) {
-                  return "";
-            }
-
-            String[] partes = String.valueOf(respuestaObj).split("\\|");
-            if (partes.length < 4) {
-                  return "";
-            }
-
-            String nombreCompleto = String.join(" ", Arrays.asList(partes[3].trim(), partes[1].trim(), partes[2].trim())
-                        .stream()
-                        .filter(valor -> !valor.isBlank())
-                        .toList());
-
-            return Normalizer.normalize(nombreCompleto, Normalizer.Form.NFD)
-                        .replaceAll("\\p{M}+", "")
-                        .toLowerCase()
-                        .replaceAll("[^a-z0-9]+", "-")
-                        .replaceAll("^-+|-+$", "");
-      }
-
-      private Long extractLong(Object value) {
-            if (value instanceof Number) {
-                  return ((Number) value).longValue();
-            }
-
-            if (value == null) {
-                  return null;
-            }
-
-            try {
-                  return Long.parseLong(String.valueOf(value).trim());
-            } catch (NumberFormatException e) {
-                  return null;
-            }
+                        .body(response.pdf());
       }
 
       @PostMapping("/anexo/upload-audio")
