@@ -48,6 +48,8 @@ public interface AnexoRespuestaService {
 
       byte[] generarPdf(Long idAnexoCabecera, Integer correlativo);
 
+      byte[] generarCompromisoNNA(Long idAnexoCabecera);
+
       void guardarAudio(MultipartFile file, Long idAnexoCabecera);
 
       List<Map<String, Object>> listarResponsablesSupervision(String abreviatura);

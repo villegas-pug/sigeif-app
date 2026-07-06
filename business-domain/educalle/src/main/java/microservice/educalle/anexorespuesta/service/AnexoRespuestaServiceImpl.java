@@ -2,6 +2,7 @@ package microservice.educalle.anexorespuesta.service;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -237,6 +238,84 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
       data.get("supervisado");
 
       return PdfGenerator.generar(data);
+   }
+
+   @Override
+   public byte[] generarCompromisoNNA(Long idAnexoCabecera) {
+
+      Map<String, Object> data = repository.obtenerRespuestasPorAnexo(idAnexoCabecera, 1);
+      List<Map<String, Object>> respuestas = (List<Map<String, Object>>) data.get("respuestas");
+
+      Map<String, String> nna = extraerPersonaCompromiso(respuestas, 4273L);
+      Map<String, String> tutor = extraerPersonaCompromiso(respuestas, 4285L);
+
+      Map<String, Object> compromisoData = new HashMap<>(data);
+      compromisoData.put("nnaNombreCompleto", nna.getOrDefault("nombreCompleto", ""));
+      compromisoData.put("nnaDni", nna.getOrDefault("dni", ""));
+      compromisoData.put("tutorNombreCompleto", tutor.getOrDefault("nombreCompleto", ""));
+      compromisoData.put("tutorDni", tutor.getOrDefault("dni", ""));
+      compromisoData.put("educadorNombreCompleto", normalizarTexto(data.get("respSupervision")));
+
+      return PdfGenerator.generarCompromisoNNA(compromisoData);
+   }
+
+   private Map<String, String> extraerPersonaCompromiso(List<Map<String, Object>> respuestas, Long idPreguntaObjetivo) {
+      if (respuestas == null) {
+         return Map.of();
+      }
+
+      return respuestas.stream()
+            .filter(respuesta -> idPreguntaObjetivo.equals(obtenerLong(respuesta.get("idPregunta"))))
+            .findFirst()
+            .map(respuesta -> parsearPersonaCompromiso(respuesta.get("respuesta")))
+            .orElse(Map.of());
+   }
+
+   private Map<String, String> parsearPersonaCompromiso(Object respuestaObj) {
+      String respuesta = normalizarTexto(respuestaObj);
+      if (respuesta.isEmpty()) {
+         return Map.of();
+      }
+
+      String[] partes = respuesta.split("\\|");
+      String dni = partes.length > 0 ? partes[0].trim() : "";
+      String primerApellido = partes.length > 1 ? partes[1].trim() : "";
+      String segundoApellido = partes.length > 2 ? partes[2].trim() : "";
+      String nombres = partes.length > 3 ? partes[3].trim() : "";
+      String nombreCompleto = String.join(" ",
+            Arrays.asList(nombres, primerApellido, segundoApellido).stream()
+                  .filter(valor -> valor != null && !valor.isBlank())
+                  .toList());
+
+      Map<String, String> persona = new HashMap<>();
+      persona.put("dni", dni);
+      persona.put("nombreCompleto", nombreCompleto.trim());
+      return persona;
+   }
+
+   private Long obtenerLong(Object valor) {
+      if (valor instanceof Number) {
+         return ((Number) valor).longValue();
+      }
+
+      if (valor == null) {
+         return null;
+      }
+
+      try {
+         return Long.parseLong(valor.toString().trim());
+      } catch (NumberFormatException e) {
+         return null;
+      }
+   }
+
+   private String normalizarTexto(Object valor) {
+      if (valor == null) {
+         return "";
+      }
+
+      String texto = String.valueOf(valor).trim();
+      return "null".equalsIgnoreCase(texto) ? "" : texto;
    }
 
    /*

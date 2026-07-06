@@ -14,6 +14,10 @@ import java.util.Arrays;
 
 public class PdfGenerator {
 
+    private static final float FULL_WIDTH = 100f;
+    private static final float SIGNATURE_BOX_HEIGHT = 86f;
+    private static final float EDUCATOR_BOX_HEIGHT = 110f;
+
     public static byte[] generar(Map<String, Object> data) {
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -61,10 +65,12 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaHeader("Servicio:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("nombreServicio")), normalFont));
 
-            String nombreCentro = data.get("nombreCentro") != null ? String.valueOf(data.get("nombreCentro")).trim() : null;
+            String nombreCentro = data.get("nombreCentro") != null ? String.valueOf(data.get("nombreCentro")).trim()
+                    : null;
             String centro = data.get("centro") != null ? String.valueOf(data.get("centro")).trim() : null;
             String centroMostrar = centro != null && !centro.isEmpty() && !"null".equals(centro) ? centro
-                    : (nombreCentro != null && !nombreCentro.isEmpty() && !"null".equals(nombreCentro) ? nombreCentro : "");
+                    : (nombreCentro != null && !nombreCentro.isEmpty() && !"null".equals(nombreCentro) ? nombreCentro
+                            : "");
 
             tablaDatos.addCell(crearCeldaHeader("Centro:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(centroMostrar, normalFont));
@@ -87,7 +93,8 @@ public class PdfGenerator {
             tablaDatos.addCell(crearCeldaHeader("Responsable Supervisión:", headerFont));
             tablaDatos.addCell(crearCeldaNormal(String.valueOf(data.get("respSupervision")), normalFont));
 
-            String respDirector = data.get("respDirector") != null ? String.valueOf(data.get("respDirector")).trim() : null;
+            String respDirector = data.get("respDirector") != null ? String.valueOf(data.get("respDirector")).trim()
+                    : null;
             if (respDirector != null && !respDirector.isEmpty() && !"null".equals(respDirector)) {
                 tablaDatos.addCell(crearCeldaHeader("Director/Coordinador:", headerFont));
                 tablaDatos.addCell(crearCeldaNormal(respDirector, normalFont));
@@ -242,9 +249,268 @@ public class PdfGenerator {
         }
     }
 
+    public static byte[] generarCompromisoNNA(Map<String, Object> data) {
+
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
+
+            Document document = new Document(PageSize.A4, 70, 70, 28, 28);
+            PdfWriter.getInstance(document, baos);
+            document.open();
+
+            Font logoFont = new Font(Font.HELVETICA, 12, Font.BOLD);
+            Font headerFont = new Font(Font.HELVETICA, 9, Font.NORMAL);
+            Font titleFont = new Font(Font.HELVETICA, 15, Font.BOLDITALIC);
+            Font bodyItalicFont = new Font(Font.HELVETICA, 11, Font.ITALIC);
+            Font labelFont = new Font(Font.HELVETICA, 11, Font.ITALIC);
+            Font nameFont = new Font(Font.HELVETICA, 11, Font.NORMAL);
+
+            document.add(crearCabeceraCompromiso(logoFont, headerFont));
+
+            Paragraph titulo = new Paragraph("COMPROMISO", titleFont);
+            titulo.setAlignment(Element.ALIGN_CENTER);
+            titulo.setSpacingBefore(18);
+            titulo.setSpacingAfter(24);
+            document.add(titulo);
+
+            Paragraph introduccion = new Paragraph(
+                    "Puesto en conocimiento al NNA y sus familias, los objetivos y bondades del Servicio Educadores de Calle - INABIF. Dicha usuaria, usuario y/o adulto responsable, expresa su conformidad a traves de su firma asumiendo los siguientes compromisos los cuales se daran de manera progresiva:",
+                    bodyItalicFont);
+            introduccion.setAlignment(Element.ALIGN_JUSTIFIED);
+            introduccion.setLeading(0f, 1.2f);
+            introduccion.setIndentationLeft(28f);
+            introduccion.setIndentationRight(18f);
+            introduccion.setSpacingAfter(12);
+            document.add(introduccion);
+
+            com.lowagie.text.List compromisos = new com.lowagie.text.List(com.lowagie.text.List.UNORDERED, 10f);
+            compromisos.setIndentationLeft(48f);
+            compromisos.setSymbolIndent(12f);
+            compromisos.add(new ListItem(
+                    "Participacion activa de los NNA y sus familias dentro del Servicio Educadores de Calle (talleres, salidas recreativas y culturales, etc.)",
+                    bodyItalicFont));
+            compromisos.add(new ListItem(
+                    "Que su hijo, hija tenga continuidad educativa, de tiempo necesario para sus estudios y el cumplimiento de sus tareas, (segun sea el caso).",
+                    bodyItalicFont));
+            compromisos.add(new ListItem(
+                    "Disminucion de horas y/o extincion progresiva de la situacion de calle.",
+                    bodyItalicFont));
+            document.add(compromisos);
+
+            document.add(new Paragraph(" "));
+            document.add(crearBloqueFirmaHuella(
+                    normalizarTexto(data.get("nnaNombreCompleto")),
+                    normalizarTexto(data.get("nnaDni")),
+                    "Nombre y Apellidos Completos de la nina, nino o adolescente",
+                    "Huella Digital del Usuario (a)",
+                    false,
+                    labelFont,
+                    nameFont,
+                    bodyItalicFont));
+
+            document.add(new Paragraph(" "));
+            document.add(crearBloqueFirmaHuella(
+                    normalizarTexto(data.get("tutorNombreCompleto")),
+                    normalizarTexto(data.get("tutorDni")),
+                    "Nombre y Apellidos Completos del Padre, Madre o\nTutor",
+                    "Huella Digital del Padre o Madre\nTutor",
+                    false,
+                    labelFont,
+                    nameFont,
+                    bodyItalicFont));
+
+            document.add(new Paragraph(" "));
+            document.add(crearBloqueFirmaHuella(
+                    normalizarTexto(data.get("educadorNombreCompleto")),
+                    "",
+                    "Nombre y Apellidos Completos del Educador (a):",
+                    "",
+                    true,
+                    labelFont,
+                    nameFont,
+                    bodyItalicFont));
+
+            document.close();
+            return baos.toByteArray();
+
+        } catch (Exception e) {
+            throw new RuntimeException("Error generando PDF de compromiso NNA", e);
+        }
+    }
+
     // ===============================
     // MÉTODOS AUXILIARES
     // ===============================
+
+    private static PdfPTable crearCabeceraCompromiso(Font logoFont, Font headerFont) throws DocumentException {
+        PdfPTable tabla = new PdfPTable(3);
+        tabla.setWidthPercentage(62);
+        tabla.setHorizontalAlignment(Element.ALIGN_LEFT);
+        tabla.setWidths(new float[] { 1.1f, 2.5f, 3.3f });
+
+        PdfPCell peruCell = crearCeldaSinBorde("PERU", logoFont);
+        peruCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        peruCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        peruCell.setBackgroundColor(new Color(90, 90, 90));
+        peruCell.setPaddingTop(10f);
+        peruCell.setPaddingBottom(10f);
+        peruCell.setPhrase(new Phrase("PERU", new Font(Font.HELVETICA, 12, Font.BOLD, Color.WHITE)));
+        tabla.addCell(peruCell);
+
+        PdfPCell ministerioCell = crearCeldaSinBorde("Ministerio\nde la Mujer y\nPoblaciones Vulnerables", headerFont);
+        ministerioCell.setBackgroundColor(new Color(78, 78, 78));
+        ministerioCell.setPaddingTop(6f);
+        ministerioCell.setPaddingBottom(6f);
+        ministerioCell.setPhrase(new Phrase("Ministerio\nde la Mujer y\nPoblaciones Vulnerables",
+                new Font(Font.HELVETICA, 8, Font.NORMAL, Color.WHITE)));
+        tabla.addCell(ministerioCell);
+
+        PdfPCell programaCell = crearCeldaSinBorde("Programa Integral Nacional\npara el Bienestar Familiar", logoFont);
+        programaCell.setPaddingLeft(12f);
+        programaCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tabla.addCell(programaCell);
+
+        return tabla;
+    }
+
+    private static PdfPTable crearBloqueFirmaHuella(String nombreCompleto, String dni, String descripcion,
+            String descripcionHuella, boolean educador, Font labelFont, Font nameFont, Font bodyItalicFont)
+            throws DocumentException {
+        if (educador) {
+            PdfPTable contenedorEducador = new PdfPTable(3);
+            contenedorEducador.setWidthPercentage(FULL_WIDTH);
+            contenedorEducador.setWidths(new float[] { 1.2f, 3.2f, 1.2f });
+            contenedorEducador.addCell(crearCeldaVacia());
+            contenedorEducador.addCell(crearCajaEducador(nombreCompleto, descripcion, labelFont, nameFont, bodyItalicFont));
+            contenedorEducador.addCell(crearCeldaVacia());
+            return contenedorEducador;
+        }
+
+        PdfPTable contenedor = new PdfPTable(educador ? 1 : 2);
+        contenedor.setWidthPercentage(FULL_WIDTH);
+        contenedor.setWidths(educador ? new float[] { 1f } : new float[] { 3.5f, 1.3f });
+
+        PdfPCell firmaCell = crearCajaFirma(nombreCompleto, dni, descripcion, labelFont, nameFont);
+        contenedor.addCell(firmaCell);
+
+        contenedor.addCell(crearCajaHuella(descripcionHuella, bodyItalicFont));
+
+        return contenedor;
+    }
+
+    private static PdfPCell crearCajaFirma(String nombreCompleto, String dni, String descripcion, Font labelFont,
+            Font nameFont) {
+        PdfPTable tablaFirma = new PdfPTable(1);
+        tablaFirma.setWidthPercentage(FULL_WIDTH);
+
+        tablaFirma.addCell(crearCeldaSinBorde("Firma:", labelFont));
+        tablaFirma.addCell(crearLineaFirma());
+
+        PdfPCell nombreCell = crearCeldaSinBorde(nombreCompleto, nameFont);
+        nombreCell.setPaddingTop(2f);
+        nombreCell.setPaddingBottom(1f);
+        tablaFirma.addCell(nombreCell);
+
+        PdfPCell descripcionCell = crearCeldaSinBorde(descripcion, nameFont);
+        descripcionCell.setPaddingTop(0f);
+        descripcionCell.setPaddingBottom(3f);
+        tablaFirma.addCell(descripcionCell);
+
+        PdfPCell dniLabelCell = crearCeldaSinBorde("DNI: " + dni, nameFont);
+        dniLabelCell.setPaddingTop(0f);
+        tablaFirma.addCell(dniLabelCell);
+
+        PdfPCell wrapper = new PdfPCell(tablaFirma);
+        wrapper.setBorder(Rectangle.NO_BORDER);
+        wrapper.setFixedHeight(SIGNATURE_BOX_HEIGHT);
+        wrapper.setPaddingTop(2f);
+        wrapper.setPaddingRight(12f);
+        return wrapper;
+    }
+
+    private static PdfPCell crearCajaHuella(String descripcionHuella, Font bodyItalicFont) throws DocumentException {
+        PdfPTable tablaHuella = new PdfPTable(1);
+        tablaHuella.setWidthPercentage(FULL_WIDTH);
+
+        PdfPCell caja = new PdfPCell();
+        caja.setFixedHeight(78f);
+        caja.setBorderWidth(1f);
+        caja.setHorizontalAlignment(Element.ALIGN_CENTER);
+        caja.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        tablaHuella.addCell(caja);
+
+        PdfPCell descripcion = crearCeldaSinBorde(descripcionHuella, bodyItalicFont);
+        descripcion.setHorizontalAlignment(Element.ALIGN_CENTER);
+        descripcion.setVerticalAlignment(Element.ALIGN_TOP);
+        descripcion.setPaddingTop(6f);
+        tablaHuella.addCell(descripcion);
+
+        PdfPCell wrapper = new PdfPCell(tablaHuella);
+        wrapper.setBorder(Rectangle.NO_BORDER);
+        wrapper.setPaddingLeft(4f);
+        return wrapper;
+    }
+
+    private static PdfPCell crearCajaEducador(String nombreCompleto, String descripcion, Font labelFont,
+            Font nameFont, Font bodyItalicFont) {
+        PdfPTable tabla = new PdfPTable(1);
+        tabla.setWidthPercentage(62f);
+
+        PdfPCell firmaCell = crearCeldaSinBorde("Firma:", labelFont);
+        firmaCell.setPaddingTop(4f);
+        tabla.addCell(firmaCell);
+        tabla.addCell(crearLineaFirma());
+
+        PdfPCell nombreCell = crearCeldaSinBorde(nombreCompleto, nameFont);
+        nombreCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        nombreCell.setPaddingTop(4f);
+        tabla.addCell(nombreCell);
+
+        PdfPCell descripcionCell = crearCeldaSinBorde(descripcion, bodyItalicFont);
+        descripcionCell.setPaddingTop(0f);
+        tabla.addCell(descripcionCell);
+
+        PdfPCell dniCell = crearCeldaSinBorde("DNI: ____________________", nameFont);
+        dniCell.setPaddingTop(4f);
+        tabla.addCell(dniCell);
+
+        PdfPCell wrapper = new PdfPCell(tabla);
+        wrapper.setBorder(Rectangle.BOX);
+        wrapper.setFixedHeight(EDUCATOR_BOX_HEIGHT);
+        wrapper.setPadding(10f);
+        wrapper.setHorizontalAlignment(Element.ALIGN_CENTER);
+        return wrapper;
+    }
+
+    private static PdfPCell crearLineaFirma() {
+        PdfPCell linea = new PdfPCell(new Phrase("--------------------------------------------------------------",
+                new Font(Font.HELVETICA, 10, Font.NORMAL)));
+        linea.setBorder(Rectangle.NO_BORDER);
+        linea.setPaddingTop(0f);
+        linea.setPaddingBottom(0f);
+        return linea;
+    }
+
+    private static PdfPCell crearCeldaSinBorde(String texto, Font font) {
+        PdfPCell cell = new PdfPCell(new Phrase(texto, font));
+        cell.setBorder(Rectangle.NO_BORDER);
+        cell.setPadding(0f);
+        return cell;
+    }
+
+    private static PdfPCell crearCeldaVacia() {
+        PdfPCell cell = new PdfPCell();
+        cell.setBorder(Rectangle.NO_BORDER);
+        return cell;
+    }
+
+    private static String normalizarTexto(Object valor) {
+        if (valor == null) {
+            return "";
+        }
+
+        String texto = String.valueOf(valor).trim();
+        return "null".equalsIgnoreCase(texto) ? "" : texto;
+    }
 
     private static PdfPCell crearCeldaHeader(String texto, Font font) {
         PdfPCell cell = new PdfPCell(new Phrase(texto, font));

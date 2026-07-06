@@ -281,6 +281,18 @@ public class AnexoRespuestaController {
                         .body(pdf);
       }
 
+      @GetMapping("/anexo/compromiso-nna/pdf")
+      public ResponseEntity<byte[]> generarCompromisoNNA(@RequestParam Long idAnexoCabecera) {
+
+            byte[] pdf = service.generarCompromisoNNA(idAnexoCabecera);
+
+            return ResponseEntity.ok()
+                        .header(HttpHeaders.CONTENT_DISPOSITION,
+                                    "inline; filename=compromiso-nna.pdf")
+                        .contentType(MediaType.APPLICATION_PDF)
+                        .body(pdf);
+      }
+
       @PostMapping("/anexo/upload-audio")
       public ResponseEntity<?> uploadAudio(
                   @RequestParam("audio") MultipartFile file,
