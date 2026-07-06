@@ -1,6 +1,7 @@
 package microservice.educalle.anexorespuesta.util;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -16,7 +17,7 @@ public class PdfGenerator {
 
     private static final float FULL_WIDTH = 100f;
     private static final float SIGNATURE_BOX_HEIGHT = 86f;
-    private static final float EDUCATOR_BOX_HEIGHT = 110f;
+    private static final float EDUCATOR_BOX_HEIGHT = 128f;
 
     public static byte[] generar(Map<String, Object> data) {
 
@@ -257,14 +258,13 @@ public class PdfGenerator {
             PdfWriter.getInstance(document, baos);
             document.open();
 
-            Font logoFont = new Font(Font.HELVETICA, 12, Font.BOLD);
             Font headerFont = new Font(Font.HELVETICA, 9, Font.NORMAL);
             Font titleFont = new Font(Font.HELVETICA, 15, Font.BOLDITALIC);
             Font bodyItalicFont = new Font(Font.HELVETICA, 11, Font.ITALIC);
             Font labelFont = new Font(Font.HELVETICA, 11, Font.ITALIC);
             Font nameFont = new Font(Font.HELVETICA, 11, Font.NORMAL);
 
-            document.add(crearCabeceraCompromiso(logoFont, headerFont));
+            document.add(crearCabeceraCompromiso(headerFont));
 
             Paragraph titulo = new Paragraph("COMPROMISO", titleFont);
             titulo.setAlignment(Element.ALIGN_CENTER);
@@ -273,7 +273,7 @@ public class PdfGenerator {
             document.add(titulo);
 
             Paragraph introduccion = new Paragraph(
-                    "Puesto en conocimiento al NNA y sus familias, los objetivos y bondades del Servicio Educadores de Calle - INABIF. Dicha usuaria, usuario y/o adulto responsable, expresa su conformidad a traves de su firma asumiendo los siguientes compromisos los cuales se daran de manera progresiva:",
+                    "Puesto en conocimiento al NNA y sus familias, los objetivos y bondades del Servicio Educadores de Calle - INABIF. Dicha usuaria, usuario y/o adulto responsable, expresa su conformidad a través de su firma asumiendo los siguientes compromisos los cuales se darán de manera progresiva:",
                     bodyItalicFont);
             introduccion.setAlignment(Element.ALIGN_JUSTIFIED);
             introduccion.setLeading(0f, 1.2f);
@@ -286,13 +286,13 @@ public class PdfGenerator {
             compromisos.setIndentationLeft(48f);
             compromisos.setSymbolIndent(12f);
             compromisos.add(new ListItem(
-                    "Participacion activa de los NNA y sus familias dentro del Servicio Educadores de Calle (talleres, salidas recreativas y culturales, etc.)",
+                    "Participación activa de los NNA y sus familias dentro del Servicio Educadores de Calle (talleres, salidas recreativas y culturales, etc.)",
                     bodyItalicFont));
             compromisos.add(new ListItem(
-                    "Que su hijo, hija tenga continuidad educativa, de tiempo necesario para sus estudios y el cumplimiento de sus tareas, (segun sea el caso).",
+                    "Que su hijo, hija tenga continuidad educativa, de tiempo necesario para sus estudios y el cumplimiento de sus tareas, (según sea el caso).",
                     bodyItalicFont));
             compromisos.add(new ListItem(
-                    "Disminucion de horas y/o extincion progresiva de la situacion de calle.",
+                    "Disminución de horas y/o extinción progresiva de la situación de calle.",
                     bodyItalicFont));
             document.add(compromisos);
 
@@ -300,7 +300,7 @@ public class PdfGenerator {
             document.add(crearBloqueFirmaHuella(
                     normalizarTexto(data.get("nnaNombreCompleto")),
                     normalizarTexto(data.get("nnaDni")),
-                    "Nombre y Apellidos Completos de la nina, nino o adolescente",
+                    "Nombre y Apellidos Completos de la niña, niño o adolescente",
                     "Huella Digital del Usuario (a)",
                     false,
                     labelFont,
@@ -341,32 +341,29 @@ public class PdfGenerator {
     // MÉTODOS AUXILIARES
     // ===============================
 
-    private static PdfPTable crearCabeceraCompromiso(Font logoFont, Font headerFont) throws DocumentException {
+    private static PdfPTable crearCabeceraCompromiso(Font headerFont) throws Exception {
         PdfPTable tabla = new PdfPTable(3);
-        tabla.setWidthPercentage(62);
-        tabla.setHorizontalAlignment(Element.ALIGN_LEFT);
-        tabla.setWidths(new float[] { 1.1f, 2.5f, 3.3f });
+        tabla.setWidthPercentage(72f);
+        tabla.setHorizontalAlignment(Element.ALIGN_CENTER);
+        tabla.setSpacingAfter(4f);
+        tabla.setWidths(new float[] { 4f, 0.35f, 2.6f });
 
-        PdfPCell peruCell = crearCeldaSinBorde("PERU", logoFont);
-        peruCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
-        peruCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        peruCell.setBackgroundColor(new Color(90, 90, 90));
-        peruCell.setPaddingTop(10f);
-        peruCell.setPaddingBottom(10f);
-        peruCell.setPhrase(new Phrase("PERU", new Font(Font.HELVETICA, 12, Font.BOLD, Color.WHITE)));
-        tabla.addCell(peruCell);
+        PdfPCell logoCell = new PdfPCell(cargarLogoCabecera(), true);
+        logoCell.setBorder(Rectangle.NO_BORDER);
+        logoCell.setHorizontalAlignment(Element.ALIGN_CENTER);
+        logoCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        logoCell.setPadding(0f);
+        tabla.addCell(logoCell);
 
-        PdfPCell ministerioCell = crearCeldaSinBorde("Ministerio\nde la Mujer y\nPoblaciones Vulnerables", headerFont);
-        ministerioCell.setBackgroundColor(new Color(78, 78, 78));
-        ministerioCell.setPaddingTop(6f);
-        ministerioCell.setPaddingBottom(6f);
-        ministerioCell.setPhrase(new Phrase("Ministerio\nde la Mujer y\nPoblaciones Vulnerables",
-                new Font(Font.HELVETICA, 8, Font.NORMAL, Color.WHITE)));
-        tabla.addCell(ministerioCell);
+        PdfPCell spacerCell = crearCeldaVacia();
+        spacerCell.setFixedHeight(42f);
+        tabla.addCell(spacerCell);
 
-        PdfPCell programaCell = crearCeldaSinBorde("Programa Integral Nacional\npara el Bienestar Familiar", logoFont);
-        programaCell.setPaddingLeft(12f);
+        PdfPCell programaCell = crearCeldaSinBorde("Programa Integral Nacional\npara el Bienestar Familiar", headerFont);
         programaCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
+        programaCell.setHorizontalAlignment(Element.ALIGN_LEFT);
+        programaCell.setPaddingTop(2f);
+        programaCell.setPaddingLeft(2f);
         tabla.addCell(programaCell);
 
         return tabla;
@@ -456,21 +453,27 @@ public class PdfGenerator {
         tabla.setWidthPercentage(62f);
 
         PdfPCell firmaCell = crearCeldaSinBorde("Firma:", labelFont);
-        firmaCell.setPaddingTop(4f);
+        firmaCell.setPaddingTop(2f);
+        firmaCell.setPaddingBottom(8f);
         tabla.addCell(firmaCell);
+
+        PdfPCell espacioFirma = crearCeldaVacia();
+        espacioFirma.setFixedHeight(26f);
+        tabla.addCell(espacioFirma);
+
         tabla.addCell(crearLineaFirma());
 
         PdfPCell nombreCell = crearCeldaSinBorde(nombreCompleto, nameFont);
         nombreCell.setHorizontalAlignment(Element.ALIGN_CENTER);
-        nombreCell.setPaddingTop(4f);
+        nombreCell.setPaddingTop(6f);
         tabla.addCell(nombreCell);
 
         PdfPCell descripcionCell = crearCeldaSinBorde(descripcion, bodyItalicFont);
-        descripcionCell.setPaddingTop(0f);
+        descripcionCell.setPaddingTop(2f);
         tabla.addCell(descripcionCell);
 
         PdfPCell dniCell = crearCeldaSinBorde("DNI: ____________________", nameFont);
-        dniCell.setPaddingTop(4f);
+        dniCell.setPaddingTop(6f);
         tabla.addCell(dniCell);
 
         PdfPCell wrapper = new PdfPCell(tabla);
@@ -501,6 +504,21 @@ public class PdfGenerator {
         PdfPCell cell = new PdfPCell();
         cell.setBorder(Rectangle.NO_BORDER);
         return cell;
+    }
+
+    private static Image cargarLogoCabecera() throws Exception {
+        try (InputStream inputStream = PdfGenerator.class.getClassLoader()
+                .getResourceAsStream("imgs/logos/logo-mimp.png")) {
+            if (inputStream == null) {
+                throw new RuntimeException("No se encontró el logo imgs/logos/logo-mimp.png");
+            }
+
+            byte[] imageBytes = inputStream.readAllBytes();
+            Image logo = Image.getInstance(imageBytes);
+            logo.scaleToFit(230f, 52f);
+            logo.setAlignment(Element.ALIGN_CENTER);
+            return logo;
+        }
     }
 
     private static String normalizarTexto(Object valor) {
