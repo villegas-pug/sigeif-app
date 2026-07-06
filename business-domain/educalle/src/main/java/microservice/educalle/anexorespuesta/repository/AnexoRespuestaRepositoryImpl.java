@@ -547,6 +547,14 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
    }
 
    @Override
+   public void saveConformidadNna(Integer idCabecera, LocalDate fechaInscripcion) {
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_id_anexo_cabecera", idCabecera);
+      inParams.put("p_fecha_inscripcion", fechaInscripcion != null ? java.sql.Date.valueOf(fechaInscripcion) : null);
+      super.executeProcedureWithInParams("USP_SISEC_SAVE_CONFORMIDAD_ANXCABECERA", inParams);
+   }
+
+   @Override
    public void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo) {
       Map<String, Object> inParams = new HashMap<>();
       inParams.put("p_operacion", 1);

@@ -2,6 +2,7 @@ package microservice.educalle.anexorespuesta.controller;
 
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.format.annotation.DateTimeFormat;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import microservice.educalle.anexopregunta.model.AnexoPregunta;
@@ -28,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.io.IOException;
 import java.sql.Blob;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -379,6 +381,19 @@ public class AnexoRespuestaController {
       public ResponseEntity<?> saveEstadoConformidadAnexoCabecera(@RequestParam Integer idAnexoCabecera,
                   @RequestParam Integer estado) {
             this.service.saveConformidadAnexoCabecera(idAnexoCabecera, estado);
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(null).build());
+
+      }
+
+      @PatchMapping(path = { "/save-conformidad-nna" })
+      public ResponseEntity<?> saveConformidadNna(
+                  @RequestParam Integer idAnexoCabecera,
+                  @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInscripcion) {
+            this.service.saveConformidadNna(idAnexoCabecera, fechaInscripcion);
             return ResponseEntity.ok(
                         ApiResponse
                                     .builder()

@@ -2,6 +2,7 @@ package microservice.educalle.anexorespuesta.service;
 
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDate;
 import org.springframework.web.multipart.MultipartFile;
 import microservice.educalle.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.educalle.anexorespuesta.dtos.AnexoEvaluacionResponse;
@@ -61,6 +62,8 @@ public interface AnexoRespuestaService {
       void validatePersonalAnexoCabecera(Integer idAnexoCabecera, String idPersonal, String password);
 
       void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado);
+
+      void saveConformidadNna(Integer idCabecera, LocalDate fechaInscripcion);
 
       void resetValidacionAnexoCabecera(Integer idCabecera);
 

@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.LocalDate;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -431,6 +432,12 @@ public class AnexoRespuestaServiceImpl implements AnexoRespuestaService {
    @Transactional
    public void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado) {
       this.repository.saveConformidadAnexoCabecera(idCabecera, estado);
+   }
+
+   @Override
+   @Transactional
+   public void saveConformidadNna(Integer idCabecera, LocalDate fechaInscripcion) {
+      this.repository.saveConformidadNna(idCabecera, fechaInscripcion);
    }
 
    @Override

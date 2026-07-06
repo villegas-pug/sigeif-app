@@ -3,6 +3,7 @@ package microservice.educalle.anexorespuesta.repository;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.time.LocalDate;
 
 import microservice.educalle.anexorespuesta.dtos.AnexoCabeceraResponse;
 import microservice.educalle.anexorespuesta.dtos.AnexoEvaluacionResponse;
@@ -48,6 +49,8 @@ public interface AnexoRespuestaRepository {
       void savePersonalValidaAnexoCabecera(Integer idCabecera, String idsPersonal);
 
       void saveConformidadAnexoCabecera(Integer idCabecera, Integer estado);
+
+      void saveConformidadNna(Integer idCabecera, LocalDate fechaInscripcion);
 
       void insertarAnexoCabeceraAudio(Long idAnexoCabecera, byte[] audio, String nombreArchivo);
 
