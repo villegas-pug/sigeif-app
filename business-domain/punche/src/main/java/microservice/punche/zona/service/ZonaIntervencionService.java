@@ -22,7 +22,10 @@ public interface ZonaIntervencionService {
 
       // ? Short
       List<ZonaIntervencion> findZonasIntervencionShortByParams(String descripcionZona, int anioRegistroZona,
-                  int mesRegistroZona);
+                  int mesRegistroZona); // * Patfam
+
+      List<ZonaIntervencion> findZonasIntervencionToEjecSesionesByParams(String descripcionZona, int anioRegistroZona,
+                  int mesRegistroZona); // * Ejeccución Sesiones
 
       // ? Minified
 

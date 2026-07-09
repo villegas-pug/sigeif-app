@@ -10,6 +10,7 @@ import microservice.punche.zona.dtos.ZonaIntervencionResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionSaveDto;
 import microservice.punche.zona.mappers.ZonaIntervencionEntityMapper;
 import microservice.punche.zona.mappers.ZonaIntervencionShortEntityMapper;
+import microservice.punche.zona.mappers.ZonaIntervencionToProgSesionesEntityMapper;
 import microservice.punche.zona.model.ZonaIntervencion;
 import microservice.punche.zona.repository.ZonaIntervencionJpaRepository;
 import microservice.punche.zona.repository.ZonaIntervencionRepository;
@@ -26,6 +27,7 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
    private final ZonaIntervencionJpaRepository jpaRepository;
    private final ZonaIntervencionEntityMapper entityMapper;
    private final ZonaIntervencionShortEntityMapper entityShortMapper;
+   private final ZonaIntervencionToProgSesionesEntityMapper entityProgSesionMapper;
    private final AnexoRespuestaRepository anexoRespuestaRepository;
 
    @Override
@@ -202,6 +204,48 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
       }
 
       return zonasIntervencion;
+   }
+
+   @Override
+   public List<ZonaIntervencion> findZonasIntervencionToEjecSesionesByParams(String descripcionZona,
+         int anioRegistroZona, int mesRegistroZona) {
+
+      LocalDate fecIni, fecFin;
+
+      if (mesRegistroZona == -1) {
+         fecIni = LocalDate.of(anioRegistroZona, 1, 1);
+         fecFin = LocalDate.of(anioRegistroZona, 12, 31);
+      } else {
+         fecIni = LocalDate.of(anioRegistroZona, mesRegistroZona, 1);
+         fecFin = fecIni.plusMonths(1).minusDays(1);
+      }
+
+      List<ZonaIntervencion> zonasIntervencion = this.jpaRepository
+            .findByDescripcionIgnoreCaseAndFecRegistraBetweenAndServicio(
+                  descripcionZona,
+                  fecIni,
+                  fecFin,
+                  InabifServices.PUNCHE.getId())
+            .stream()
+            .map(this.entityProgSesionMapper::toModel)
+            .map(zonaIntervencion -> {
+               zonaIntervencion
+                     .getPotencialesFamilias()
+                     .forEach(familia -> {
+                        // * Estado de fichas registradas por familia
+                        familia.setEstadoFichas(this.anexoRespuestaRepository
+                              .findEstadosAnexosByParams(familia.getIdFamilia(), null));
+                     });
+               return zonaIntervencion;
+            })
+            .toList();
+
+      if (zonasIntervencion.isEmpty()) {
+         throw new NotFoundException();
+      }
+
+      return zonasIntervencion;
+
    }
 
 }

@@ -1,5 +1,6 @@
 package microservice.punche.patfam.models;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 import lombok.AllArgsConstructor;
@@ -36,5 +37,8 @@ public class DetPatfam {
    private Integer usuModifica;
    private Integer estado;
    private Integer eliminado;
+
+   private LocalDate fechaRegistra;
+   private LocalDate fechaModifica;
 
 }

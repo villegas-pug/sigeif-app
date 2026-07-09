@@ -66,13 +66,16 @@ public interface PatfamEntityMapper {
 
       @Mappings({
                   @Mapping(target = "detPatfam", ignore = true),
-                  @Mapping(target = "sesion.talleres", ignore = true)
+                  @Mapping(target = "sesion", ignore = true),
+                  @Mapping(target = "personal", ignore = true),
+                  @Mapping(target = "integrantes", ignore = true),
+                  @Mapping(target = "modalidad", ignore = true),
       })
       EjecucionSesion toModel(EjecucionSesionEntity source);
 
       @Mappings({
                   @Mapping(target = "patfam", ignore = true),
-                  @Mapping(target = "ejecucionSesiones", ignore = true),
+                  // @Mapping(target = "ejecucionSesiones", ignore = true),
                   @Mapping(target = "taller.sesion", ignore = true)
       })
       DetPatfam toModel(DetPatfamEntity source);

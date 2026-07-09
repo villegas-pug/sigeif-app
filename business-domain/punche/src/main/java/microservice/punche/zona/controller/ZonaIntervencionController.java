@@ -116,6 +116,19 @@ public class ZonaIntervencionController {
                                     .build());
       }
 
+      @GetMapping(path = { "/findZonasIntervencionToEjecSesionesByParams" })
+      public ResponseEntity<ApiResponse<List<ZonaIntervencion>>> findZonasIntervencionToEjecSesionesByParams(
+                  @RequestParam String descripcionZona,
+                  @RequestParam int anioRegistroZona, @RequestParam int mesRegistroZona) {
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .<List<ZonaIntervencion>>builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(this.service.findZonasIntervencionToEjecSesionesByParams(descripcionZona,
+                                                anioRegistroZona, mesRegistroZona))
+                                    .build());
+      }
+
       @DeleteMapping(path = { "/deleteZonaIntervencionById/{idZona}" })
       public ResponseEntity<?> deleteZonaIntervencionById(@PathVariable Long idZona) {
             ApiResponseStatus status = ApiResponseStatus.SUCCESS_DELETE;
