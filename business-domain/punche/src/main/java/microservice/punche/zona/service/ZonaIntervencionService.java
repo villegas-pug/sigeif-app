@@ -1,6 +1,7 @@
 package microservice.punche.zona.service;
 
 import java.util.List;
+import microservice.punche.zona.dtos.ZonaIntervencionPaginatedResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionSaveDto;
 import microservice.punche.zona.model.ZonaIntervencion;
@@ -15,6 +16,9 @@ public interface ZonaIntervencionService {
 
       List<ZonaIntervencion> findZonasIntervencionByParams(String descripcionZona, int anioRegistroZona,
                   int mesRegistroZona);
+
+      ZonaIntervencionPaginatedResponse findZonasIntervencionByParamsPaginated(String descripcionZona,
+                  int anioRegistroZona, int mesRegistroZona, String codFamilia, int page, int rowsPerPage);
 
       ZonaIntervencion findZonaIntervencionById(Long idZona);
 

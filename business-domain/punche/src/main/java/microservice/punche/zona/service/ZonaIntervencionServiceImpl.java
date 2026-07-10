@@ -1,11 +1,19 @@
 package microservice.punche.zona.service;
 
 import java.time.LocalDate;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import microservice.punche.anexorespuesta.repository.AnexoRespuestaRepository;
+import microservice.punche.potencialfamilia.model.PotencialFamilia;
+import microservice.punche.potencialfamilia.repository.PotencialFamiliaJpaRepository;
+import microservice.punche.zona.dtos.ZonaIntervencionPaginatedResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionSaveDto;
 import microservice.punche.zona.mappers.ZonaIntervencionEntityMapper;
@@ -29,6 +37,7 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
    private final ZonaIntervencionShortEntityMapper entityShortMapper;
    private final ZonaIntervencionToProgSesionesEntityMapper entityProgSesionMapper;
    private final AnexoRespuestaRepository anexoRespuestaRepository;
+   private final PotencialFamiliaJpaRepository potencialFamiliaJpaRepository;
 
    @Override
    @Transactional
@@ -122,6 +131,89 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
       }
 
       return zonasIntervencion;
+
+   }
+
+   @Override
+   @Transactional(readOnly = true)
+   public ZonaIntervencionPaginatedResponse findZonasIntervencionByParamsPaginated(String descripcionZona,
+         int anioRegistroZona, int mesRegistroZona, String codFamilia, int page, int rowsPerPage) {
+
+      LocalDate fecIni, fecFin;
+
+      if (mesRegistroZona == -1) {
+         fecIni = LocalDate.of(anioRegistroZona, 1, 1);
+         fecFin = LocalDate.of(anioRegistroZona, 12, 31);
+      } else {
+         fecIni = LocalDate.of(anioRegistroZona, mesRegistroZona, 1);
+         fecFin = fecIni.plusMonths(1).minusDays(1);
+      }
+
+      int resolvedPage = Math.max(page, 1);
+      int resolvedRowsPerPage = Math.max(rowsPerPage, 1);
+
+      var familiasPage = this.potencialFamiliaJpaRepository.findIdsByZonaParams(
+            descripcionZona,
+            fecIni,
+            fecFin,
+            InabifServices.PUNCHE.getId(),
+            codFamilia,
+            PageRequest.of(resolvedPage - 1, resolvedRowsPerPage));
+
+      if (familiasPage.isEmpty()) {
+         return ZonaIntervencionPaginatedResponse.builder()
+               .items(List.of())
+               .totalRows(familiasPage.getTotalElements())
+               .page(resolvedPage)
+               .rowsPerPage(resolvedRowsPerPage)
+               .build();
+      }
+
+      List<Long> idsFamilia = familiasPage.getContent();
+      Map<Long, Integer> indexByFamiliaId = idsFamilia.stream()
+            .collect(Collectors.toMap(Function.identity(), idsFamilia::indexOf));
+
+      List<ZonaIntervencion> zonasIntervencion = this.jpaRepository
+            .findByIdsFamilia(idsFamilia)
+            .stream()
+            .map(this.entityMapper::toModel)
+            .peek(zonaIntervencion -> {
+               LinkedHashSet<PotencialFamilia> familiasOrdenadas = zonaIntervencion.getPotencialesFamilias()
+                     .stream()
+                     .filter(familia -> indexByFamiliaId.containsKey(familia.getIdFamilia()))
+                     .sorted((familiaA, familiaB) -> Integer.compare(
+                           indexByFamiliaId.get(familiaA.getIdFamilia()),
+                           indexByFamiliaId.get(familiaB.getIdFamilia())))
+                     .peek(familia -> {
+                        familia.setEstadoFichas(this.anexoRespuestaRepository
+                              .findEstadosAnexosByParams(familia.getIdFamilia(), null));
+
+                        familia.getIntegrantesFamilia().forEach(integrante -> integrante.setEstadoFichas(this.anexoRespuestaRepository
+                              .findEstadosAnexosByParams(null, integrante.getIdIntegrante())));
+                     })
+                     .collect(Collectors.toCollection(LinkedHashSet::new));
+
+               zonaIntervencion.setPotencialesFamilias(familiasOrdenadas);
+            })
+            .sorted((zonaA, zonaB) -> Integer.compare(
+                  zonaA.getPotencialesFamilias().stream()
+                        .map(PotencialFamilia::getIdFamilia)
+                        .map(indexByFamiliaId::get)
+                        .min(Integer::compareTo)
+                        .orElse(Integer.MAX_VALUE),
+                  zonaB.getPotencialesFamilias().stream()
+                        .map(PotencialFamilia::getIdFamilia)
+                        .map(indexByFamiliaId::get)
+                        .min(Integer::compareTo)
+                        .orElse(Integer.MAX_VALUE)))
+            .toList();
+
+      return ZonaIntervencionPaginatedResponse.builder()
+            .items(zonasIntervencion)
+            .totalRows(familiasPage.getTotalElements())
+            .page(resolvedPage)
+            .rowsPerPage(resolvedRowsPerPage)
+            .build();
 
    }
 

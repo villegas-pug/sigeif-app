@@ -36,4 +36,21 @@ public interface ZonaIntervencionJpaRepository extends JpaRepository<ZonaInterve
                   @Param("fecFin") LocalDate fecFin,
                   @Param("idServicio") Long idServicio);
 
+      @Query(value = """
+
+                  SELECT DISTINCT z
+                  FROM ZonaIntervencionEntity z
+                  JOIN FETCH z.potencialesFamilias pf
+                  LEFT JOIN FETCH pf.codigoFamilia cf
+                  LEFT JOIN FETCH pf.integrantesFamilia i
+                  WHERE
+                        pf.idFamilia IN :idsFamilia
+                        AND z.estado = 1
+                        AND z.eliminado = 0
+                        AND pf.estado = 1
+                        AND pf.eliminado = 0
+
+                  """)
+      List<ZonaIntervencionEntity> findByIdsFamilia(@Param("idsFamilia") List<Long> idsFamilia);
+
 }

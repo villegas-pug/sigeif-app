@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import microservice.punche.zona.dtos.UpdateZonaIntervencionRequest;
-import microservice.punche.zona.dtos.ZonaIntervencionParamsDto;
+import microservice.punche.zona.dtos.ZonaIntervencionPaginatedResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionResponse;
 import microservice.punche.zona.dtos.ZonaIntervencionSaveDto;
 import microservice.punche.zona.mappers.ZonaIntervencionUpdateMapper;
@@ -67,6 +67,33 @@ public class ZonaIntervencionController {
                                     .message(ApiResponseStatus.SUCCESS.getMessage())
                                     .data(this.service.findZonasIntervencionByParams(descripcionZona,
                                                 anioRegistroZona, mesRegistroZona))
+                                    .build());
+      }
+
+      @GetMapping(path = { "/findZonasIntervencionByParamsPaginated" })
+      public ResponseEntity<ApiResponse<List<ZonaIntervencion>>> findZonasIntervencionByParamsPaginated(
+                  @RequestParam String descripcionZona,
+                  @RequestParam int anioRegistroZona,
+                  @RequestParam int mesRegistroZona,
+                  @RequestParam(required = false) String codFamilia,
+                  @RequestParam(defaultValue = "1") int page,
+                  @RequestParam(defaultValue = "10") int rowsPerPage) {
+            ZonaIntervencionPaginatedResponse response = this.service.findZonasIntervencionByParamsPaginated(
+                        descripcionZona,
+                        anioRegistroZona,
+                        mesRegistroZona,
+                        codFamilia,
+                        page,
+                        rowsPerPage);
+
+            return ResponseEntity.ok(
+                        ApiResponse
+                                    .<List<ZonaIntervencion>>builder()
+                                    .message(ApiResponseStatus.SUCCESS.getMessage())
+                                    .data(response.getItems())
+                                    .totalRows(response.getTotalRows())
+                                    .page(response.getPage())
+                                    .rowsPerPage(response.getRowsPerPage())
                                     .build());
       }
 

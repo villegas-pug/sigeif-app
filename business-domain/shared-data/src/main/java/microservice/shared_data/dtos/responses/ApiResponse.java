@@ -16,5 +16,8 @@ public class ApiResponse<T> {
    private @Builder.Default int code = HttpStatus.OK.value();
    private String message;
    private @Builder.Default T data = null;
+   private Long totalRows;
+   private Integer page;
+   private Integer rowsPerPage;
 
 }
