@@ -14,7 +14,7 @@ public interface DetPatfamRepository {
 
    List<DetPatfam> findDetPatfamByTaller(Taller taller);
 
-   List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic);
+   List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic, Long idZona);
 
    List<DetPatfamProjectionResponse> findDetPatfamByIdTaller(Integer idTaller);
 

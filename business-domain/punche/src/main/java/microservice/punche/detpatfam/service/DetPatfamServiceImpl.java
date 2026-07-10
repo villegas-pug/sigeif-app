@@ -41,8 +41,8 @@ public class DetPatfamServiceImpl implements DetPatfamService {
 
    @Override
    @Transactional(readOnly = true)
-   public List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic) {
-      List<DetPatfam> detPatfam = this.repository.findDetPatfamByParams(idServicio, idDynamic);
+   public List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic, Long idZona) {
+      List<DetPatfam> detPatfam = this.repository.findDetPatfamByParams(idServicio, idDynamic, idZona);
       if (detPatfam.isEmpty()) {
          throw new NotFoundException();
       }

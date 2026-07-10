@@ -40,11 +40,11 @@ public class DetPatfamController {
 
       @GetMapping(path = { "/findDetPatfamByParams" })
       public ResponseEntity<ApiResponse<List<DetPatfam>>> findDetPatfamByParams(@RequestParam Integer idServicio,
-                  @RequestParam Integer idDynamic) {
+                  @RequestParam Integer idDynamic, @RequestParam(required = false) Long idZona) {
             return ResponseEntity.ok(
                         ApiResponse.<List<DetPatfam>>builder()
                                     .message(ApiResponseStatus.SUCCESS.getMessage())
-                                    .data(this.service.findDetPatfamByParams(idServicio, idDynamic))
+                                    .data(this.service.findDetPatfamByParams(idServicio, idDynamic, idZona))
                                     .build());
       }
 

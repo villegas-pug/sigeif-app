@@ -15,4 +15,6 @@ public interface DetPatfamJpaRepository extends JpaRepository<DetPatfamEntity, L
 
    List<DetPatfamEntity> findByTaller(TallerEntity taller);
 
+   List<DetPatfamEntity> findByTallerAndPatfam_Familia_ZonaIntervencion_IdZona(TallerEntity taller, Long idZona);
+
 }

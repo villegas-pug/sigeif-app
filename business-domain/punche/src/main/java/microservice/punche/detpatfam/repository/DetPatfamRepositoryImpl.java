@@ -57,11 +57,14 @@ public class DetPatfamRepositoryImpl extends BaseOracleRepository implements Det
    }
 
    @Override
-   public List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic) {
+   public List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic, Long idZona) {
 
       List<DetPatfamEntity> detPatfams = switch (idServicio) {
          case 1 -> this.jpaRepository.findByModulo(ModuloEntity.builder().idModulo(idDynamic).build()); // * Cedif
-         case 2 -> this.jpaRepository.findByTaller(TallerEntity.builder().idTaller(idDynamic).build()); // * Punche
+         case 2 -> idZona == null
+               ? this.jpaRepository.findByTaller(TallerEntity.builder().idTaller(idDynamic).build())
+               : this.jpaRepository.findByTallerAndPatfam_Familia_ZonaIntervencion_IdZona(
+                     TallerEntity.builder().idTaller(idDynamic).build(), idZona); // * Punche
          // * Acercandonos
          case 3 -> this.jpaRepository.findByObjetivo(ObjetivoEspecificoEntity.builder().idObjetivo(idDynamic).build());
          default -> List.of();

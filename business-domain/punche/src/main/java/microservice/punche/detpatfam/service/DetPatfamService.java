@@ -11,6 +11,6 @@ public interface DetPatfamService {
 
    public List<DetPatfam> findDetPatfamByIdTaller(Integer idTaller);
 
-   List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic);
+   List<DetPatfam> findDetPatfamByParams(Integer idServicio, Integer idDynamic, Long idZona);
 
 }
