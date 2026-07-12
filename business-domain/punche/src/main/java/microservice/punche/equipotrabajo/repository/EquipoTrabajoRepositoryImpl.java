@@ -73,7 +73,10 @@ public class EquipoTrabajoRepositoryImpl implements EquipoTrabajoRepository {
 
       return acompañantes
             .stream()
-            .filter(equipo -> equipo.getCargo().getIdCargo().equals(Cargos.ACOMPAÑANTE.getId()))
+            .filter(equipo -> {
+               Long idCargo = equipo.getCargo().getIdCargo();
+               return idCargo.equals(Cargos.ACOMPAÑANTE.getId()) || idCargo.equals(Cargos.COORDINADOR.getId());
+            })
             .map(this.mapper::toModel)
             .distinct() // * Evalua EqualAndHashcode por `idEquipo`
             .toList();

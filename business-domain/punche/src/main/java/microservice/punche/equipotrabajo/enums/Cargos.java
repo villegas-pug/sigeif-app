@@ -1,7 +1,8 @@
 package microservice.punche.equipotrabajo.enums;
 
 public enum Cargos {
-   ACOMPAÑANTE(5509L, "ACOMPAÑANTE");
+   ACOMPAÑANTE(5766L, "ACOMPAÑANTE"),
+   COORDINADOR(6346L, "COORDINADOR");
 
    private Long id;
    private String nombre;
