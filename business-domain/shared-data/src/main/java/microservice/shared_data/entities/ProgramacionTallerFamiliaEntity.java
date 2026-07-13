@@ -54,6 +54,9 @@ public class ProgramacionTallerFamiliaEntity {
    @Column(name = "PD_ASISTIO")
    private @Builder.Default Integer asistio = 0;
 
+   @Column(name = "PD_INTEGRANTES_ASISTIERON")
+   private String integrantesAsistieron;
+
    @Column(name = "PD_USU_REGISTRA")
    private Integer usuRegistra;
 

@@ -39,6 +39,10 @@ public class UpdateProgramacionTallerRequest {
    private Integer idPersonal; // * ¿Personal que dicta?
    private Integer idUO; // * ¿Empresa que dicta?
 
+   // ? Opcionales
+   private Integer tipoResponsableDictado;
+   private String responsablesDictado;
+
    @NotBlank
    private String tema;
 

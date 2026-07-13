@@ -36,6 +36,10 @@ public class CreateProgramacionTallerRequest {
    private Long idPersonal; // * ¿Personal que dicta?
    private Long idUO; // * ¿Empresa que dicta?
 
+   // ? Opcionales
+   private Integer tipoResponsableDictado;
+   private String responsablesDictado;
+
    @NotBlank
    private String tema;
 

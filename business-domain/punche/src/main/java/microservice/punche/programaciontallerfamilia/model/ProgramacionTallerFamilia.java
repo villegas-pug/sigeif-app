@@ -19,6 +19,7 @@ public class ProgramacionTallerFamilia {
    private ProgramacionTaller progTaller;
    private PotencialFamilia familia;
    private Integer asistio;
+   private String integrantesAsistieron;
    private Integer estado;
    private Integer eliminado;
    private Integer usuRegistra;

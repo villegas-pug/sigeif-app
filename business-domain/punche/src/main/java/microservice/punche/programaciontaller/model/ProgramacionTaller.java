@@ -30,6 +30,8 @@ public class ProgramacionTaller {
 
    private String tema;
    private String lugarTaller;
+   private Integer tipoResponsableDictado;
+   private String responsablesDictado;
    private LocalDateTime fecHoraIni;
    private LocalDateTime fecHoraFin;
    private Integer usuRegistra;

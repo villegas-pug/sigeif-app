@@ -22,6 +22,9 @@ public class CreateProgramacionTallerFamiliaRequest {
    // ? Opcionales
    private Integer asistio; // TODO: Esta propiedad deberia tener `EjecucionSesionIntegrante`
 
+   // ? Opcionales
+   private String integrantesAsistieron;
+
    @NotNull
    private Integer usuRegistra;
 

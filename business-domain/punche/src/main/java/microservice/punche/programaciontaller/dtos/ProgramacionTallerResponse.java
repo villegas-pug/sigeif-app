@@ -29,6 +29,9 @@ public class ProgramacionTallerResponse {
    private UnidadOrganica unidadorg; // * ¿Empresa que dicta?
    private String anexoNombre;
 
+   private Integer tipoResponsableDictado;
+   private String responsablesDictado;
+
    private String tema;
    private String lugarTaller;
    private LocalDateTime fecHoraIni;

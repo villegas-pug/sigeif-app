@@ -72,6 +72,12 @@ public class ProgramacionTallerEntity {
    @Column(name = "PT_LUGAR_TALLER")
    private String lugarTaller;
 
+   @Column(name = "PT_TIPO_RESPONSABLE_DICTADO")
+   private Integer tipoResponsableDictado;
+
+   @Column(name = "PT_RESPONSABLES_DICTADO")
+   private String responsablesDictado;
+
    @Column(name = "PT_FEC_HORA_INI")
    private LocalDateTime fecHoraIni;
 
