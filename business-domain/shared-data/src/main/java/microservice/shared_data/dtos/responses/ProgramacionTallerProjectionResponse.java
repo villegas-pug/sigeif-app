@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 public class ProgramacionTallerProjectionResponse {
    private Long idProgTaller;
    private String tema;
+   private String actividad;
    private String nombreTaller;
    private String descripcionTaller;
    private LocalDateTime fecHoraInicio;

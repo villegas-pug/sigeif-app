@@ -40,7 +40,6 @@ public class CreateProgramacionTallerRequest {
    private Integer tipoResponsableDictado;
    private String responsablesDictado;
 
-   @NotBlank
    private String tema;
 
    @NotBlank

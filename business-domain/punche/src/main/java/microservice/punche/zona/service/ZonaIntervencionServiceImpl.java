@@ -53,18 +53,20 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
             .orElseThrow(NotFoundException::new);
 
       // * Estado de fichas registradas por familia
-      zonaIntervencion.getPotencialesFamilias()
-            .stream()
-            .forEach(familia -> {
-               familia.setEstadoFichas(this.anexoRespuestaRepository
-                     .findEstadosAnexosByParams(familia.getIdFamilia(), null));
-
-               // * Estado de fichas registradas por integrante
-               familia.getIntegrantesFamilia().forEach(integrante -> {
-                  integrante.setEstadoFichas(this.anexoRespuestaRepository
-                        .findEstadosAnexosByParams(null, integrante.getIdIntegrante()));
-               });
-            });
+      /*
+       * zonaIntervencion.getPotencialesFamilias()
+       * .stream()
+       * .forEach(familia -> {
+       * familia.setEstadoFichas(this.anexoRespuestaRepository
+       * .findEstadosAnexosByParams(familia.getIdFamilia(), null));
+       * 
+       * // * Estado de fichas registradas por integrante
+       * familia.getIntegrantesFamilia().forEach(integrante -> {
+       * integrante.setEstadoFichas(this.anexoRespuestaRepository
+       * .findEstadosAnexosByParams(null, integrante.getIdIntegrante()));
+       * });
+       * });
+       */
 
       return zonaIntervencion;
    }
@@ -188,8 +190,9 @@ public class ZonaIntervencionServiceImpl implements ZonaIntervencionService {
                         familia.setEstadoFichas(this.anexoRespuestaRepository
                               .findEstadosAnexosByParams(familia.getIdFamilia(), null));
 
-                        familia.getIntegrantesFamilia().forEach(integrante -> integrante.setEstadoFichas(this.anexoRespuestaRepository
-                              .findEstadosAnexosByParams(null, integrante.getIdIntegrante())));
+                        familia.getIntegrantesFamilia()
+                              .forEach(integrante -> integrante.setEstadoFichas(this.anexoRespuestaRepository
+                                    .findEstadosAnexosByParams(null, integrante.getIdIntegrante())));
                      })
                      .collect(Collectors.toCollection(LinkedHashSet::new));
 
