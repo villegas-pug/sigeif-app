@@ -45,4 +45,7 @@ public class AnexoCabeceraResponse {
     private LocalDate fechaAbordaje;
     private LocalDate fechaIngreso;
 
+    private Integer idPersonal;
+    private String nombrePersonal;
+
 }

@@ -43,4 +43,5 @@ public class AnexoPregutasDto {
    private Integer reqContador;
    private Integer reqObligatoria1Cierre;
    private Integer reqObligatoria2Cierre;
+   private String bloqSubmitSiInvalido;
 }

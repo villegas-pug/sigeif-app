@@ -284,6 +284,8 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                .genero((String) row[19])
                .fechaAbordaje(toLocalDate(row[20]))
                .fechaIngreso(toLocalDate(row[21]))
+               .idPersonal(((Number) row[22]).intValue())
+               .nombrePersonal((String) row[23])
                .build();
          lista.add(dto);
       }
