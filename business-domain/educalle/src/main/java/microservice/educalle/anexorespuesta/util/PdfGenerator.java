@@ -311,8 +311,8 @@ public class PdfGenerator {
             document.add(crearBloqueFirmaHuella(
                     normalizarTexto(data.get("tutorNombreCompleto")),
                     normalizarTexto(data.get("tutorDni")),
-                    "Nombre y Apellidos Completos del Padre, Madre o\nTutor",
-                    "Huella Digital del Padre o Madre\nTutor",
+                    "Nombre y Apellidos Completos del Padre, Madre o\nCuidador",
+                    "Huella Digital del Padre, Madre o\nCuidador",
                     false,
                     labelFont,
                     nameFont,
@@ -359,7 +359,8 @@ public class PdfGenerator {
         spacerCell.setFixedHeight(42f);
         tabla.addCell(spacerCell);
 
-        PdfPCell programaCell = crearCeldaSinBorde("Programa Integral Nacional\npara el Bienestar Familiar", headerFont);
+        PdfPCell programaCell = crearCeldaSinBorde("Programa Integral Nacional\npara el Bienestar Familiar",
+                headerFont);
         programaCell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         programaCell.setHorizontalAlignment(Element.ALIGN_LEFT);
         programaCell.setPaddingTop(2f);
@@ -377,7 +378,8 @@ public class PdfGenerator {
             contenedorEducador.setWidthPercentage(FULL_WIDTH);
             contenedorEducador.setWidths(new float[] { 1.2f, 3.2f, 1.2f });
             contenedorEducador.addCell(crearCeldaVacia());
-            contenedorEducador.addCell(crearCajaEducador(nombreCompleto, descripcion, labelFont, nameFont, bodyItalicFont));
+            contenedorEducador
+                    .addCell(crearCajaEducador(nombreCompleto, descripcion, labelFont, nameFont, bodyItalicFont));
             contenedorEducador.addCell(crearCeldaVacia());
             return contenedorEducador;
         }
