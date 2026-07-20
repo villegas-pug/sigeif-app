@@ -86,6 +86,24 @@ schedulers:
                output-path: ${schedulers.punche.output-path}/excel/
                file-name: rpt_ficha_encuesta_satisfaccion
                cron: '0 11 8 * * *' # ? 08:00 AM
+      prog-sesion:
+         enabled: true
+         report:
+            output-path: ${schedulers.punche.output-path}/prog-sesion
+            excel:
+               enabled: true
+               output-path: ${schedulers.punche.output-path}/excel/
+               file-name: rpt_prog_sessiones
+               cron: '0 0 6 * * *' # ? 06:00 AM
+      prog-taller:
+         enabled: true
+         report:
+            output-path: ${schedulers.punche.output-path}/prog-taller
+            excel:
+               enabled: true
+               output-path: ${schedulers.punche.output-path}/excel/
+               file-name: rpt_prog_talleres
+               cron: '0 0 6 * * *' # ? 06:00 AM
    siges: # ? » SIGES
       enabled: true
       output-path: reports/siges/
