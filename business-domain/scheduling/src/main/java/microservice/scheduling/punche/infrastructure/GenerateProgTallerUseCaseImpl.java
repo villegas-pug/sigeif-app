@@ -1,6 +1,7 @@
 package microservice.scheduling.punche.infrastructure;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +25,12 @@ public class GenerateProgTallerUseCaseImpl extends BaseReportingService
    @Override
    public void generateProgTallerReport() throws IOException {
 
-      // * 1. Ejecutar procedimiento almacenado (sin IN params; cursor OUT = p_cursor_out)
+      // * 1. Ejecutar procedimiento almacenado (sin IN params; cursor OUT =
+      Map<String, Object> inParams = new HashMap<>();
+      inParams.put("p_fecha_ini", null);
+      inParams.put("p_fecha_fin", null);
       List<Map<String, Object>> dataset = this.repository.executeProcedureAndFetchResult(
-            "PRC_PUNCHE_TALLERES_FAMILIAS_LISTAR_TODAS", null, "p_cursor_out");
+            "PRC_PUNCHE_TALLERES_FAMILIAS_LISTAR", inParams, "p_cursor_out");
 
       if (dataset.isEmpty()) {
          throw new ProgTallerNotFoundException();
