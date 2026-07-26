@@ -1,6 +1,5 @@
 package microservice.punche.anexorespuesta.dtos;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +22,6 @@ public class CreateAnexoRespuestaRequest {
    private Long idIntegrante;
    private Integer destinatario;
 
-   @NotBlank
    private String respuesta;
 
    private String observacion;
