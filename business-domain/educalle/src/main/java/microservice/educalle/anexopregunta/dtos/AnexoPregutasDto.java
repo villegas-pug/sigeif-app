@@ -26,7 +26,6 @@ public class AnexoPregutasDto {
    private String tipoDato2;
    private String condicion;
 
-   // * Nuevo
    private String modoControl;
    private String vistaControl;
    private String editable;
@@ -44,4 +43,7 @@ public class AnexoPregutasDto {
    private Integer reqObligatoria1Cierre;
    private Integer reqObligatoria2Cierre;
    private String bloqSubmitSiInvalido;
+
+   // * Nuevo
+   private String defaultValueBifurcaciones;
 }
