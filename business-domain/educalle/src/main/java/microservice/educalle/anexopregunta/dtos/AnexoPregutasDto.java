@@ -46,4 +46,5 @@ public class AnexoPregutasDto {
 
    // * Nuevo
    private String defaultValueBifurcaciones;
+   private String defaultValue;
 }

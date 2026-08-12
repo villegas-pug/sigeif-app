@@ -18,6 +18,9 @@ public class CreateAnexoEvaluacionRequest {
     @NotNull
     private Long idCentro;
 
+    // ? Nuevo
+    private Integer centroUbigeo;
+
     // @NotNull
     private Integer usuRegistra;
 

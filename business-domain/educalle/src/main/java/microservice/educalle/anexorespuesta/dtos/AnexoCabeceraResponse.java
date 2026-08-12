@@ -47,5 +47,6 @@ public class AnexoCabeceraResponse {
 
     private Integer idPersonal;
     private String nombrePersonal;
+    private String codigoNNA;
 
 }

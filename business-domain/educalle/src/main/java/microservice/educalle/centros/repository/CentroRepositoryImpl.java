@@ -29,6 +29,7 @@ public class CentroRepositoryImpl implements CentroRepository {
                                                         CentroDTO dto = new CentroDTO();
                                                         dto.setIdUnidadOrganica(rs.getLong("IDUNIDADORGANICA"));
                                                         dto.setNombreUnidad(rs.getString("UORNOMBRE"));
+                                                        dto.setCentroUbigeo(rs.getInt("CENTROUBIGEO"));
                                                         dto.setDepartamento(rs.getString("DEPARTAMENTO"));
                                                         dto.setProvincia(rs.getString("PROVINCIA"));
                                                         dto.setDistrito(rs.getString("DISTRITO"));

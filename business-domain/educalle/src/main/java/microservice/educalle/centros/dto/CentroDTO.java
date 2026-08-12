@@ -7,6 +7,7 @@ public class CentroDTO {
 
     private Long idUnidadOrganica;
     private String nombreUnidad;
+    private Integer centroUbigeo;
     private String departamento;
     private String provincia;
     private String distrito;

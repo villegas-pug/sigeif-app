@@ -175,6 +175,9 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_modalidad", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_centro", String.class, ParameterMode.IN);
 
+         // ? Nuevo
+         query.registerStoredProcedureParameter("p_id_servicio_padre", Integer.class, ParameterMode.IN);
+
          // =========================
          // Registrar parámetros OUT
          query.registerStoredProcedureParameter("p_id_cabecera", Long.class, ParameterMode.OUT);
@@ -208,6 +211,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.setParameter("p_fecha_acreditacion", request.getFechaAcreditacion());
          query.setParameter("p_modalidad", request.getModalidad());
          query.setParameter("p_centro", request.getCentro());
+         query.setParameter("p_id_servicio_padre", InabifServices.EDUCALLE.getId());
 
          // =========================
          // Ejecutar procedure
@@ -286,6 +290,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
                .fechaIngreso(toLocalDate(row[21]))
                .idPersonal(((Number) row[22]).intValue())
                .nombrePersonal((String) row[23])
+               .codigoNNA((String) row[24])
                .build();
          lista.add(dto);
       }
