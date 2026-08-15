@@ -1,7 +1,6 @@
 package microservice.punche.reporting.services;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +23,7 @@ import microservice.punche.zona.dtos.ZonaIntervencionParamsDto;
 import microservice.punche.zona.model.ZonaIntervencion;
 import microservice.punche.zona.service.ZonaIntervencionService;
 import microservice.shared_data.dtos.querys.AnexoRespuestaQuery;
+import microservice.shared_data.helpers.DateHelper;
 import microservice.shared_data.services.BaseReportingService;
 import net.sf.jasperreports.engine.JRException;
 
@@ -36,6 +36,7 @@ public class PlanificacionJasperReportingServiceImpl extends BaseReportingServic
       private final PotencialFamiliaService potencialFamiliaService;
       private final ZonaIntervencionService zonaIntervencionService;
       private final AnexoRespuestaService anexoRespuestaService;
+      private final DateHelper dateHelper;
 
       @Override
       @Transactional(readOnly = true)
@@ -57,9 +58,8 @@ public class PlanificacionJasperReportingServiceImpl extends BaseReportingServic
                         .collect(Collectors.toMap(AnexoRespuestaQuery::getIdPregunta,
                                     AnexoRespuestaQuery::getRespuesta));
 
-            LocalDate fechaCompromiso = Optional.ofNullable(mapRespuestasCompromisoFamiliar.get(1719))
-                        .map(val -> LocalDate.parse(val.toString()))
-                        .orElse(LocalDate.now());
+            LocalDate fechaCompromiso = this.dateHelper
+                        .parseToLocalDate(mapRespuestasCompromisoFamiliar.get(1719), LocalDate.now());
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
@@ -99,7 +99,6 @@ public class PlanificacionJasperReportingServiceImpl extends BaseReportingServic
             parameters.put("numDocCuidador", cuidador.getNumeroDoc());
             parameters.put("nombresAcompañante", acompañante.getNombres());
             parameters.put("numDocAcompañante", acompañante.getNumeroDoc());
-            parameters.put("fechaCompromiso", fechaCompromiso.format(formatter));
             parameters.put("fechaCompromiso", fechaCompromiso.format(formatter)); // FECHA COMPROMISO
 
             // * Exportar a PDF
