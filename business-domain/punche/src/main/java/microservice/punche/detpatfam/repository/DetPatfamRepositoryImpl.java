@@ -72,6 +72,10 @@ public class DetPatfamRepositoryImpl extends BaseOracleRepository implements Det
 
       return detPatfams
             .stream()
+            .filter(detPatfam -> detPatfam.getEstado() != null
+                  && detPatfam.getEstado() == 1
+                  && detPatfam.getEliminado() != null
+                  && detPatfam.getEliminado() == 0)
             .collect(Collectors.toMap(
                   detPatfam -> detPatfam.getPatfam().getFamilia().getIdFamilia(),
                   detPatfam -> detPatfam,

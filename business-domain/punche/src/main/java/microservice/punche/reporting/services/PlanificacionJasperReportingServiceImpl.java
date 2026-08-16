@@ -7,12 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import lombok.AllArgsConstructor;
 import microservice.punche.anexorespuesta.dtos.GetAnexoRespuestaByParamsQuery;
-import microservice.punche.anexorespuesta.model.AnexoRespuesta;
 import microservice.punche.anexorespuesta.service.AnexoRespuestaService;
 import microservice.punche.familiaintegrante.model.FamiliaIntegrante;
 import microservice.punche.persona.model.Persona;
