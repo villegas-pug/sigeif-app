@@ -16,7 +16,7 @@ public class UpdateAnexoRespuestaRequest {
    @NotNull
    private Long idRespuesta;
 
-   @NotBlank
+   // @NotBlank
    private String respuesta;
 
    private String observacion;
