@@ -23,19 +23,21 @@ public class IntervencionReportingRepositoryImpl extends BaseOracleRepository
     private static final String CURSOR_OUT = "p_cursor_out";
 
     @Override
-    public List<Map<String, Object>> executeSesionesListar(LocalDate fechaIni, LocalDate fechaFin) {
+    public List<Map<String, Object>> executeSesionesListar(LocalDate fechaIni, LocalDate fechaFin, Long idZona) {
         Map<String, Object> inParams = new HashMap<>();
         inParams.put("p_fecha_ini", fechaIni != null ? Date.valueOf(fechaIni) : null);
         inParams.put("p_fecha_fin", fechaFin != null ? Date.valueOf(fechaFin) : null);
+        inParams.put("p_id_zona", idZona);
 
         return super.executeProcedureAndFetchResult("PRC_PUNCHE_SESIONES_LISTAR", inParams, CURSOR_OUT);
     }
 
     @Override
-    public List<Map<String, Object>> executeTalleresFamiliasListar(LocalDate fechaIni, LocalDate fechaFin) {
+    public List<Map<String, Object>> executeTalleresFamiliasListar(LocalDate fechaIni, LocalDate fechaFin, Long idZona) {
         Map<String, Object> inParams = new HashMap<>();
         inParams.put("p_fecha_ini", fechaIni != null ? Date.valueOf(fechaIni) : null);
         inParams.put("p_fecha_fin", fechaFin != null ? Date.valueOf(fechaFin) : null);
+        inParams.put("p_id_zona", idZona);
 
         return super.executeProcedureAndFetchResult("PRC_PUNCHE_TALLERES_FAMILIAS_LISTAR", inParams, CURSOR_OUT);
     }

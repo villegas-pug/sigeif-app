@@ -4,8 +4,8 @@ import java.time.LocalDate;
 
 public interface IntervencionReportingService {
 
-    byte[] generateSesionesExcelReport(LocalDate fechaIni, LocalDate fechaFin);
+    byte[] generateSesionesExcelReport(LocalDate fechaIni, LocalDate fechaFin, Long idZona);
 
-    byte[] generateTalleresFamiliasExcelReport(LocalDate fechaIni, LocalDate fechaFin);
+    byte[] generateTalleresFamiliasExcelReport(LocalDate fechaIni, LocalDate fechaFin, Long idZona);
 
 }

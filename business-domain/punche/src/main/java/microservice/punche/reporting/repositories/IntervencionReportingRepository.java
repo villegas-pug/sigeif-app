@@ -6,8 +6,8 @@ import java.util.Map;
 
 public interface IntervencionReportingRepository {
 
-    List<Map<String, Object>> executeSesionesListar(LocalDate fechaIni, LocalDate fechaFin);
+    List<Map<String, Object>> executeSesionesListar(LocalDate fechaIni, LocalDate fechaFin, Long idZona);
 
-    List<Map<String, Object>> executeTalleresFamiliasListar(LocalDate fechaIni, LocalDate fechaFin);
+    List<Map<String, Object>> executeTalleresFamiliasListar(LocalDate fechaIni, LocalDate fechaFin, Long idZona);
 
 }

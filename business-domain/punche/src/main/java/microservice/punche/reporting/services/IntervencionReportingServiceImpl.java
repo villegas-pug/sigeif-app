@@ -19,8 +19,8 @@ public class IntervencionReportingServiceImpl extends BaseReportingService
     private final IntervencionReportingRepository repository;
 
     @Override
-    public byte[] generateSesionesExcelReport(LocalDate fechaIni, LocalDate fechaFin) {
-        List<Map<String, Object>> dataset = this.repository.executeSesionesListar(fechaIni, fechaFin);
+    public byte[] generateSesionesExcelReport(LocalDate fechaIni, LocalDate fechaFin, Long idZona) {
+        List<Map<String, Object>> dataset = this.repository.executeSesionesListar(fechaIni, fechaFin, idZona);
         if (dataset == null || dataset.isEmpty()) {
             throw new NotFoundException();
         }
@@ -29,8 +29,8 @@ public class IntervencionReportingServiceImpl extends BaseReportingService
     }
 
     @Override
-    public byte[] generateTalleresFamiliasExcelReport(LocalDate fechaIni, LocalDate fechaFin) {
-        List<Map<String, Object>> dataset = this.repository.executeTalleresFamiliasListar(fechaIni, fechaFin);
+    public byte[] generateTalleresFamiliasExcelReport(LocalDate fechaIni, LocalDate fechaFin, Long idZona) {
+        List<Map<String, Object>> dataset = this.repository.executeTalleresFamiliasListar(fechaIni, fechaFin, idZona);
         if (dataset == null || dataset.isEmpty()) {
             throw new NotFoundException();
         }
