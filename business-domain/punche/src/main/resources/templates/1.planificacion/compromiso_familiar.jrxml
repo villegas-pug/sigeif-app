@@ -11,7 +11,7 @@
 	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<style name="Title" fontName="SansSerif" fontSize="26.0" bold="true"/>
-	<style name="SubTitle" forecolor="#666666" fontName="SansSerif" fontSize="18.0"/>
+	<style name="SubTitle" forecolor="#000000" fontName="SansSerif" fontSize="18.0" bold="true"/>
 	<style name="Column header" forecolor="#FFFFFF" fontName="SansSerif" fontSize="12.0" bold="true"/>
 	<style name="Detail" fontName="SansSerif" fontSize="12.0"/>
 	<parameter name="nombresCuidador" class="java.lang.String"/>
@@ -21,11 +21,8 @@
 	<parameter name="fechaCompromiso" class="java.lang.String"/>
 	<query language="sql"><![CDATA[]]></query>
 	<background height="20" splitType="Stretch"/>
-	<title height="97" splitType="Stretch">
-		<element kind="staticText" uuid="1dcadd54-7d50-4470-85ed-189e4d910b25" x="20" y="34" width="511" height="37" fontSize="24.0" bold="true" hTextAlign="Center" vTextAlign="Middle" style="Title">
-			<text><![CDATA[ANEXO 14:]]></text>
-		</element>
-		<element kind="staticText" uuid="862cb50c-5a5e-4906-a495-226e25115fb6" x="20" y="72" width="510" height="23" fontName="SansSerif&#xd;&#xa;" fontSize="16.0" hTextAlign="Center" style="SubTitle">
+	<title height="70" splitType="Stretch">
+		<element kind="staticText" uuid="862cb50c-5a5e-4906-a495-226e25115fb6" x="20" y="34" width="510" height="23" forecolor="#000000" fontName="SansSerif&#xd;&#xa;" fontSize="16.0" bold="true" hTextAlign="Center" style="SubTitle">
 			<text><![CDATA[Ficha de Consentimiento Informado y Compromiso Familiar]]></text>
 		</element>
 	</title>
