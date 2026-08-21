@@ -17,28 +17,29 @@ import microservice.punche.persona.model.Persona;
 import microservice.punche.personal.model.Personal;
 import microservice.punche.potencialfamilia.dtos.PotencialFamiliaResponse;
 import microservice.punche.potencialfamilia.service.PotencialFamiliaService;
+import microservice.punche.reporting.dtos.CompromisoFamiliarPdfData;
 import microservice.punche.zona.dtos.ZonaIntervencionParamsDto;
 import microservice.punche.zona.model.ZonaIntervencion;
 import microservice.punche.zona.service.ZonaIntervencionService;
 import microservice.shared_data.dtos.querys.AnexoRespuestaQuery;
 import microservice.shared_data.helpers.DateHelper;
 import microservice.shared_data.services.BaseReportingService;
-import net.sf.jasperreports.engine.JRException;
 
 @Service
 @Transactional(readOnly = true)
 @AllArgsConstructor
-public class PlanificacionJasperReportingServiceImpl extends BaseReportingService
+public class PlanificacionReportingServiceImpl extends BaseReportingService
             implements PlanificacionReportingService {
 
       private final PotencialFamiliaService potencialFamiliaService;
       private final ZonaIntervencionService zonaIntervencionService;
       private final AnexoRespuestaService anexoRespuestaService;
       private final DateHelper dateHelper;
+      private final CompromisoFamiliarOpenPdfService compromisoFamiliarOpenPdfService;
 
       @Override
       @Transactional(readOnly = true)
-      public byte[] generateCompromisoFamiliarAsPdf(Long idFamilia) throws JRException {
+      public byte[] generateCompromisoFamiliarAsPdf(Long idFamilia) {
 
             // * 1. Deps
             PotencialFamiliaResponse potencialFamilia = this.potencialFamiliaService
@@ -92,15 +93,15 @@ public class PlanificacionJasperReportingServiceImpl extends BaseReportingServic
                         })
                         .orElse(FamiliaIntegrante.builder().nombres("-").numeroDoc("-").build());
 
-            Map<String, Object> parameters = new HashMap<>();
-            parameters.put("nombresCuidador", cuidador.getNombres());
-            parameters.put("numDocCuidador", cuidador.getNumeroDoc());
-            parameters.put("nombresAcompañante", acompañante.getNombres());
-            parameters.put("numDocAcompañante", acompañante.getNumeroDoc());
-            parameters.put("fechaCompromiso", fechaCompromiso.format(formatter)); // FECHA COMPROMISO
+            CompromisoFamiliarPdfData data = new CompromisoFamiliarPdfData(
+                        cuidador.getNombres(),
+                        cuidador.getNumeroDoc(),
+                        acompañante.getNombres(),
+                        acompañante.getNumeroDoc(),
+                        fechaCompromiso.format(formatter));
 
             // * Exportar a PDF
-            return this.jasperReportingService.generatePdfReport("compromiso_familiar.jrxml", parameters);
+            return this.compromisoFamiliarOpenPdfService.generate(data);
 
       }
 
