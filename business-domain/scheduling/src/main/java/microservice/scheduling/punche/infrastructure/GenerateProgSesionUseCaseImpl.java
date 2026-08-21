@@ -29,6 +29,7 @@ public class GenerateProgSesionUseCaseImpl extends BaseReportingService
       Map<String, Object> inParams = new HashMap<>();
       inParams.put("p_fecha_ini", null);
       inParams.put("p_fecha_fin", null);
+      inParams.put("p_id_zona", -1);
       List<Map<String, Object>> dataset = this.repository.executeProcedureAndFetchResult(
             "PRC_PUNCHE_SESIONES_LISTAR", inParams, "p_cursor_out");
 
