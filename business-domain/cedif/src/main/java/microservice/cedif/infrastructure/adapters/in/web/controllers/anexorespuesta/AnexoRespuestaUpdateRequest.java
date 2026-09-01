@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 @Valid
 public class AnexoRespuestaUpdateRequest {
 
-   @NotNull
    private Long idRespuesta;
 
    @NotNull

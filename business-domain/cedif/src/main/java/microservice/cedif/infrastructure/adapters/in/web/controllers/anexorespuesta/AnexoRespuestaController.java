@@ -106,7 +106,8 @@ public class AnexoRespuestaController {
       public ResponseEntity<?> uploadAnexoRespuesta(@RequestParam MultipartFile archivo, @RequestParam Long idFamilia,
                   @RequestParam Long idPregunta,
                   @RequestParam Integer usuRegistra,
-                  @RequestParam(required = false) Long idIntegrante) throws IOException {
+                  @RequestParam(required = false) Long idIntegrante,
+                  @RequestParam(required = false) Integer fase) throws IOException {
 
             this.service.uploadAnexoRespuesta(
                         AnexoRespuesta
@@ -120,6 +121,7 @@ public class AnexoRespuestaController {
                                     // ? Destinatarios: Familia(1), Integrante(2)
                                     .destinatario(idIntegrante != null ? 2 : 1)
                                     .respuesta(archivo.getOriginalFilename())
+                                    .fase(fase)
                                     .usuRegistra(usuRegistra)
                                     .build());
 

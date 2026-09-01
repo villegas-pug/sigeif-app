@@ -45,10 +45,8 @@ public class PotencialFamiliaController {
 
       @GetMapping(path = { "/findPotencialFamiliaById" })
       public ResponseEntity<?> findPotencialFamiliaById(@RequestParam Long idFamilia) {
-            
-            var potencialFamilia = this.service.findPotencialFamiliaById(idFamilia);
 
-            System.out.println("hola mundo");
+            var potencialFamilia = this.service.findPotencialFamiliaById(idFamilia);
 
             return ResponseEntity.ok(
                         ApiResponse.builder().message(ApiResponseStatus.SUCCESS.getMessage()).data(potencialFamilia)

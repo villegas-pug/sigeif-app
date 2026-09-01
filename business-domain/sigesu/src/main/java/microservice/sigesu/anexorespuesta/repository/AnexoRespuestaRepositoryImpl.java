@@ -172,6 +172,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.registerStoredProcedureParameter("p_fecha_acreditacion", java.sql.Date.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_modalidad", String.class, ParameterMode.IN);
          query.registerStoredProcedureParameter("p_centro", String.class, ParameterMode.IN);
+         query.registerStoredProcedureParameter("p_id_servicio_padre", Integer.class, ParameterMode.IN);
 
          // =========================
          // Registrar parámetros OUT
@@ -206,6 +207,7 @@ public class AnexoRespuestaRepositoryImpl extends BaseOracleRepository implement
          query.setParameter("p_fecha_acreditacion", request.getFechaAcreditacion());
          query.setParameter("p_modalidad", request.getModalidad());
          query.setParameter("p_centro", request.getCentro());
+         query.setParameter("p_id_servicio_padre", InabifServices.SIGESU.getId());
 
          // =========================
          // Ejecutar procedure
