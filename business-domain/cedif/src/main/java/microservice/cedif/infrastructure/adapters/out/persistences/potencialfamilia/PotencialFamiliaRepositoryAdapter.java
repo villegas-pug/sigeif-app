@@ -125,6 +125,11 @@ public class PotencialFamiliaRepositoryAdapter implements PotencialFamiliaReposi
                      integrante.getViaIngresoNnaCedif(),
                      integrante.getMedioIngresoNnaCedif(),
                      integrante.getDescripcionOcupacion(),
+                     integrante.getOtraLenguaMaterna(),
+                     integrante.getOtraCostumbre(),
+                     integrante.getOtraInstitucionDerivadora(),
+                     integrante.getCondicionLaboral(),
+                     integrante.getCategoriaOcupacional(),
 
                      integrante.getCuidador(),
                      integrante.getUsuRegistra()

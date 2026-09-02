@@ -278,6 +278,21 @@ public class IntegranteFamiliaEntity {
    @Column(name = "FI_OCUPACION")
    private String descripcionOcupacion;
 
+   @Column(name = "FI_OTRA_LENGUA_MATERNA")
+   private String otraLenguaMaterna;
+
+   @Column(name = "FI_OTRA_COSTUMBRE")
+   private String otraCostumbre;
+
+   @Column(name = "FI_OTRA_INSTITUCION_DERIVADORA")
+   private String otraInstitucionDerivadora;
+
+   @Column(name = "FI_CONDICION_LABORAL")
+   private String condicionLaboral;
+
+   @Column(name = "FI_CATEGORIA_OCUPACIONAL")
+   private String categoriaOcupacional;
+
    @Column(name = "FI_CONADIS")
    private String conadis;
 

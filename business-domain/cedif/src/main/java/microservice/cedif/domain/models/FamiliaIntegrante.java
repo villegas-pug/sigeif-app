@@ -107,6 +107,11 @@ public class FamiliaIntegrante {
    private String viaIngresoNnaCedif;
    private String medioIngresoNnaCedif;
    private String descripcionOcupacion;
+   private String otraLenguaMaterna;
+   private String otraCostumbre;
+   private String otraInstitucionDerivadora;
+   private String condicionLaboral;
+   private String categoriaOcupacional;
    // --------------------------------------------
 
    // ? Transient
