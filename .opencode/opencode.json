@@ -1,0 +1,38 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "agent": {
+    "backend": {
+      "disable": true
+    },
+    "plan": {
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "skill": {
+          "*": "deny"
+        },
+        "task": {
+          "*": "deny",
+          "backend-change-analyst": "allow"
+        }
+      }
+    },
+    "build": {
+      "permission": {
+        "edit": "deny",
+        "bash": "deny",
+        "skill": {
+          "*": "deny"
+        },
+        "task": {
+          "*": "deny",
+          "backend-change-analyst": "allow",
+          "backend-module-implementer": "allow",
+          "oracle-procedure-builder": "allow",
+          "backend-reporting-api-builder": "allow",
+          "backend-scheduling-builder": "allow"
+        }
+      }
+    }
+  }
+}
